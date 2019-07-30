@@ -25,11 +25,13 @@
 package net.mcparkour.unifig;
 
 import java.util.Objects;
+import net.mcparkour.unifig.annotation.Ignored;
+import net.mcparkour.unifig.annotation.Property;
 import org.jetbrains.annotations.Nullable;
 
 public class TestConfiguration {
 
-	public static final String JSON = "{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null}";
+	public static final String JSON = "{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\"}";
 
 	private boolean primitiveBoolean;
 	private Boolean wrapperBoolean;
@@ -60,11 +62,17 @@ public class TestConfiguration {
 	@Nullable
 	private String nullString = null;
 
+	@Property("bar")
+	private String foo;
+
+	@Ignored
+	private String ignored = "ignored";
+
 	public TestConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string");
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar");
 	}
 
-	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string) {
+	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -82,6 +90,7 @@ public class TestConfiguration {
 		this.primitiveDouble = primitiveDouble;
 		this.wrapperDouble = wrapperDouble;
 		this.string = string;
+		this.foo = foo;
 	}
 
 	@Override
@@ -213,5 +222,13 @@ public class TestConfiguration {
 	@Nullable
 	public String getNullString() {
 		return this.nullString;
+	}
+
+	public String getFoo() {
+		return this.foo;
+	}
+
+	public String getIgnored() {
+		return this.ignored;
 	}
 }

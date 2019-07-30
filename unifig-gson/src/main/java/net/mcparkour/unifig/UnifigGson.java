@@ -29,6 +29,8 @@ import java.lang.reflect.Field;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import net.mcparkour.unifig.annotation.Ignored;
+import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.BooleanCodec;
 import net.mcparkour.unifig.codec.ByteCodec;
 import net.mcparkour.unifig.codec.CharacterCodec;
@@ -63,9 +65,9 @@ public class UnifigGson {
 		Class<?> objectClass = object.getClass();
 		Field[] fields = objectClass.getDeclaredFields();
 		for (Field field : fields) {
-			if (!Reflections.isStatic(field)) {
+			if (!Reflections.isStatic(field) && !field.isAnnotationPresent(Ignored.class)) {
 				field.trySetAccessible();
-				String fieldName = field.getName();
+				String fieldName = getFieldName(field);
 				Object fieldValue = Reflections.getFieldValue(field, object);
 				Class<?> fieldType = field.getType();
 				JsonElement jsonElement = toJsonElement(fieldValue, fieldType);
@@ -88,9 +90,9 @@ public class UnifigGson {
 		T instance = Reflections.newInstance(constructor);
 		Field[] fields = objectType.getDeclaredFields();
 		for (Field field : fields) {
-			if (!Reflections.isStatic(field)) {
+			if (!Reflections.isStatic(field) && !field.isAnnotationPresent(Ignored.class)) {
 				field.trySetAccessible();
-				String fieldName = field.getName();
+				String fieldName = getFieldName(field);
 				Class<?> fieldType = field.getType();
 				JsonElement jsonElement = jsonObject.get(fieldName);
 				Object object = toObject(jsonElement, fieldType);
@@ -98,6 +100,14 @@ public class UnifigGson {
 			}
 		}
 		return instance;
+	}
+
+	private String getFieldName(Field field) {
+		Property property = field.getAnnotation(Property.class);
+		if (property != null) {
+			return property.value();
+		}
+		return field.getName();
 	}
 
 	@Nullable
