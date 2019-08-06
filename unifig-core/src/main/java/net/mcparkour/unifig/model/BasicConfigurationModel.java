@@ -26,7 +26,7 @@ package net.mcparkour.unifig.model;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import net.mcparkour.unifig.annotation.Ignored;
+import java.util.List;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecNotFoundException;
@@ -42,6 +42,9 @@ import net.mcparkour.unifig.codec.basic.StringCodec;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
 import net.mcparkour.unifig.codec.registry.CodecRegistryBuilderFactory;
+import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.condition.basic.IgnoredAnnotationNotPresentedFieldCondition;
+import net.mcparkour.unifig.condition.basic.NonStaticFieldCondition;
 import net.mcparkour.unifig.model.section.ConfigurationModelSection;
 import net.mcparkour.unifig.model.section.ConfigurationModelSectionFactory;
 import net.mcparkour.unifig.model.value.ConfigurationModelValue;
@@ -54,6 +57,7 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 	private CodecRegistry<S, A, V> codecRegistry;
 	private ConfigurationModelSectionFactory<S, A, V> modelSectionFactory;
 	private ConfigurationModelValueFactory<S, A, V> modelValueFactory;
+	private List<FieldCondition> fieldConditions = List.of(new NonStaticFieldCondition(), new IgnoredAnnotationNotPresentedFieldCondition());
 
 	public BasicConfigurationModel(CodecRegistryBuilderFactory<S, A, V> codecRegistryBuilderFactory, ConfigurationModelSectionFactory<S, A, V> modelSectionFactory, ConfigurationModelValueFactory<S, A, V> modelValueFactory) {
 		this.codecRegistry = createDefaultCodecRegistryBuilder(codecRegistryBuilderFactory, modelValueFactory).build();
@@ -92,7 +96,7 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 		Class<?> objectClass = configuration.getClass();
 		Field[] fields = objectClass.getDeclaredFields();
 		for (Field field : fields) {
-			if (!Reflections.isStatic(field) && !field.isAnnotationPresent(Ignored.class)) {
+			if (isFieldValid(field)) {
 				field.trySetAccessible();
 				String fieldName = getFieldName(field);
 				Object fieldValue = Reflections.getFieldValue(field, configuration);
@@ -118,7 +122,7 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 		T instance = Reflections.newInstance(constructor);
 		Field[] fields = configurationType.getDeclaredFields();
 		for (Field field : fields) {
-			if (!Reflections.isStatic(field) && !field.isAnnotationPresent(Ignored.class)) {
+			if (isFieldValid(field)) {
 				field.trySetAccessible();
 				String fieldName = getFieldName(field);
 				Class<?> fieldType = field.getType();
@@ -128,6 +132,11 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 			}
 		}
 		return instance;
+	}
+
+	private boolean isFieldValid(Field field) {
+		return this.fieldConditions.stream()
+			.allMatch(condition -> condition.check(field));
 	}
 
 	private String getFieldName(Field field) {
@@ -166,5 +175,9 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 
 	public ConfigurationModelValueFactory<S, A, V> getModelValueFactory() {
 		return this.modelValueFactory;
+	}
+
+	public List<FieldCondition> getFieldConditions() {
+		return List.copyOf(this.fieldConditions);
 	}
 }
