@@ -22,12 +22,15 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.registry.basic;
 
-public class IntegerCodec implements NumberCodec<Integer> {
+import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
+import net.mcparkour.unifig.codec.registry.CodecRegistryBuilderFactory;
+
+public class BasicCodecRegistryBuilderFactory<S, A, V> implements CodecRegistryBuilderFactory<S, A, V> {
 
 	@Override
-	public Integer decode(Number number) {
-		return number.intValue();
+	public CodecRegistryBuilder<S, A, V> createCodecRegistryBuilder() {
+		return new BasicCodecRegistryBuilder<>();
 	}
 }

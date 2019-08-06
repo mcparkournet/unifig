@@ -22,15 +22,17 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model.section;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import org.jetbrains.annotations.Nullable;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-public interface Codec<S, A, V, T> {
+public class GsonConfigurationModelSectionFactory implements ConfigurationModelSectionFactory<JsonObject, JsonArray, JsonElement> {
 
-	ConfigurationModelValue<S, A, V> encode(T object);
-
-	@Nullable
-	T decode(ConfigurationModelValue<S, A, V> modelValue);
+	@Override
+	public ConfigurationModelSection<JsonObject, JsonArray, JsonElement> createModelSection() {
+		JsonObject section = new JsonObject();
+		return new GsonConfigurationModelSection(section);
+	}
 }

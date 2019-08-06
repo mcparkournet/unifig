@@ -22,12 +22,25 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.basic;
 
-public class LongCodec implements NumberCodec<Long> {
+import net.mcparkour.unifig.model.value.ConfigurationModelValue;
+import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.codec.CodecDecodeException;
+import org.jetbrains.annotations.Nullable;
 
+public class CharacterCodec<S, A, V> extends AbstractCodec<S, A, V, Character> {
+
+	public CharacterCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
+		super(configurationModelValueFactory);
+	}
+
+	@Nullable
 	@Override
-	public Long decode(Number number) {
-		return number.longValue();
+	public Character decode(ConfigurationModelValue<S, A, V> modelValue) {
+		if (!modelValue.isCharacter()) {
+			throw new CodecDecodeException("value is not a character");
+		}
+		return modelValue.asCharacter();
 	}
 }

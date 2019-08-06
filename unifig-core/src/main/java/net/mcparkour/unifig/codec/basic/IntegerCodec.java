@@ -22,12 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.basic;
 
-public class FloatCodec implements NumberCodec<Float> {
+import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+
+public class IntegerCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Integer>{
+
+	public IntegerCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
+		super(configurationModelValueFactory);
+	}
 
 	@Override
-	public Float decode(Number number) {
-		return number.floatValue();
+	public Integer decode(Number number) {
+		return number.intValue();
 	}
 }

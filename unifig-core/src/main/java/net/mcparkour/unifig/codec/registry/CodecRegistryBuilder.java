@@ -24,28 +24,20 @@
 
 package net.mcparkour.unifig.codec.registry;
 
-import java.util.HashMap;
 import java.util.Map;
 import net.mcparkour.unifig.codec.Codec;
 
-public class CodecRegistryBuilder<T> {
+public interface CodecRegistryBuilder<S, A, V> {
 
-	private Map<Class<?>, Codec<T, ?>> codecs = new HashMap<>();
+	CodecRegistryBuilder<S, A, V> with(CodecRegistry<S, A, V> codecRegistry);
 
-	public CodecRegistryBuilder<T> register(Codec<T, ?> codec, Class<?>... types) {
-		for (Class<?> type : types) {
-			register(codec, type);
-		}
-		return this;
-	}
+	CodecRegistryBuilder<S, A, V> with(CodecRegistryBuilder<S, A, V> codecRegistryBuilder);
 
-	public CodecRegistryBuilder<T> register(Codec<T, ?> codec, Class<?> type) {
-		this.codecs.put(type, codec);
-		return this;
-	}
+	CodecRegistryBuilder<S, A, V> register(Codec<S, A, V, ?> codec, Class<?>... types);
 
-	public CodecRegistry<T> build() {
-		Map<Class<?>, Codec<T, ?>> copy = Map.copyOf(this.codecs);
-		return new CodecRegistry<>(copy);
-	}
+	CodecRegistryBuilder<S, A, V> register(Codec<S, A, V, ?> codec, Class<?> type);
+
+	CodecRegistry<S, A, V> build();
+
+	Map<Class<?>, Codec<S, A, V, ?>> getCodecs();
 }

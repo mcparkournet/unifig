@@ -28,24 +28,10 @@ import java.util.Map;
 import net.mcparkour.unifig.codec.Codec;
 import org.jetbrains.annotations.Nullable;
 
-public class CodecRegistry<T> {
-
-	private Map<Class<?>, ? extends Codec<T, ?>> codecs;
-
-	public static <T> CodecRegistryBuilder<T> builder() {
-		return new CodecRegistryBuilder<>();
-	}
-
-	public CodecRegistry(Map<Class<?>, ? extends Codec<T, ?>> codecs) {
-		this.codecs = codecs;
-	}
+public interface CodecRegistry<S, A, V> {
 
 	@Nullable
-	public Codec<T, ?> get(Class<?> type) {
-		return this.codecs.get(type);
-	}
+	Codec<S, A, V, ?> get(Class<?> type);
 
-	public Map<Class<?>, Codec<T, ?>> getCodecs() {
-		return Map.copyOf(this.codecs);
-	}
+	Map<Class<?>, Codec<S, A, V, ?>> getCodecs();
 }

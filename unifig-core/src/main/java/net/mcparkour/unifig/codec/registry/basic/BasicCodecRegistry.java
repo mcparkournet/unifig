@@ -22,15 +22,29 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.registry.basic;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
+import java.util.Map;
+import net.mcparkour.unifig.codec.Codec;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import org.jetbrains.annotations.Nullable;
 
-public interface Codec<S, A, V, T> {
+public class BasicCodecRegistry<S, A, V> implements CodecRegistry<S, A, V> {
 
-	ConfigurationModelValue<S, A, V> encode(T object);
+	private Map<Class<?>, ? extends Codec<S, A, V, ?>> codecs;
 
+	public BasicCodecRegistry(Map<Class<?>, ? extends Codec<S, A, V, ?>> codecs) {
+		this.codecs = codecs;
+	}
+
+	@Override
 	@Nullable
-	T decode(ConfigurationModelValue<S, A, V> modelValue);
+	public Codec<S, A, V, ?> get(Class<?> type) {
+		return this.codecs.get(type);
+	}
+
+	@Override
+	public Map<Class<?>, Codec<S, A, V, ?>> getCodecs() {
+		return Map.copyOf(this.codecs);
+	}
 }

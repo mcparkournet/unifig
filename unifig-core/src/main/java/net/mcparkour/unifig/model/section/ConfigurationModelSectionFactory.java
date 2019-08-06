@@ -22,12 +22,9 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model.section;
 
-public class ShortCodec implements NumberCodec<Short> {
+public interface ConfigurationModelSectionFactory<S, A, V> {
 
-	@Override
-	public Short decode(Number number) {
-		return number.shortValue();
-	}
+	ConfigurationModelSection<S, A, V> createModelSection();
 }

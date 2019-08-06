@@ -22,32 +22,44 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model.value;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import org.jetbrains.annotations.Nullable;
 
-public interface NumberCodec<T extends Number> extends GsonCodec<T> {
+public class GsonConfigurationModelValueFactory implements ConfigurationModelValueFactory<JsonObject, JsonArray, JsonElement> {
 
 	@Override
-	default JsonElement encode(T object) {
-		return new JsonPrimitive(object);
+	public ConfigurationModelValue<JsonObject, JsonArray, JsonElement> createNullModelValue() {
+		return new GsonConfigurationModelValue(JsonNull.INSTANCE);
 	}
 
-	@Nullable
 	@Override
-	default T decode(JsonElement configurationObject) {
-		if (!configurationObject.isJsonPrimitive()) {
-			throw new CodecDecodeException("impl is not JsonPrimitive");
-		}
-		JsonPrimitive primitive = (JsonPrimitive) configurationObject;
-		if (!primitive.isNumber()) {
-			throw new CodecDecodeException("primitive is not a number");
-		}
-		Number number = primitive.getAsNumber();
-		return decode(number);
+	public ConfigurationModelValue<JsonObject, JsonArray, JsonElement> createModelValue(Object value) {
+		JsonPrimitive primitive = createJsonPrimitive(value);
+		return new GsonConfigurationModelValue(primitive);
 	}
 
-	T decode(Number number);
+	private JsonPrimitive createJsonPrimitive(Object value) {
+		if (value instanceof Boolean) {
+			Boolean aBoolean = (Boolean) value;
+			return new JsonPrimitive(aBoolean);
+		}
+		if (value instanceof Character) {
+			Character character = (Character) value;
+			return new JsonPrimitive(character);
+		}
+		if (value instanceof Number) {
+			Number number = (Number) value;
+			return new JsonPrimitive(number);
+		}
+		if (value instanceof String) {
+			String string = (String) value;
+			return new JsonPrimitive(string);
+		}
+		throw new RuntimeException("value is not a Boolean, Character, Number or String");
+	}
 }

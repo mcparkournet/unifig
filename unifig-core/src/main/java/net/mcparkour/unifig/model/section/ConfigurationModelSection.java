@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model.section;
 
 import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import org.jetbrains.annotations.Nullable;
 
-public interface Codec<S, A, V, T> {
+public interface ConfigurationModelSection<S, A, V> {
 
-	ConfigurationModelValue<S, A, V> encode(T object);
+	ConfigurationModelValue<S, A, V> get(String name);
 
-	@Nullable
-	T decode(ConfigurationModelValue<S, A, V> modelValue);
+	void set(String name, ConfigurationModelValue<S, A, V> value);
+
+	S getSection();
 }

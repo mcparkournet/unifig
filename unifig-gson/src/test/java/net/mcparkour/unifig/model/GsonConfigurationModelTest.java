@@ -22,36 +22,42 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.mcparkour.unifig.TestConfiguration;
+import net.mcparkour.unifig.model.section.ConfigurationModelSection;
+import net.mcparkour.unifig.model.section.GsonConfigurationModelSection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class UnifigGsonTest {
+public class GsonConfigurationModelTest {
 
-	private UnifigGson unifigGson;
+	private GsonConfigurationModel gsonConfigurationModel;
 	private JsonObject expectedJsonObject;
 	private TestConfiguration expectedTestConfiguration;
 
 	@BeforeEach
 	public void setUp() {
-		this.unifigGson = new UnifigGson();
+		this.gsonConfigurationModel = new GsonConfigurationModel();
 		this.expectedTestConfiguration = new TestConfiguration();
 		this.expectedJsonObject = (JsonObject) new JsonParser().parse(TestConfiguration.JSON);
 	}
 
 	@Test
 	public void testFromConfigurationObject() {
-		JsonObject jsonObject = this.unifigGson.fromConfigurationObject(this.expectedTestConfiguration);
-		Assertions.assertEquals(this.expectedJsonObject.toString(), jsonObject.toString());
+		ConfigurationModelSection<JsonObject, JsonArray, JsonElement> jsonObject = this.gsonConfigurationModel.fromConfiguration(this.expectedTestConfiguration);
+		Assertions.assertEquals(this.expectedJsonObject.toString(), jsonObject.getSection().toString());
 	}
 
 	@Test
 	public void testToConfigurationObject() {
-		TestConfiguration testConfiguration = this.unifigGson.toConfigurationObject(this.expectedJsonObject, TestConfiguration.class);
+		GsonConfigurationModelSection section = new GsonConfigurationModelSection(this.expectedJsonObject);
+		TestConfiguration testConfiguration = this.gsonConfigurationModel.toConfiguration(section, TestConfiguration.class);
 		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
 	}
 }

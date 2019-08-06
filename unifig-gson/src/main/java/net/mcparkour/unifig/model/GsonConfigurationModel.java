@@ -22,29 +22,23 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import org.jetbrains.annotations.Nullable;
+import com.google.gson.JsonObject;
+import net.mcparkour.unifig.model.section.GsonConfigurationModelSectionFactory;
+import net.mcparkour.unifig.model.value.GsonConfigurationModelValueFactory;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.codec.registry.basic.BasicCodecRegistryBuilderFactory;
 
-public class BooleanCodec implements GsonCodec<Boolean> {
+public class GsonConfigurationModel extends BasicConfigurationModel<JsonObject, JsonArray, JsonElement> {
 
-	@Override
-	public JsonElement encode(Boolean object) {
-		return new JsonPrimitive(object);
+	public GsonConfigurationModel() {
+		super(new BasicCodecRegistryBuilderFactory<>(), new GsonConfigurationModelSectionFactory(), new GsonConfigurationModelValueFactory());
 	}
 
-	@Nullable
-	@Override
-	public Boolean decode(JsonElement configurationObject) {
-		if (!configurationObject.isJsonPrimitive()) {
-			throw new CodecDecodeException("impl is not JsonPrimitive");
-		}
-		JsonPrimitive primitive = (JsonPrimitive) configurationObject;
-		if (!primitive.isBoolean()) {
-			throw new CodecDecodeException("primitive is not a boolean");
-		}
-		return primitive.getAsBoolean();
+	public GsonConfigurationModel(CodecRegistry<JsonObject, JsonArray, JsonElement> codecRegistry) {
+		super(new BasicCodecRegistryBuilderFactory<>(), codecRegistry, new GsonConfigurationModelSectionFactory(), new GsonConfigurationModelValueFactory());
 	}
 }

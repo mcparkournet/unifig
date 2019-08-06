@@ -22,15 +22,36 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model.section;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.mcparkour.unifig.model.value.GsonConfigurationModelValue;
 import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import org.jetbrains.annotations.Nullable;
 
-public interface Codec<S, A, V, T> {
+public class GsonConfigurationModelSection implements ConfigurationModelSection<JsonObject, JsonArray, JsonElement> {
 
-	ConfigurationModelValue<S, A, V> encode(T object);
+	private JsonObject section;
 
-	@Nullable
-	T decode(ConfigurationModelValue<S, A, V> modelValue);
+	public GsonConfigurationModelSection(JsonObject section) {
+		this.section = section;
+	}
+
+	@Override
+	public ConfigurationModelValue<JsonObject, JsonArray, JsonElement> get(String name) {
+		JsonElement value = this.section.get(name);
+		return new GsonConfigurationModelValue(value);
+	}
+
+	@Override
+	public void set(String name, ConfigurationModelValue<JsonObject, JsonArray, JsonElement> value) {
+		JsonElement rawValue = value.getValue();
+		this.section.add(name, rawValue);
+	}
+
+	@Override
+	public JsonObject getSection() {
+		return this.section;
+	}
 }

@@ -22,12 +22,9 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.registry;
 
-import com.google.gson.JsonElement;
+public interface CodecRegistryBuilderFactory<S, A, V> {
 
-public interface GsonCodec<T> extends Codec<JsonElement, T> {
-
-	@Override
-	JsonElement encode(T object);
+	CodecRegistryBuilder<S, A, V> createCodecRegistryBuilder();
 }

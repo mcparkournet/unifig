@@ -22,12 +22,28 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.basic;
 
+import net.mcparkour.unifig.model.value.ConfigurationModelValue;
+import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.codec.CodecDecodeException;
 import org.jetbrains.annotations.Nullable;
 
-@FunctionalInterface
-public interface Encoder<C, T> {
+public abstract class AbstractNumberCodec<S, A, V, T extends Number> extends AbstractCodec<S, A, V, T> {
 
-	C encode(@Nullable T object);
+	AbstractNumberCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
+		super(configurationModelValueFactory);
+	}
+
+	@Nullable
+	@Override
+	public T decode(ConfigurationModelValue<S, A, V> modelValue) {
+		if (!modelValue.isNumber()) {
+			throw new CodecDecodeException("value is not a number");
+		}
+		Number number = modelValue.asNumber();
+		return decode(number);
+	}
+
+	abstract T decode(Number number);
 }

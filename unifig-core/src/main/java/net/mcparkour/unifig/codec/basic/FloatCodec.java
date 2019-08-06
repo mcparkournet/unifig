@@ -22,13 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.basic;
 
-import org.jetbrains.annotations.Nullable;
+import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
 
-@FunctionalInterface
-public interface Decoder<C, T> {
+public class FloatCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Float> {
 
-	@Nullable
-	T decode(C configurationObject);
+	public FloatCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
+		super(configurationModelValueFactory);
+	}
+
+	@Override
+	public Float decode(Number number) {
+		return number.floatValue();
+	}
 }

@@ -22,15 +22,21 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model.value;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import org.jetbrains.annotations.Nullable;
+public class ValueConversionException extends RuntimeException {
 
-public interface Codec<S, A, V, T> {
+	private static final long serialVersionUID = 8610862198168239931L;
 
-	ConfigurationModelValue<S, A, V> encode(T object);
+	public ValueConversionException(Class<?> type) {
+		this(type, "value is not " + type.getSimpleName());
+	}
 
-	@Nullable
-	T decode(ConfigurationModelValue<S, A, V> modelValue);
+	public ValueConversionException(Class<?> type, String reason) {
+		this("Cannot convert value to " + type.getName() + ": " + reason);
+	}
+
+	public ValueConversionException(String message) {
+		super(message);
+	}
 }

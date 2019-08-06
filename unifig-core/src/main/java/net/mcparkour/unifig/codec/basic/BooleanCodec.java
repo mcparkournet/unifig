@@ -22,12 +22,25 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.basic;
 
-public class DoubleCodec implements NumberCodec<Double> {
+import net.mcparkour.unifig.model.value.ConfigurationModelValue;
+import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.codec.CodecDecodeException;
+import org.jetbrains.annotations.Nullable;
 
+public class BooleanCodec<S, A, V> extends AbstractCodec<S, A, V, Boolean> {
+
+	public BooleanCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
+		super(configurationModelValueFactory);
+	}
+
+	@Nullable
 	@Override
-	public Double decode(Number number) {
-		return number.doubleValue();
+	public Boolean decode(ConfigurationModelValue<S, A, V> modelValue) {
+		if (!modelValue.isBoolean()) {
+			throw new CodecDecodeException("Value is not a boolean");
+		}
+		return modelValue.asBoolean();
 	}
 }

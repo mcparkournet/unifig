@@ -22,15 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.basic;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import org.jetbrains.annotations.Nullable;
+import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
 
-public interface Codec<S, A, V, T> {
+public class DoubleCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Double> {
 
-	ConfigurationModelValue<S, A, V> encode(T object);
+	public DoubleCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
+		super(configurationModelValueFactory);
+	}
 
-	@Nullable
-	T decode(ConfigurationModelValue<S, A, V> modelValue);
+	@Override
+	public Double decode(Number number) {
+		return number.doubleValue();
+	}
 }

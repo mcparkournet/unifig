@@ -22,29 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.basic;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import org.jetbrains.annotations.Nullable;
+import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
 
-public class StringCodec implements GsonCodec<String> {
+public class LongCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Long> {
 
-	@Override
-	public JsonElement encode(String object) {
-		return new JsonPrimitive(object);
+	public LongCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
+		super(configurationModelValueFactory);
 	}
 
-	@Nullable
 	@Override
-	public String decode(JsonElement configurationObject) {
-		if (!configurationObject.isJsonPrimitive()) {
-			throw new CodecDecodeException("impl is not JsonPrimitive");
-		}
-		JsonPrimitive primitive = (JsonPrimitive) configurationObject;
-		if (!primitive.isString()) {
-			throw new CodecDecodeException("primitive is not a String");
-		}
-		return primitive.getAsString();
+	public Long decode(Number number) {
+		return number.longValue();
 	}
 }

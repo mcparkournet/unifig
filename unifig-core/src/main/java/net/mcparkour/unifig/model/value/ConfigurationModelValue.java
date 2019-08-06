@@ -22,12 +22,38 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model.value;
 
-public class ByteCodec implements NumberCodec<Byte> {
+import org.jetbrains.annotations.Nullable;
 
-	@Override
-	public Byte decode(Number number) {
-		return number.byteValue();
-	}
+public interface ConfigurationModelValue<S, A, V> {
+
+	boolean isNull();
+
+	boolean asBoolean();
+
+	boolean isBoolean();
+
+	char asCharacter();
+
+	boolean isCharacter();
+
+	Number asNumber();
+
+	boolean isNumber();
+
+	String asString();
+
+	boolean isString();
+
+	A asArray();
+
+	boolean isArray();
+
+	S asSection();
+
+	boolean isSection();
+
+	@Nullable
+	V getValue();
 }

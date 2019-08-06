@@ -22,30 +22,13 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.model;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import org.jetbrains.annotations.Nullable;
+import net.mcparkour.unifig.model.section.ConfigurationModelSection;
 
-public class CharacterCodec implements GsonCodec<Character> {
+public interface ConfigurationModel<S, A, V> {
 
-	@Override
-	public JsonElement encode(Character object) {
-		return new JsonPrimitive(object);
-	}
+	ConfigurationModelSection<S, A, V> fromConfiguration(Object configuration);
 
-	@Nullable
-	@Override
-	public Character decode(JsonElement configurationObject) {
-		if (!configurationObject.isJsonPrimitive()) {
-			throw new CodecDecodeException("impl is not JsonPrimitive");
-		}
-		JsonPrimitive primitive = (JsonPrimitive) configurationObject;
-		String string = primitive.getAsString();
-		if (string.length() != 1) {
-			throw new CodecDecodeException("string length is not 1");
-		}
-		return string.charAt(0);
-	}
+	<T> T toConfiguration(ConfigurationModelSection<S, A, V> modelSection, Class<T> configurationType);
 }

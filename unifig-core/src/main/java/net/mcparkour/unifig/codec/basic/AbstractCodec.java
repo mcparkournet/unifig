@@ -22,15 +22,26 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.basic;
 
 import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import org.jetbrains.annotations.Nullable;
+import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.codec.Codec;
 
-public interface Codec<S, A, V, T> {
+public abstract class AbstractCodec<S, A, V, T> implements Codec<S, A, V, T> {
 
-	ConfigurationModelValue<S, A, V> encode(T object);
+	private ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory;
 
-	@Nullable
-	T decode(ConfigurationModelValue<S, A, V> modelValue);
+	AbstractCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
+		this.configurationModelValueFactory = configurationModelValueFactory;
+	}
+
+	@Override
+	public ConfigurationModelValue<S, A, V> encode(T object) {
+		return this.configurationModelValueFactory.createModelValue(object);
+	}
+
+	public ConfigurationModelValueFactory<S, A, V> getConfigurationModelValueFactory() {
+		return this.configurationModelValueFactory;
+	}
 }
