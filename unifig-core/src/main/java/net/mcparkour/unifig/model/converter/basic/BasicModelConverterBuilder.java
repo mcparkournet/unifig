@@ -27,7 +27,6 @@ package net.mcparkour.unifig.model.converter.basic;
 import java.util.ArrayList;
 import java.util.List;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.codec.registry.basic.BasicCodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
 import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
@@ -40,34 +39,6 @@ public class BasicModelConverterBuilder<S, A, V> implements ModelConverterBuilde
 	private ModelValueFactory<S, A, V> modelValueFactory;
 	private CodecRegistry<S, A, V> codecRegistry;
 	private List<FieldCondition> fieldConditions = new ArrayList<>();
-
-	@Override
-	public ModelConverterBuilder<S, A, V> with(ModelConverter<S, A, V> converter) {
-		this.modelSectionFactory = converter.getModelSectionFactory();
-		this.modelValueFactory = converter.getModelValueFactory();
-		CodecRegistry<S, A, V> codecRegistry = converter.getCodecRegistry();
-		this.codecRegistry = BasicCodecRegistry.<S, A, V>builder()
-			.with(this.codecRegistry)
-			.with(codecRegistry)
-			.build();
-		List<FieldCondition> fieldConditions = converter.getFieldConditions();
-		this.fieldConditions.addAll(fieldConditions);
-		return this;
-	}
-
-	@Override
-	public ModelConverterBuilder<S, A, V> with(ModelConverterBuilder<S, A, V> builder) {
-		this.modelSectionFactory = builder.getModelSectionFactory();
-		this.modelValueFactory = builder.getModelValueFactory();
-		CodecRegistry<S, A, V> codecRegistry = builder.getCodecRegistry();
-		this.codecRegistry = BasicCodecRegistry.<S, A, V>builder()
-			.with(this.codecRegistry)
-			.with(codecRegistry)
-			.build();
-		List<FieldCondition> fieldConditions = builder.getFieldConditions();
-		this.fieldConditions.addAll(fieldConditions);
-		return this;
-	}
 
 	@Override
 	public ModelConverterBuilder<S, A, V> modelSectionFactory(ModelSectionFactory<S, A, V> factory) {
@@ -88,13 +59,13 @@ public class BasicModelConverterBuilder<S, A, V> implements ModelConverterBuilde
 	}
 
 	@Override
-	public ModelConverterBuilder<S, A, V> fieldConditions(FieldCondition... fieldConditions) {
-		List<FieldCondition> fieldConditionList = List.of(fieldConditions);
-		return fieldConditions(fieldConditionList);
+	public ModelConverterBuilder<S, A, V> fieldCondition(FieldCondition fieldCondition) {
+		this.fieldConditions.add(fieldCondition);
+		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<S, A, V> fieldConditions(List<FieldCondition> fieldConditions) {
+	public ModelConverterBuilder<S, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions) {
 		this.fieldConditions.addAll(fieldConditions);
 		return this;
 	}

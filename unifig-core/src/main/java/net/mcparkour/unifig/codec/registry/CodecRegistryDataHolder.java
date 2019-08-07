@@ -24,11 +24,10 @@
 
 package net.mcparkour.unifig.codec.registry;
 
+import java.util.Map;
 import net.mcparkour.unifig.codec.Codec;
-import org.jetbrains.annotations.Nullable;
 
-public interface CodecRegistry<S, A, V> extends CodecRegistryDataHolder<S, A, V> {
+public interface CodecRegistryDataHolder<S, A, V> {
 
-	@Nullable
-	Codec<S, A, V, ?> get(Class<?> type);
+	Map<Class<?>, Codec<S, A, V, ?>> getCodecs();
 }

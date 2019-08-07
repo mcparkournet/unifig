@@ -46,13 +46,13 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 	private ModelSectionFactory<S, A, V> modelSectionFactory;
 	private ModelValueFactory<S, A, V> modelValueFactory;
 	private CodecRegistry<S, A, V> codecRegistry;
-	private List<FieldCondition> fieldConditions;
+	private List<? extends FieldCondition> fieldConditions;
 
 	public static <S, A, V> ModelConverterBuilder<S, A, V> builder() {
 		return new BasicModelConverterBuilder<>();
 	}
 
-	public BasicModelConverter(ModelSectionFactory<S, A, V> modelSectionFactory, ModelValueFactory<S, A, V> modelValueFactory, CodecRegistry<S, A, V> codecRegistry, List<FieldCondition> fieldConditions) {
+	public BasicModelConverter(ModelSectionFactory<S, A, V> modelSectionFactory, ModelValueFactory<S, A, V> modelValueFactory, CodecRegistry<S, A, V> codecRegistry, List<? extends FieldCondition> fieldConditions) {
 		this.modelSectionFactory = modelSectionFactory;
 		this.modelValueFactory = modelValueFactory;
 		this.codecRegistry = codecRegistry;
@@ -68,8 +68,8 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 			if (isFieldValid(field)) {
 				field.trySetAccessible();
 				String fieldName = getFieldName(field);
-				Object fieldValue = Reflections.getFieldValue(field, configuration);
 				Class<?> fieldType = field.getType();
+				Object fieldValue = Reflections.getFieldValue(field, configuration);
 				ModelValue<S, A, V> value = toModelValue(fieldValue, fieldType);
 				section.setValue(fieldName, value);
 			}

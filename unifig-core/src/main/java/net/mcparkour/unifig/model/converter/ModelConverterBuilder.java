@@ -30,11 +30,18 @@ import net.mcparkour.unifig.condition.FieldCondition;
 import net.mcparkour.unifig.model.section.ModelSectionFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public interface ModelConverterBuilder<S, A, V> {
+public interface ModelConverterBuilder<S, A, V> extends ModelConverterDataHolder<S, A, V> {
 
-	ModelConverterBuilder<S, A, V> with(ModelConverter<S, A, V> converter);
-
-	ModelConverterBuilder<S, A, V> with(ModelConverterBuilder<S, A, V> builder);
+	default ModelConverterBuilder<S, A, V> with(ModelConverterDataHolder<S, A, V> store) {
+		ModelSectionFactory<S, A, V> sectionFactory = store.getModelSectionFactory();
+		ModelValueFactory<S, A, V> valueFactory = store.getModelValueFactory();
+		CodecRegistry<S, A, V> codecRegistry = store.getCodecRegistry();
+		List<FieldCondition> fieldConditions = store.getFieldConditions();
+		return modelSectionFactory(sectionFactory)
+			.modelValueFactory(valueFactory)
+			.codecRegistry(codecRegistry)
+			.fieldConditions(fieldConditions);
+	}
 
 	ModelConverterBuilder<S, A, V> modelSectionFactory(ModelSectionFactory<S, A, V> factory);
 
@@ -42,17 +49,14 @@ public interface ModelConverterBuilder<S, A, V> {
 
 	ModelConverterBuilder<S, A, V> codecRegistry(CodecRegistry<S, A, V> registry);
 
-	ModelConverterBuilder<S, A, V> fieldConditions(FieldCondition... fieldConditions);
+	ModelConverterBuilder<S, A, V> fieldCondition(FieldCondition fieldCondition);
 
-	ModelConverterBuilder<S, A, V> fieldConditions(List<FieldCondition> fieldConditions);
+	default ModelConverterBuilder<S, A, V> fieldConditions(FieldCondition... fieldConditions) {
+		List<FieldCondition> fieldConditionList = List.of(fieldConditions);
+		return fieldConditions(fieldConditionList);
+	}
+
+	ModelConverterBuilder<S, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions);
 
 	ModelConverter<S, A, V> build();
-
-	ModelSectionFactory<S, A, V> getModelSectionFactory();
-
-	ModelValueFactory<S, A, V> getModelValueFactory();
-
-	CodecRegistry<S, A, V> getCodecRegistry();
-
-	List<FieldCondition> getFieldConditions();
 }

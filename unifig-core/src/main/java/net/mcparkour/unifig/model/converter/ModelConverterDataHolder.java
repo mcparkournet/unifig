@@ -22,13 +22,21 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry;
+package net.mcparkour.unifig.model.converter;
 
-import net.mcparkour.unifig.codec.Codec;
-import org.jetbrains.annotations.Nullable;
+import java.util.List;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public interface CodecRegistry<S, A, V> extends CodecRegistryDataHolder<S, A, V> {
+public interface ModelConverterDataHolder<S, A, V> {
 
-	@Nullable
-	Codec<S, A, V, ?> get(Class<?> type);
+	ModelSectionFactory<S, A, V> getModelSectionFactory();
+
+	ModelValueFactory<S, A, V> getModelValueFactory();
+
+	CodecRegistry<S, A, V> getCodecRegistry();
+
+	List<FieldCondition> getFieldConditions();
 }

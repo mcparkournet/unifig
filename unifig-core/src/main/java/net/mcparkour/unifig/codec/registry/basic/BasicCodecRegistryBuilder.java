@@ -25,6 +25,7 @@
 package net.mcparkour.unifig.codec.registry.basic;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
@@ -35,41 +36,32 @@ public class BasicCodecRegistryBuilder<S, A, V> implements CodecRegistryBuilder<
 	private Map<Class<?>, Codec<S, A, V, ?>> codecs = new HashMap<>();
 
 	@Override
-	public BasicCodecRegistryBuilder<S, A, V> with(CodecRegistry<S, A, V> registry) {
-		Map<Class<?>, Codec<S, A, V, ?>> codecs = registry.getCodecs();
-		this.codecs.putAll(codecs);
-		return this;
-	}
-
-	@Override
-	public BasicCodecRegistryBuilder<S, A, V> with(CodecRegistryBuilder<S, A, V> builder) {
-		Map<Class<?>, Codec<S, A, V, ?>> codecs = builder.getCodecs();
-		this.codecs.putAll(codecs);
-		return this;
-	}
-
-	@Override
-	public BasicCodecRegistryBuilder<S, A, V> register(Codec<S, A, V, ?> codec, Class<?>... types) {
-		for (Class<?> type : types) {
-			register(codec, type);
-		}
-		return this;
-	}
-
-	@Override
-	public BasicCodecRegistryBuilder<S, A, V> register(Codec<S, A, V, ?> codec, Class<?> type) {
+	public CodecRegistryBuilder<S, A, V> codec(Codec<S, A, V, ?> codec, Class<?> type) {
 		this.codecs.put(type, codec);
 		return this;
 	}
 
 	@Override
+	public CodecRegistryBuilder<S, A, V> codec(Codec<S, A, V, ?> codec, List<Class<?>> types) {
+		for (Class<?> type : types) {
+			codec(codec, type);
+		}
+		return this;
+	}
+
+	@Override
+	public CodecRegistryBuilder<S, A, V> codecs(Map<Class<?>, ? extends Codec<S, A, V, ?>> codecs) {
+		this.codecs.putAll(codecs);
+		return this;
+	}
+
+	@Override
 	public CodecRegistry<S, A, V> build() {
-		Map<Class<?>, Codec<S, A, V, ?>> copy = Map.copyOf(this.codecs);
-		return new BasicCodecRegistry<>(copy);
+		return new BasicCodecRegistry<>(this.codecs);
 	}
 
 	@Override
 	public Map<Class<?>, Codec<S, A, V, ?>> getCodecs() {
-		return this.codecs;
+		return Map.copyOf(this.codecs);
 	}
 }

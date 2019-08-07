@@ -61,8 +61,14 @@ public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactor
 
 	@Override
 	public ModelConverter<S, A, V> createModelConverter(ModelConverterBuilder<S, A, V> builder) {
-		return createModelConverterBuilder()
+		ModelConverterBuilder<S, A, V> modelConverterBuilder = createModelConverterBuilder();
+		CodecRegistry<S, A, V> codecRegistry = BasicCodecRegistry.<S, A, V>builder()
+			.with(builder.getCodecRegistry())
+			.with(modelConverterBuilder.getCodecRegistry())
+			.build();
+		return modelConverterBuilder
 			.with(builder)
+			.codecRegistry(codecRegistry)
 			.build();
 	}
 
@@ -76,15 +82,15 @@ public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactor
 
 	private CodecRegistry<S, A, V> createCodecRegistry() {
 		return BasicCodecRegistry.<S, A, V>builder()
-			.register(new BooleanCodec<>(this.modelValueFactory), boolean.class, Boolean.class)
-			.register(new CharacterCodec<>(this.modelValueFactory), char.class, Character.class)
-			.register(new ByteCodec<>(this.modelValueFactory), byte.class, Byte.class)
-			.register(new ShortCodec<>(this.modelValueFactory), short.class, Short.class)
-			.register(new IntegerCodec<>(this.modelValueFactory), int.class, Integer.class)
-			.register(new LongCodec<>(this.modelValueFactory), long.class, Long.class)
-			.register(new FloatCodec<>(this.modelValueFactory), float.class, Float.class)
-			.register(new DoubleCodec<>(this.modelValueFactory), double.class, Double.class)
-			.register(new StringCodec<>(this.modelValueFactory), String.class)
+			.codec(new BooleanCodec<>(this.modelValueFactory), boolean.class, Boolean.class)
+			.codec(new CharacterCodec<>(this.modelValueFactory), char.class, Character.class)
+			.codec(new ByteCodec<>(this.modelValueFactory), byte.class, Byte.class)
+			.codec(new ShortCodec<>(this.modelValueFactory), short.class, Short.class)
+			.codec(new IntegerCodec<>(this.modelValueFactory), int.class, Integer.class)
+			.codec(new LongCodec<>(this.modelValueFactory), long.class, Long.class)
+			.codec(new FloatCodec<>(this.modelValueFactory), float.class, Float.class)
+			.codec(new DoubleCodec<>(this.modelValueFactory), double.class, Double.class)
+			.codec(new StringCodec<>(this.modelValueFactory), String.class)
 			.build();
 	}
 
