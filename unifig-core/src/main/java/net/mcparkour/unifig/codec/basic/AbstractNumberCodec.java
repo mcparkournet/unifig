@@ -24,9 +24,9 @@
 
 package net.mcparkour.unifig.codec.basic;
 
+import net.mcparkour.unifig.codec.CodecDecodeException;
 import net.mcparkour.unifig.model.value.ConfigurationModelValue;
 import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
-import net.mcparkour.unifig.codec.CodecDecodeException;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractNumberCodec<S, A, V, T extends Number> extends AbstractCodec<S, A, V, T> {

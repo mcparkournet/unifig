@@ -22,15 +22,16 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry.basic;
+package net.mcparkour.unifig.model;
 
-import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
-import net.mcparkour.unifig.codec.registry.CodecRegistryBuilderFactory;
+import net.mcparkour.unifig.model.basic.BasicConfigurationModelFactory;
+import net.mcparkour.unifig.model.section.PaperConfigurationModelSectionFactory;
+import net.mcparkour.unifig.model.value.PaperConfigurationModelValueFactory;
+import org.bukkit.configuration.ConfigurationSection;
 
-public class BasicCodecRegistryBuilderFactory<S, A, V> implements CodecRegistryBuilderFactory<S, A, V> {
+public class PaperConfigurationModelFactory extends BasicConfigurationModelFactory<ConfigurationSection, Object, Object> {
 
-	@Override
-	public CodecRegistryBuilder<S, A, V> createCodecRegistryBuilder() {
-		return new BasicCodecRegistryBuilder<>();
+	public PaperConfigurationModelFactory() {
+		super(new PaperConfigurationModelSectionFactory(), new PaperConfigurationModelValueFactory());
 	}
 }

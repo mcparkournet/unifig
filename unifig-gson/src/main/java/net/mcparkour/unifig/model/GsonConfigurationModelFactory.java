@@ -22,9 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry;
+package net.mcparkour.unifig.model;
 
-public interface CodecRegistryBuilderFactory<S, A, V> {
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.mcparkour.unifig.model.basic.BasicConfigurationModelFactory;
+import net.mcparkour.unifig.model.section.GsonConfigurationModelSectionFactory;
+import net.mcparkour.unifig.model.value.GsonConfigurationModelValueFactory;
 
-	CodecRegistryBuilder<S, A, V> createCodecRegistryBuilder();
+public class GsonConfigurationModelFactory extends BasicConfigurationModelFactory<JsonObject, JsonArray, JsonElement> {
+
+	public GsonConfigurationModelFactory() {
+		super(new GsonConfigurationModelSectionFactory(), new GsonConfigurationModelValueFactory());
+	}
 }

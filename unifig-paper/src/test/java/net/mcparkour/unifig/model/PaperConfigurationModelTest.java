@@ -24,9 +24,9 @@
 
 package net.mcparkour.unifig.model;
 
-import net.mcparkour.unifig.model.section.PaperConfigurationModelSection;
 import net.mcparkour.unifig.TestConfiguration;
 import net.mcparkour.unifig.model.section.ConfigurationModelSection;
+import net.mcparkour.unifig.model.section.PaperConfigurationModelSection;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,13 +37,14 @@ import org.junit.jupiter.api.Test;
 
 public class PaperConfigurationModelTest {
 
-	private PaperConfigurationModel paperConfigurationModel;
+	private ConfigurationModel<ConfigurationSection, Object, Object> configurationModel;
 	private FileConfiguration expectedConfiguration;
 	private TestConfiguration expectedTestConfiguration;
 
 	@BeforeEach
 	public void setUp() throws InvalidConfigurationException {
-		this.paperConfigurationModel = new PaperConfigurationModel();
+		PaperConfigurationModelFactory factory = new PaperConfigurationModelFactory();
+		this.configurationModel = factory.createConfigurationModel();
 		this.expectedTestConfiguration = new TestConfiguration();
 		YamlConfiguration yamlConfiguration = new YamlConfiguration();
 		yamlConfiguration.loadFromString(TestConfiguration.YAML);
@@ -52,14 +53,14 @@ public class PaperConfigurationModelTest {
 
 	@Test
 	public void testFromConfiguration() {
-		ConfigurationModelSection<ConfigurationSection, Object, Object> section = this.paperConfigurationModel.fromConfiguration(this.expectedTestConfiguration);
+		ConfigurationModelSection<ConfigurationSection, Object, Object> section = this.configurationModel.fromConfiguration(this.expectedTestConfiguration);
 		Assertions.assertEquals(this.expectedConfiguration.saveToString(), ((FileConfiguration) section.getSection()).saveToString());
 	}
 
 	@Test
 	public void testToConfiguration() {
 		PaperConfigurationModelSection section = new PaperConfigurationModelSection(this.expectedConfiguration);
-		TestConfiguration testConfiguration = this.paperConfigurationModel.toConfiguration(section, TestConfiguration.class);
+		TestConfiguration testConfiguration = this.configurationModel.toConfiguration(section, TestConfiguration.class);
 		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
 	}
 }

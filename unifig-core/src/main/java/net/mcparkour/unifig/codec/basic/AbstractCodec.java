@@ -24,9 +24,9 @@
 
 package net.mcparkour.unifig.codec.basic;
 
+import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.model.value.ConfigurationModelValue;
 import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
-import net.mcparkour.unifig.codec.Codec;
 
 public abstract class AbstractCodec<S, A, V, T> implements Codec<S, A, V, T> {
 

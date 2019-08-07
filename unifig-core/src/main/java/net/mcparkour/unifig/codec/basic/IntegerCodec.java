@@ -26,7 +26,7 @@ package net.mcparkour.unifig.codec.basic;
 
 import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
 
-public class IntegerCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Integer>{
+public class IntegerCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Integer> {
 
 	public IntegerCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
 		super(configurationModelValueFactory);

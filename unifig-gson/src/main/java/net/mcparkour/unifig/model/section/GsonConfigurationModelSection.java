@@ -27,8 +27,8 @@ package net.mcparkour.unifig.model.section;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.mcparkour.unifig.model.value.GsonConfigurationModelValue;
 import net.mcparkour.unifig.model.value.ConfigurationModelValue;
+import net.mcparkour.unifig.model.value.GsonConfigurationModelValue;
 
 public class GsonConfigurationModelSection implements ConfigurationModelSection<JsonObject, JsonArray, JsonElement> {
 

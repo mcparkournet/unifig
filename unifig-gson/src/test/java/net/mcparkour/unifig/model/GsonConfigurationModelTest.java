@@ -37,27 +37,28 @@ import org.junit.jupiter.api.Test;
 
 public class GsonConfigurationModelTest {
 
-	private GsonConfigurationModel gsonConfigurationModel;
+	private ConfigurationModel<JsonObject, JsonArray, JsonElement> configurationModel;
 	private JsonObject expectedJsonObject;
 	private TestConfiguration expectedTestConfiguration;
 
 	@BeforeEach
 	public void setUp() {
-		this.gsonConfigurationModel = new GsonConfigurationModel();
+		GsonConfigurationModelFactory factory = new GsonConfigurationModelFactory();
+		this.configurationModel = factory.createConfigurationModel();
 		this.expectedTestConfiguration = new TestConfiguration();
 		this.expectedJsonObject = (JsonObject) new JsonParser().parse(TestConfiguration.JSON);
 	}
 
 	@Test
 	public void testFromConfigurationObject() {
-		ConfigurationModelSection<JsonObject, JsonArray, JsonElement> jsonObject = this.gsonConfigurationModel.fromConfiguration(this.expectedTestConfiguration);
+		ConfigurationModelSection<JsonObject, JsonArray, JsonElement> jsonObject = this.configurationModel.fromConfiguration(this.expectedTestConfiguration);
 		Assertions.assertEquals(this.expectedJsonObject.toString(), jsonObject.getSection().toString());
 	}
 
 	@Test
 	public void testToConfigurationObject() {
 		GsonConfigurationModelSection section = new GsonConfigurationModelSection(this.expectedJsonObject);
-		TestConfiguration testConfiguration = this.gsonConfigurationModel.toConfiguration(section, TestConfiguration.class);
+		TestConfiguration testConfiguration = this.configurationModel.toConfiguration(section, TestConfiguration.class);
 		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
 	}
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.basic;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -30,21 +30,10 @@ import java.util.List;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecNotFoundException;
-import net.mcparkour.unifig.codec.basic.BooleanCodec;
-import net.mcparkour.unifig.codec.basic.ByteCodec;
-import net.mcparkour.unifig.codec.basic.CharacterCodec;
-import net.mcparkour.unifig.codec.basic.DoubleCodec;
-import net.mcparkour.unifig.codec.basic.FloatCodec;
-import net.mcparkour.unifig.codec.basic.IntegerCodec;
-import net.mcparkour.unifig.codec.basic.LongCodec;
-import net.mcparkour.unifig.codec.basic.ShortCodec;
-import net.mcparkour.unifig.codec.basic.StringCodec;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
-import net.mcparkour.unifig.codec.registry.CodecRegistryBuilderFactory;
 import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.condition.basic.IgnoredAnnotationNotPresentedFieldCondition;
-import net.mcparkour.unifig.condition.basic.NonStaticFieldCondition;
+import net.mcparkour.unifig.model.ConfigurationModel;
+import net.mcparkour.unifig.model.ConfigurationModelBuilder;
 import net.mcparkour.unifig.model.section.ConfigurationModelSection;
 import net.mcparkour.unifig.model.section.ConfigurationModelSectionFactory;
 import net.mcparkour.unifig.model.value.ConfigurationModelValue;
@@ -54,45 +43,25 @@ import org.jetbrains.annotations.Nullable;
 
 public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A, V> {
 
+	private ConfigurationModelSectionFactory<S, A, V> configurationModelSectionFactory;
+	private ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory;
 	private CodecRegistry<S, A, V> codecRegistry;
-	private ConfigurationModelSectionFactory<S, A, V> modelSectionFactory;
-	private ConfigurationModelValueFactory<S, A, V> modelValueFactory;
-	private List<FieldCondition> fieldConditions = List.of(new NonStaticFieldCondition(), new IgnoredAnnotationNotPresentedFieldCondition());
+	private List<FieldCondition> fieldConditions;
 
-	public BasicConfigurationModel(CodecRegistryBuilderFactory<S, A, V> codecRegistryBuilderFactory, ConfigurationModelSectionFactory<S, A, V> modelSectionFactory, ConfigurationModelValueFactory<S, A, V> modelValueFactory) {
-		this.codecRegistry = createDefaultCodecRegistryBuilder(codecRegistryBuilderFactory, modelValueFactory).build();
-		this.modelSectionFactory = modelSectionFactory;
-		this.modelValueFactory = modelValueFactory;
+	public static <S, A, V> ConfigurationModelBuilder<S, A, V> builder() {
+		return new BasicConfigurationModelBuilder<>();
 	}
 
-	public BasicConfigurationModel(CodecRegistryBuilderFactory<S, A, V> codecRegistryBuilderFactory, CodecRegistry<S, A, V> codecRegistry, ConfigurationModelSectionFactory<S, A, V> modelSectionFactory, ConfigurationModelValueFactory<S, A, V> modelValueFactory) {
-		this.codecRegistry = createCodecRegistry(codecRegistryBuilderFactory, codecRegistry, modelValueFactory);
-		this.modelSectionFactory = modelSectionFactory;
-		this.modelValueFactory = modelValueFactory;
-	}
-
-	private CodecRegistry<S, A, V> createCodecRegistry(CodecRegistryBuilderFactory<S, A, V> codecRegistryBuilderFactory, CodecRegistry<S, A, V> codecRegistry, ConfigurationModelValueFactory<S, A, V> modelValueFactory) {
-		return createDefaultCodecRegistryBuilder(codecRegistryBuilderFactory, modelValueFactory)
-			.with(codecRegistry)
-			.build();
-	}
-
-	private CodecRegistryBuilder<S, A, V> createDefaultCodecRegistryBuilder(CodecRegistryBuilderFactory<S, A, V> codecRegistryBuilderFactory, ConfigurationModelValueFactory<S, A, V> modelValueFactory) {
-		return codecRegistryBuilderFactory.createCodecRegistryBuilder()
-			.register(new BooleanCodec<>(modelValueFactory), boolean.class, Boolean.class)
-			.register(new CharacterCodec<>(modelValueFactory), char.class, Character.class)
-			.register(new ByteCodec<>(modelValueFactory), byte.class, Byte.class)
-			.register(new ShortCodec<>(modelValueFactory), short.class, Short.class)
-			.register(new IntegerCodec<>(modelValueFactory), int.class, Integer.class)
-			.register(new LongCodec<>(modelValueFactory), long.class, Long.class)
-			.register(new FloatCodec<>(modelValueFactory), float.class, Float.class)
-			.register(new DoubleCodec<>(modelValueFactory), double.class, Double.class)
-			.register(new StringCodec<>(modelValueFactory), String.class);
+	public BasicConfigurationModel(ConfigurationModelSectionFactory<S, A, V> configurationModelSectionFactory, ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory, CodecRegistry<S, A, V> codecRegistry, List<FieldCondition> fieldConditions) {
+		this.configurationModelSectionFactory = configurationModelSectionFactory;
+		this.configurationModelValueFactory = configurationModelValueFactory;
+		this.codecRegistry = codecRegistry;
+		this.fieldConditions = fieldConditions;
 	}
 
 	@Override
 	public ConfigurationModelSection<S, A, V> fromConfiguration(Object configuration) {
-		ConfigurationModelSection<S, A, V> modelSection = this.modelSectionFactory.createModelSection();
+		ConfigurationModelSection<S, A, V> modelSection = this.configurationModelSectionFactory.createModelSection();
 		Class<?> objectClass = configuration.getClass();
 		Field[] fields = objectClass.getDeclaredFields();
 		for (Field field : fields) {
@@ -110,7 +79,7 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 
 	private ConfigurationModelValue<S, A, V> toModelValue(@Nullable Object object, Class<?> type) {
 		if (object == null) {
-			return this.modelValueFactory.createNullModelValue();
+			return this.configurationModelValueFactory.createNullModelValue();
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
 		return codec.encode(object);
@@ -165,18 +134,22 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 		return (Codec<S, A, V, Object>) codec;
 	}
 
+	@Override
+	public ConfigurationModelSectionFactory<S, A, V> getConfigurationModelSectionFactory() {
+		return this.configurationModelSectionFactory;
+	}
+
+	@Override
+	public ConfigurationModelValueFactory<S, A, V> getConfigurationModelValueFactory() {
+		return this.configurationModelValueFactory;
+	}
+
+	@Override
 	public CodecRegistry<S, A, V> getCodecRegistry() {
 		return this.codecRegistry;
 	}
 
-	public ConfigurationModelSectionFactory<S, A, V> getModelSectionFactory() {
-		return this.modelSectionFactory;
-	}
-
-	public ConfigurationModelValueFactory<S, A, V> getModelValueFactory() {
-		return this.modelValueFactory;
-	}
-
+	@Override
 	public List<FieldCondition> getFieldConditions() {
 		return List.copyOf(this.fieldConditions);
 	}

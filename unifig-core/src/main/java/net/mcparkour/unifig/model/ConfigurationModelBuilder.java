@@ -27,15 +27,26 @@ package net.mcparkour.unifig.model;
 import java.util.List;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.model.section.ConfigurationModelSection;
 import net.mcparkour.unifig.model.section.ConfigurationModelSectionFactory;
 import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
 
-public interface ConfigurationModel<S, A, V> {
+public interface ConfigurationModelBuilder<S, A, V> {
 
-	ConfigurationModelSection<S, A, V> fromConfiguration(Object configuration);
+	ConfigurationModelBuilder<S, A, V> with(ConfigurationModel<S, A, V> configurationModel);
 
-	<T> T toConfiguration(ConfigurationModelSection<S, A, V> modelSection, Class<T> configurationType);
+	ConfigurationModelBuilder<S, A, V> with(ConfigurationModelBuilder<S, A, V> configurationModelBuilder);
+
+	ConfigurationModelBuilder<S, A, V> codecRegistry(CodecRegistry<S, A, V> codecRegistry);
+
+	ConfigurationModelBuilder<S, A, V> configurationModelSectionFactory(ConfigurationModelSectionFactory<S, A, V> configurationModelSectionFactory);
+
+	ConfigurationModelBuilder<S, A, V> configurationModelValueFactory(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory);
+
+	ConfigurationModelBuilder<S, A, V> fieldConditions(FieldCondition... fieldConditions);
+
+	ConfigurationModelBuilder<S, A, V> fieldConditions(List<FieldCondition> fieldConditions);
+
+	ConfigurationModel<S, A, V> build();
 
 	CodecRegistry<S, A, V> getCodecRegistry();
 

@@ -27,11 +27,16 @@ package net.mcparkour.unifig.codec.registry.basic;
 import java.util.Map;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 
 public class BasicCodecRegistry<S, A, V> implements CodecRegistry<S, A, V> {
 
 	private Map<Class<?>, ? extends Codec<S, A, V, ?>> codecs;
+
+	public static <S, A, V> CodecRegistryBuilder<S, A, V> builder() {
+		return new BasicCodecRegistryBuilder<>();
+	}
 
 	public BasicCodecRegistry(Map<Class<?>, ? extends Codec<S, A, V, ?>> codecs) {
 		this.codecs = codecs;

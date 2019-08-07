@@ -24,21 +24,9 @@
 
 package net.mcparkour.unifig.model;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.mcparkour.unifig.model.section.GsonConfigurationModelSectionFactory;
-import net.mcparkour.unifig.model.value.GsonConfigurationModelValueFactory;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.codec.registry.basic.BasicCodecRegistryBuilderFactory;
+public interface ConfigurationModelFactory<S, A, V> {
 
-public class GsonConfigurationModel extends BasicConfigurationModel<JsonObject, JsonArray, JsonElement> {
+	ConfigurationModel<S, A, V> createConfigurationModel();
 
-	public GsonConfigurationModel() {
-		super(new BasicCodecRegistryBuilderFactory<>(), new GsonConfigurationModelSectionFactory(), new GsonConfigurationModelValueFactory());
-	}
-
-	public GsonConfigurationModel(CodecRegistry<JsonObject, JsonArray, JsonElement> codecRegistry) {
-		super(new BasicCodecRegistryBuilderFactory<>(), codecRegistry, new GsonConfigurationModelSectionFactory(), new GsonConfigurationModelValueFactory());
-	}
+	ConfigurationModel<S, A, V> createConfigurationModel(ConfigurationModelBuilder<S, A, V> builder);
 }
