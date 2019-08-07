@@ -30,11 +30,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.Nullable;
 
-public class GsonConfigurationModelValue implements ConfigurationModelValue<JsonObject, JsonArray, JsonElement> {
+public class GsonModelValue implements ModelValue<JsonObject, JsonArray, JsonElement> {
 
 	private JsonElement value;
 
-	public GsonConfigurationModelValue(JsonElement value) {
+	public GsonModelValue(JsonElement value) {
 		this.value = value;
 	}
 

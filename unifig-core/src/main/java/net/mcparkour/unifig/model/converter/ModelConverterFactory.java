@@ -22,18 +22,11 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.converter;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.mcparkour.unifig.model.basic.BasicConfigurationModelFactory;
-import net.mcparkour.unifig.model.section.GsonConfigurationModelSectionFactory;
-import net.mcparkour.unifig.model.value.GsonConfigurationModelValueFactory;
+public interface ModelConverterFactory<S, A, V> {
 
-public class GsonConfigurationModelFactory extends BasicConfigurationModelFactory<JsonObject, JsonArray, JsonElement> {
+	ModelConverter<S, A, V> createModelConverter();
 
-	public GsonConfigurationModelFactory() {
-		super(new GsonConfigurationModelSectionFactory(), new GsonConfigurationModelValueFactory());
-	}
+	ModelConverter<S, A, V> createModelConverter(ModelConverterBuilder<S, A, V> builder);
 }

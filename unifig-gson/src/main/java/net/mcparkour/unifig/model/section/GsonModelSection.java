@@ -27,12 +27,31 @@ package net.mcparkour.unifig.model.section;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.mcparkour.unifig.model.value.GsonModelValue;
+import net.mcparkour.unifig.model.value.ModelValue;
 
-public class GsonConfigurationModelSectionFactory implements ConfigurationModelSectionFactory<JsonObject, JsonArray, JsonElement> {
+public class GsonModelSection implements ModelSection<JsonObject, JsonArray, JsonElement> {
+
+	private JsonObject section;
+
+	public GsonModelSection(JsonObject section) {
+		this.section = section;
+	}
 
 	@Override
-	public ConfigurationModelSection<JsonObject, JsonArray, JsonElement> createModelSection() {
-		JsonObject section = new JsonObject();
-		return new GsonConfigurationModelSection(section);
+	public ModelValue<JsonObject, JsonArray, JsonElement> getValue(String key) {
+		JsonElement value = this.section.get(key);
+		return new GsonModelValue(value);
+	}
+
+	@Override
+	public void setValue(String key, ModelValue<JsonObject, JsonArray, JsonElement> value) {
+		JsonElement rawValue = value.getValue();
+		this.section.add(key, rawValue);
+	}
+
+	@Override
+	public JsonObject getSection() {
+		return this.section;
 	}
 }

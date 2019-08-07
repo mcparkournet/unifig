@@ -35,15 +35,15 @@ public class BasicCodecRegistryBuilder<S, A, V> implements CodecRegistryBuilder<
 	private Map<Class<?>, Codec<S, A, V, ?>> codecs = new HashMap<>();
 
 	@Override
-	public BasicCodecRegistryBuilder<S, A, V> with(CodecRegistry<S, A, V> codecRegistry) {
-		Map<Class<?>, Codec<S, A, V, ?>> codecs = codecRegistry.getCodecs();
+	public BasicCodecRegistryBuilder<S, A, V> with(CodecRegistry<S, A, V> registry) {
+		Map<Class<?>, Codec<S, A, V, ?>> codecs = registry.getCodecs();
 		this.codecs.putAll(codecs);
 		return this;
 	}
 
 	@Override
-	public BasicCodecRegistryBuilder<S, A, V> with(CodecRegistryBuilder<S, A, V> codecRegistryBuilder) {
-		Map<Class<?>, Codec<S, A, V, ?>> codecs = codecRegistryBuilder.getCodecs();
+	public BasicCodecRegistryBuilder<S, A, V> with(CodecRegistryBuilder<S, A, V> builder) {
+		Map<Class<?>, Codec<S, A, V, ?>> codecs = builder.getCodecs();
 		this.codecs.putAll(codecs);
 		return this;
 	}

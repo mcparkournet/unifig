@@ -24,13 +24,14 @@
 
 package net.mcparkour.unifig.model.section;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 
-public interface ConfigurationModelSection<S, A, V> {
+public class PaperModelSectionFactory implements ModelSectionFactory<ConfigurationSection, Object, Object> {
 
-	ConfigurationModelValue<S, A, V> get(String name);
-
-	void set(String name, ConfigurationModelValue<S, A, V> value);
-
-	S getSection();
+	@Override
+	public ModelSection<ConfigurationSection, Object, Object> createModelSection() {
+		YamlConfiguration section = new YamlConfiguration();
+		return new PaperModelSection(section);
+	}
 }

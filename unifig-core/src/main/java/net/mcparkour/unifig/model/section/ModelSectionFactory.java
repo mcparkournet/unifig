@@ -22,26 +22,9 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.section;
 
-import java.util.List;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.model.section.ConfigurationModelSection;
-import net.mcparkour.unifig.model.section.ConfigurationModelSectionFactory;
-import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+public interface ModelSectionFactory<S, A, V> {
 
-public interface ConfigurationModel<S, A, V> {
-
-	ConfigurationModelSection<S, A, V> fromConfiguration(Object configuration);
-
-	<T> T toConfiguration(ConfigurationModelSection<S, A, V> modelSection, Class<T> configurationType);
-
-	CodecRegistry<S, A, V> getCodecRegistry();
-
-	ConfigurationModelSectionFactory<S, A, V> getConfigurationModelSectionFactory();
-
-	ConfigurationModelValueFactory<S, A, V> getConfigurationModelValueFactory();
-
-	List<FieldCondition> getFieldConditions();
+	ModelSection<S, A, V> createModelSection();
 }

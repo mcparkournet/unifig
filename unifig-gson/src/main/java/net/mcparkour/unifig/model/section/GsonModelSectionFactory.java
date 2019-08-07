@@ -22,11 +22,17 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.section;
 
-public interface ConfigurationModelFactory<S, A, V> {
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-	ConfigurationModel<S, A, V> createConfigurationModel();
+public class GsonModelSectionFactory implements ModelSectionFactory<JsonObject, JsonArray, JsonElement> {
 
-	ConfigurationModel<S, A, V> createConfigurationModel(ConfigurationModelBuilder<S, A, V> builder);
+	@Override
+	public ModelSection<JsonObject, JsonArray, JsonElement> createModelSection() {
+		JsonObject section = new JsonObject();
+		return new GsonModelSection(section);
+	}
 }

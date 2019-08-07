@@ -22,38 +22,16 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.value;
+package net.mcparkour.unifig.model;
 
-import org.jetbrains.annotations.Nullable;
+import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
+import net.mcparkour.unifig.model.section.PaperModelSectionFactory;
+import net.mcparkour.unifig.model.value.PaperModelValueFactory;
+import org.bukkit.configuration.ConfigurationSection;
 
-public interface ConfigurationModelValue<S, A, V> {
+public class PaperModelConverterFactory extends BasicModelConverterFactory<ConfigurationSection, Object, Object> {
 
-	boolean isNull();
-
-	boolean asBoolean();
-
-	boolean isBoolean();
-
-	char asCharacter();
-
-	boolean isCharacter();
-
-	Number asNumber();
-
-	boolean isNumber();
-
-	String asString();
-
-	boolean isString();
-
-	A asArray();
-
-	boolean isArray();
-
-	S asSection();
-
-	boolean isSection();
-
-	@Nullable
-	V getValue();
+	public PaperModelConverterFactory() {
+		super(new PaperModelSectionFactory(), new PaperModelValueFactory());
+	}
 }

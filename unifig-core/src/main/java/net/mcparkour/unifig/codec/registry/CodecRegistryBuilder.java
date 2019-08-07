@@ -29,9 +29,9 @@ import net.mcparkour.unifig.codec.Codec;
 
 public interface CodecRegistryBuilder<S, A, V> {
 
-	CodecRegistryBuilder<S, A, V> with(CodecRegistry<S, A, V> codecRegistry);
+	CodecRegistryBuilder<S, A, V> with(CodecRegistry<S, A, V> registry);
 
-	CodecRegistryBuilder<S, A, V> with(CodecRegistryBuilder<S, A, V> codecRegistryBuilder);
+	CodecRegistryBuilder<S, A, V> with(CodecRegistryBuilder<S, A, V> builder);
 
 	CodecRegistryBuilder<S, A, V> register(Codec<S, A, V, ?> codec, Class<?>... types);
 

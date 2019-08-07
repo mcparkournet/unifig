@@ -22,34 +22,11 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.model.value;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import net.mcparkour.unifig.model.value.PaperConfigurationModelValue;
-import org.bukkit.configuration.ConfigurationSection;
+public interface ModelValueFactory<S, A, V> {
 
-public class PaperConfigurationModelSection implements ConfigurationModelSection<ConfigurationSection, Object, Object> {
+	ModelValue<S, A, V> createNullModelValue();
 
-	private ConfigurationSection section;
-
-	public PaperConfigurationModelSection(ConfigurationSection section) {
-		this.section = section;
-	}
-
-	@Override
-	public ConfigurationModelValue<ConfigurationSection, Object, Object> get(String name) {
-		Object value = this.section.get(name);
-		return new PaperConfigurationModelValue(value);
-	}
-
-	@Override
-	public void set(String name, ConfigurationModelValue<ConfigurationSection, Object, Object> value) {
-		Object rawValue = value.getValue();
-		this.section.set(name, rawValue);
-	}
-
-	@Override
-	public ConfigurationSection getSection() {
-		return this.section;
-	}
+	ModelValue<S, A, V> createModelValue(Object value);
 }

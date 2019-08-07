@@ -22,9 +22,19 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.model.value;
 
-public interface ConfigurationModelSectionFactory<S, A, V> {
+import org.bukkit.configuration.ConfigurationSection;
 
-	ConfigurationModelSection<S, A, V> createModelSection();
+public class PaperModelValueFactory implements ModelValueFactory<ConfigurationSection, Object, Object> {
+
+	@Override
+	public ModelValue<ConfigurationSection, Object, Object> createNullModelValue() {
+		return new PaperModelValue(null);
+	}
+
+	@Override
+	public ModelValue<ConfigurationSection, Object, Object> createModelValue(Object value) {
+		return new PaperModelValue(value);
+	}
 }

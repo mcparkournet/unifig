@@ -22,44 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.value;
+package net.mcparkour.unifig.model;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
+import net.mcparkour.unifig.model.section.GsonModelSectionFactory;
+import net.mcparkour.unifig.model.value.GsonModelValueFactory;
 
-public class GsonConfigurationModelValueFactory implements ConfigurationModelValueFactory<JsonObject, JsonArray, JsonElement> {
+public class GsonModelConverterFactory extends BasicModelConverterFactory<JsonObject, JsonArray, JsonElement> {
 
-	@Override
-	public ConfigurationModelValue<JsonObject, JsonArray, JsonElement> createNullModelValue() {
-		return new GsonConfigurationModelValue(JsonNull.INSTANCE);
-	}
-
-	@Override
-	public ConfigurationModelValue<JsonObject, JsonArray, JsonElement> createModelValue(Object value) {
-		JsonPrimitive primitive = createJsonPrimitive(value);
-		return new GsonConfigurationModelValue(primitive);
-	}
-
-	private JsonPrimitive createJsonPrimitive(Object value) {
-		if (value instanceof Boolean) {
-			Boolean aBoolean = (Boolean) value;
-			return new JsonPrimitive(aBoolean);
-		}
-		if (value instanceof Character) {
-			Character character = (Character) value;
-			return new JsonPrimitive(character);
-		}
-		if (value instanceof Number) {
-			Number number = (Number) value;
-			return new JsonPrimitive(number);
-		}
-		if (value instanceof String) {
-			String string = (String) value;
-			return new JsonPrimitive(string);
-		}
-		throw new RuntimeException("value is not a Boolean, Character, Number or String");
+	public GsonModelConverterFactory() {
+		super(new GsonModelSectionFactory(), new GsonModelValueFactory());
 	}
 }

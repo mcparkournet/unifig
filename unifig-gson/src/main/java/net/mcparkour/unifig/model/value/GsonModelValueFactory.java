@@ -24,17 +24,42 @@
 
 package net.mcparkour.unifig.model.value;
 
-import org.bukkit.configuration.ConfigurationSection;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
-public class PaperConfigurationModelValueFactory implements ConfigurationModelValueFactory<ConfigurationSection, Object, Object> {
+public class GsonModelValueFactory implements ModelValueFactory<JsonObject, JsonArray, JsonElement> {
 
 	@Override
-	public ConfigurationModelValue<ConfigurationSection, Object, Object> createNullModelValue() {
-		return new PaperConfigurationModelValue(null);
+	public ModelValue<JsonObject, JsonArray, JsonElement> createNullModelValue() {
+		return new GsonModelValue(JsonNull.INSTANCE);
 	}
 
 	@Override
-	public ConfigurationModelValue<ConfigurationSection, Object, Object> createModelValue(Object value) {
-		return new PaperConfigurationModelValue(value);
+	public ModelValue<JsonObject, JsonArray, JsonElement> createModelValue(Object value) {
+		JsonPrimitive primitive = createJsonPrimitive(value);
+		return new GsonModelValue(primitive);
+	}
+
+	private JsonPrimitive createJsonPrimitive(Object value) {
+		if (value instanceof Boolean) {
+			Boolean aBoolean = (Boolean) value;
+			return new JsonPrimitive(aBoolean);
+		}
+		if (value instanceof Character) {
+			Character character = (Character) value;
+			return new JsonPrimitive(character);
+		}
+		if (value instanceof Number) {
+			Number number = (Number) value;
+			return new JsonPrimitive(number);
+		}
+		if (value instanceof String) {
+			String string = (String) value;
+			return new JsonPrimitive(string);
+		}
+		throw new RuntimeException("value is not a Boolean, Character, Number or String");
 	}
 }

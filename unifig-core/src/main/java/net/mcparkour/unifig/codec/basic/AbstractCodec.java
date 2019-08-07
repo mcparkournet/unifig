@@ -25,23 +25,23 @@
 package net.mcparkour.unifig.codec.basic;
 
 import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 
 public abstract class AbstractCodec<S, A, V, T> implements Codec<S, A, V, T> {
 
-	private ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory;
+	private ModelValueFactory<S, A, V> modelValueFactory;
 
-	AbstractCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
-		this.configurationModelValueFactory = configurationModelValueFactory;
+	public AbstractCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ConfigurationModelValue<S, A, V> encode(T object) {
-		return this.configurationModelValueFactory.createModelValue(object);
+	public ModelValue<S, A, V> encode(T object) {
+		return this.modelValueFactory.createModelValue(object);
 	}
 
-	public ConfigurationModelValueFactory<S, A, V> getConfigurationModelValueFactory() {
-		return this.configurationModelValueFactory;
+	public ModelValueFactory<S, A, V> getModelValueFactory() {
+		return this.modelValueFactory;
 	}
 }

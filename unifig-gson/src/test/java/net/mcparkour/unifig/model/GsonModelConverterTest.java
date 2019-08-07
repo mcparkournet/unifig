@@ -29,36 +29,37 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.model.section.ConfigurationModelSection;
-import net.mcparkour.unifig.model.section.GsonConfigurationModelSection;
+import net.mcparkour.unifig.model.converter.ModelConverter;
+import net.mcparkour.unifig.model.section.GsonModelSection;
+import net.mcparkour.unifig.model.section.ModelSection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GsonConfigurationModelTest {
+public class GsonModelConverterTest {
 
-	private ConfigurationModel<JsonObject, JsonArray, JsonElement> configurationModel;
+	private ModelConverter<JsonObject, JsonArray, JsonElement> modelConverter;
 	private JsonObject expectedJsonObject;
 	private TestConfiguration expectedTestConfiguration;
 
 	@BeforeEach
 	public void setUp() {
-		GsonConfigurationModelFactory factory = new GsonConfigurationModelFactory();
-		this.configurationModel = factory.createConfigurationModel();
+		GsonModelConverterFactory factory = new GsonModelConverterFactory();
+		this.modelConverter = factory.createModelConverter();
 		this.expectedTestConfiguration = new TestConfiguration();
 		this.expectedJsonObject = (JsonObject) new JsonParser().parse(TestConfiguration.JSON);
 	}
 
 	@Test
 	public void testFromConfigurationObject() {
-		ConfigurationModelSection<JsonObject, JsonArray, JsonElement> jsonObject = this.configurationModel.fromConfiguration(this.expectedTestConfiguration);
+		ModelSection<JsonObject, JsonArray, JsonElement> jsonObject = this.modelConverter.fromConfiguration(this.expectedTestConfiguration);
 		Assertions.assertEquals(this.expectedJsonObject.toString(), jsonObject.getSection().toString());
 	}
 
 	@Test
 	public void testToConfigurationObject() {
-		GsonConfigurationModelSection section = new GsonConfigurationModelSection(this.expectedJsonObject);
-		TestConfiguration testConfiguration = this.configurationModel.toConfiguration(section, TestConfiguration.class);
+		GsonModelSection section = new GsonModelSection(this.expectedJsonObject);
+		TestConfiguration testConfiguration = this.modelConverter.toConfiguration(section, TestConfiguration.class);
 		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
 	}
 }

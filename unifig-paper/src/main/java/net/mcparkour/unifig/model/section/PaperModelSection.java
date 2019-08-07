@@ -22,16 +22,34 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.section;
 
-import net.mcparkour.unifig.model.basic.BasicConfigurationModelFactory;
-import net.mcparkour.unifig.model.section.PaperConfigurationModelSectionFactory;
-import net.mcparkour.unifig.model.value.PaperConfigurationModelValueFactory;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.PaperModelValue;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class PaperConfigurationModelFactory extends BasicConfigurationModelFactory<ConfigurationSection, Object, Object> {
+public class PaperModelSection implements ModelSection<ConfigurationSection, Object, Object> {
 
-	public PaperConfigurationModelFactory() {
-		super(new PaperConfigurationModelSectionFactory(), new PaperConfigurationModelValueFactory());
+	private ConfigurationSection section;
+
+	public PaperModelSection(ConfigurationSection section) {
+		this.section = section;
+	}
+
+	@Override
+	public ModelValue<ConfigurationSection, Object, Object> getValue(String key) {
+		Object value = this.section.get(key);
+		return new PaperModelValue(value);
+	}
+
+	@Override
+	public void setValue(String key, ModelValue<ConfigurationSection, Object, Object> value) {
+		Object rawValue = value.getValue();
+		this.section.set(key, rawValue);
+	}
+
+	@Override
+	public ConfigurationSection getSection() {
+		return this.section;
 	}
 }

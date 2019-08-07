@@ -25,22 +25,22 @@
 package net.mcparkour.unifig.codec.basic;
 
 import net.mcparkour.unifig.codec.CodecDecodeException;
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
 public class CharacterCodec<S, A, V> extends AbstractCodec<S, A, V, Character> {
 
-	public CharacterCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
-		super(configurationModelValueFactory);
+	public CharacterCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+		super(modelValueFactory);
 	}
 
 	@Nullable
 	@Override
-	public Character decode(ConfigurationModelValue<S, A, V> modelValue) {
-		if (!modelValue.isCharacter()) {
+	public Character decode(ModelValue<S, A, V> value) {
+		if (!value.isCharacter()) {
 			throw new CodecDecodeException("value is not a character");
 		}
-		return modelValue.asCharacter();
+		return value.asCharacter();
 	}
 }

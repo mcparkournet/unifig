@@ -24,12 +24,12 @@
 
 package net.mcparkour.unifig.codec.basic;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 
 public class ShortCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Short> {
 
-	public ShortCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
-		super(configurationModelValueFactory);
+	public ShortCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+		super(modelValueFactory);
 	}
 
 	@Override

@@ -27,12 +27,12 @@ package net.mcparkour.unifig.model.value;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.Nullable;
 
-public class PaperConfigurationModelValue implements ConfigurationModelValue<ConfigurationSection, Object, Object> {
+public class PaperModelValue implements ModelValue<ConfigurationSection, Object, Object> {
 
 	@Nullable
 	private Object value;
 
-	public PaperConfigurationModelValue(@Nullable Object value) {
+	public PaperModelValue(@Nullable Object value) {
 		this.value = value;
 	}
 

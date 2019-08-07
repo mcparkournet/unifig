@@ -22,36 +22,26 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.model.converter;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import net.mcparkour.unifig.model.value.GsonConfigurationModelValue;
+import java.util.List;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.model.section.ModelSection;
+import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public class GsonConfigurationModelSection implements ConfigurationModelSection<JsonObject, JsonArray, JsonElement> {
+public interface ModelConverter<S, A, V> {
 
-	private JsonObject section;
+	ModelSection<S, A, V> fromConfiguration(Object configuration);
 
-	public GsonConfigurationModelSection(JsonObject section) {
-		this.section = section;
-	}
+	<T> T toConfiguration(ModelSection<S, A, V> section, Class<T> configurationType);
 
-	@Override
-	public ConfigurationModelValue<JsonObject, JsonArray, JsonElement> get(String name) {
-		JsonElement value = this.section.get(name);
-		return new GsonConfigurationModelValue(value);
-	}
+	ModelSectionFactory<S, A, V> getModelSectionFactory();
 
-	@Override
-	public void set(String name, ConfigurationModelValue<JsonObject, JsonArray, JsonElement> value) {
-		JsonElement rawValue = value.getValue();
-		this.section.add(name, rawValue);
-	}
+	ModelValueFactory<S, A, V> getModelValueFactory();
 
-	@Override
-	public JsonObject getSection() {
-		return this.section;
-	}
+	CodecRegistry<S, A, V> getCodecRegistry();
+
+	List<FieldCondition> getFieldConditions();
 }

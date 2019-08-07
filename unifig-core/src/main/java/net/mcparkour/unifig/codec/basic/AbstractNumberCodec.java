@@ -25,23 +25,23 @@
 package net.mcparkour.unifig.codec.basic;
 
 import net.mcparkour.unifig.codec.CodecDecodeException;
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractNumberCodec<S, A, V, T extends Number> extends AbstractCodec<S, A, V, T> {
 
-	AbstractNumberCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
-		super(configurationModelValueFactory);
+	public AbstractNumberCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+		super(modelValueFactory);
 	}
 
 	@Nullable
 	@Override
-	public T decode(ConfigurationModelValue<S, A, V> modelValue) {
-		if (!modelValue.isNumber()) {
+	public T decode(ModelValue<S, A, V> value) {
+		if (!value.isNumber()) {
 			throw new CodecDecodeException("value is not a number");
 		}
-		Number number = modelValue.asNumber();
+		Number number = value.asNumber();
 		return decode(number);
 	}
 

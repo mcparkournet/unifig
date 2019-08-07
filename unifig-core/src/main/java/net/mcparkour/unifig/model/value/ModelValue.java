@@ -24,9 +24,36 @@
 
 package net.mcparkour.unifig.model.value;
 
-public interface ConfigurationModelValueFactory<S, A, V> {
+import org.jetbrains.annotations.Nullable;
 
-	ConfigurationModelValue<S, A, V> createNullModelValue();
+public interface ModelValue<S, A, V> {
 
-	ConfigurationModelValue<S, A, V> createModelValue(Object value);
+	boolean isNull();
+
+	boolean asBoolean();
+
+	boolean isBoolean();
+
+	char asCharacter();
+
+	boolean isCharacter();
+
+	Number asNumber();
+
+	boolean isNumber();
+
+	String asString();
+
+	boolean isString();
+
+	A asArray();
+
+	boolean isArray();
+
+	S asSection();
+
+	boolean isSection();
+
+	@Nullable
+	V getValue();
 }

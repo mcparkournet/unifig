@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.basic;
+package net.mcparkour.unifig.model.converter.basic;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -32,61 +32,61 @@ import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecNotFoundException;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.model.ConfigurationModel;
-import net.mcparkour.unifig.model.ConfigurationModelBuilder;
-import net.mcparkour.unifig.model.section.ConfigurationModelSection;
-import net.mcparkour.unifig.model.section.ConfigurationModelSectionFactory;
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
-import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.model.converter.ModelConverter;
+import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
+import net.mcparkour.unifig.model.section.ModelSection;
+import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 import net.mcparkour.unifig.util.reflection.Reflections;
 import org.jetbrains.annotations.Nullable;
 
-public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A, V> {
+public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 
-	private ConfigurationModelSectionFactory<S, A, V> configurationModelSectionFactory;
-	private ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory;
+	private ModelSectionFactory<S, A, V> modelSectionFactory;
+	private ModelValueFactory<S, A, V> modelValueFactory;
 	private CodecRegistry<S, A, V> codecRegistry;
 	private List<FieldCondition> fieldConditions;
 
-	public static <S, A, V> ConfigurationModelBuilder<S, A, V> builder() {
-		return new BasicConfigurationModelBuilder<>();
+	public static <S, A, V> ModelConverterBuilder<S, A, V> builder() {
+		return new BasicModelConverterBuilder<>();
 	}
 
-	public BasicConfigurationModel(ConfigurationModelSectionFactory<S, A, V> configurationModelSectionFactory, ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory, CodecRegistry<S, A, V> codecRegistry, List<FieldCondition> fieldConditions) {
-		this.configurationModelSectionFactory = configurationModelSectionFactory;
-		this.configurationModelValueFactory = configurationModelValueFactory;
+	public BasicModelConverter(ModelSectionFactory<S, A, V> modelSectionFactory, ModelValueFactory<S, A, V> modelValueFactory, CodecRegistry<S, A, V> codecRegistry, List<FieldCondition> fieldConditions) {
+		this.modelSectionFactory = modelSectionFactory;
+		this.modelValueFactory = modelValueFactory;
 		this.codecRegistry = codecRegistry;
 		this.fieldConditions = fieldConditions;
 	}
 
 	@Override
-	public ConfigurationModelSection<S, A, V> fromConfiguration(Object configuration) {
-		ConfigurationModelSection<S, A, V> modelSection = this.configurationModelSectionFactory.createModelSection();
-		Class<?> objectClass = configuration.getClass();
-		Field[] fields = objectClass.getDeclaredFields();
+	public ModelSection<S, A, V> fromConfiguration(Object configuration) {
+		ModelSection<S, A, V> section = this.modelSectionFactory.createModelSection();
+		Class<?> configurationType = configuration.getClass();
+		Field[] fields = configurationType.getDeclaredFields();
 		for (Field field : fields) {
 			if (isFieldValid(field)) {
 				field.trySetAccessible();
 				String fieldName = getFieldName(field);
 				Object fieldValue = Reflections.getFieldValue(field, configuration);
 				Class<?> fieldType = field.getType();
-				ConfigurationModelValue<S, A, V> modelValue = toModelValue(fieldValue, fieldType);
-				modelSection.set(fieldName, modelValue);
+				ModelValue<S, A, V> value = toModelValue(fieldValue, fieldType);
+				section.setValue(fieldName, value);
 			}
 		}
-		return modelSection;
+		return section;
 	}
 
-	private ConfigurationModelValue<S, A, V> toModelValue(@Nullable Object object, Class<?> type) {
+	private ModelValue<S, A, V> toModelValue(@Nullable Object object, Class<?> type) {
 		if (object == null) {
-			return this.configurationModelValueFactory.createNullModelValue();
+			return this.modelValueFactory.createNullModelValue();
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
 		return codec.encode(object);
 	}
 
 	@Override
-	public <T> T toConfiguration(ConfigurationModelSection<S, A, V> modelSection, Class<T> configurationType) {
+	public <T> T toConfiguration(ModelSection<S, A, V> section, Class<T> configurationType) {
 		Constructor<T> constructor = Reflections.getSerializationConstructor(configurationType);
 		T instance = Reflections.newInstance(constructor);
 		Field[] fields = configurationType.getDeclaredFields();
@@ -95,8 +95,8 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 				field.trySetAccessible();
 				String fieldName = getFieldName(field);
 				Class<?> fieldType = field.getType();
-				ConfigurationModelValue<S, A, V> modelValue = modelSection.get(fieldName);
-				Object object = toObject(modelValue, fieldType);
+				ModelValue<S, A, V> value = section.getValue(fieldName);
+				Object object = toObject(value, fieldType);
 				Reflections.setFieldValue(field, instance, object);
 			}
 		}
@@ -117,12 +117,12 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 	}
 
 	@Nullable
-	private Object toObject(ConfigurationModelValue<S, A, V> modelValue, Class<?> type) {
-		if (modelValue.isNull()) {
+	private Object toObject(ModelValue<S, A, V> value, Class<?> type) {
+		if (value.isNull()) {
 			return null;
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
-		return codec.decode(modelValue);
+		return codec.decode(value);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -135,13 +135,13 @@ public class BasicConfigurationModel<S, A, V> implements ConfigurationModel<S, A
 	}
 
 	@Override
-	public ConfigurationModelSectionFactory<S, A, V> getConfigurationModelSectionFactory() {
-		return this.configurationModelSectionFactory;
+	public ModelSectionFactory<S, A, V> getModelSectionFactory() {
+		return this.modelSectionFactory;
 	}
 
 	@Override
-	public ConfigurationModelValueFactory<S, A, V> getConfigurationModelValueFactory() {
-		return this.configurationModelValueFactory;
+	public ModelValueFactory<S, A, V> getModelValueFactory() {
+		return this.modelValueFactory;
 	}
 
 	@Override

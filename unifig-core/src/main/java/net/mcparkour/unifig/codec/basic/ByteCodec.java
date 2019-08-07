@@ -24,12 +24,12 @@
 
 package net.mcparkour.unifig.codec.basic;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 
 public class ByteCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Byte> {
 
-	public ByteCodec(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory) {
-		super(configurationModelValueFactory);
+	public ByteCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+		super(modelValueFactory);
 	}
 
 	@Override

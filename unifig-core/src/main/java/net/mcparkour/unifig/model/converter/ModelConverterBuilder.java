@@ -22,37 +22,37 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.converter;
 
 import java.util.List;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.model.section.ConfigurationModelSectionFactory;
-import net.mcparkour.unifig.model.value.ConfigurationModelValueFactory;
+import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public interface ConfigurationModelBuilder<S, A, V> {
+public interface ModelConverterBuilder<S, A, V> {
 
-	ConfigurationModelBuilder<S, A, V> with(ConfigurationModel<S, A, V> configurationModel);
+	ModelConverterBuilder<S, A, V> with(ModelConverter<S, A, V> converter);
 
-	ConfigurationModelBuilder<S, A, V> with(ConfigurationModelBuilder<S, A, V> configurationModelBuilder);
+	ModelConverterBuilder<S, A, V> with(ModelConverterBuilder<S, A, V> builder);
 
-	ConfigurationModelBuilder<S, A, V> codecRegistry(CodecRegistry<S, A, V> codecRegistry);
+	ModelConverterBuilder<S, A, V> modelSectionFactory(ModelSectionFactory<S, A, V> factory);
 
-	ConfigurationModelBuilder<S, A, V> configurationModelSectionFactory(ConfigurationModelSectionFactory<S, A, V> configurationModelSectionFactory);
+	ModelConverterBuilder<S, A, V> modelValueFactory(ModelValueFactory<S, A, V> factory);
 
-	ConfigurationModelBuilder<S, A, V> configurationModelValueFactory(ConfigurationModelValueFactory<S, A, V> configurationModelValueFactory);
+	ModelConverterBuilder<S, A, V> codecRegistry(CodecRegistry<S, A, V> registry);
 
-	ConfigurationModelBuilder<S, A, V> fieldConditions(FieldCondition... fieldConditions);
+	ModelConverterBuilder<S, A, V> fieldConditions(FieldCondition... fieldConditions);
 
-	ConfigurationModelBuilder<S, A, V> fieldConditions(List<FieldCondition> fieldConditions);
+	ModelConverterBuilder<S, A, V> fieldConditions(List<FieldCondition> fieldConditions);
 
-	ConfigurationModel<S, A, V> build();
+	ModelConverter<S, A, V> build();
+
+	ModelSectionFactory<S, A, V> getModelSectionFactory();
+
+	ModelValueFactory<S, A, V> getModelValueFactory();
 
 	CodecRegistry<S, A, V> getCodecRegistry();
-
-	ConfigurationModelSectionFactory<S, A, V> getConfigurationModelSectionFactory();
-
-	ConfigurationModelValueFactory<S, A, V> getConfigurationModelValueFactory();
 
 	List<FieldCondition> getFieldConditions();
 }

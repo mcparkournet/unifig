@@ -24,13 +24,13 @@
 
 package net.mcparkour.unifig.codec;
 
-import net.mcparkour.unifig.model.value.ConfigurationModelValue;
+import net.mcparkour.unifig.model.value.ModelValue;
 import org.jetbrains.annotations.Nullable;
 
 public interface Codec<S, A, V, T> {
 
-	ConfigurationModelValue<S, A, V> encode(T object);
+	ModelValue<S, A, V> encode(T object);
 
 	@Nullable
-	T decode(ConfigurationModelValue<S, A, V> modelValue);
+	T decode(ModelValue<S, A, V> value);
 }
