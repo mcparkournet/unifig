@@ -22,14 +22,13 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.converter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.section.GsonModelSection;
 import net.mcparkour.unifig.model.section.ModelSection;
 import org.junit.jupiter.api.Assertions;

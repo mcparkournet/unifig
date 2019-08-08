@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.converter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

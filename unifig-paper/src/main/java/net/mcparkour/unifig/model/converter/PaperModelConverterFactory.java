@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.converter;
 
 import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
 import net.mcparkour.unifig.model.section.PaperModelSectionFactory;

@@ -22,10 +22,9 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.model.converter;
 
 import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.section.ModelSection;
 import net.mcparkour.unifig.model.section.PaperModelSection;
 import org.bukkit.configuration.ConfigurationSection;
