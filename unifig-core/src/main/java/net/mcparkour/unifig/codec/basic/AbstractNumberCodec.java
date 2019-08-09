@@ -24,15 +24,23 @@
 
 package net.mcparkour.unifig.codec.basic;
 
+import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecDecodeException;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractNumberCodec<S, A, V, T extends Number> extends AbstractCodec<S, A, V, T> {
+public abstract class AbstractNumberCodec<S, A, V, T extends Number> implements Codec<S, A, V, T> {
+
+	private ModelValueFactory<S, A, V> modelValueFactory;
 
 	public AbstractNumberCodec(ModelValueFactory<S, A, V> modelValueFactory) {
-		super(modelValueFactory);
+		this.modelValueFactory = modelValueFactory;
+	}
+
+	@Override
+	public ModelValue<S, A, V> encode(Number object) {
+		return this.modelValueFactory.createNumberModelValue(object);
 	}
 
 	@Nullable
@@ -45,5 +53,5 @@ public abstract class AbstractNumberCodec<S, A, V, T extends Number> extends Abs
 		return decode(number);
 	}
 
-	abstract T decode(Number number);
+	public abstract T decode(Number number);
 }

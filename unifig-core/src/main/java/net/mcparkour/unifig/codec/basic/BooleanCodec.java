@@ -24,15 +24,23 @@
 
 package net.mcparkour.unifig.codec.basic;
 
+import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecDecodeException;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class BooleanCodec<S, A, V> extends AbstractCodec<S, A, V, Boolean> {
+public class BooleanCodec<S, A, V> implements Codec<S, A, V, Boolean> {
+
+	private ModelValueFactory<S, A, V> modelValueFactory;
 
 	public BooleanCodec(ModelValueFactory<S, A, V> modelValueFactory) {
-		super(modelValueFactory);
+		this.modelValueFactory = modelValueFactory;
+	}
+
+	@Override
+	public ModelValue<S, A, V> encode(Boolean object) {
+		return this.modelValueFactory.createBooleanModelValue(object);
 	}
 
 	@Nullable

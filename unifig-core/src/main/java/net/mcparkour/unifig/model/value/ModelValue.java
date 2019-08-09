@@ -46,13 +46,13 @@ public interface ModelValue<S, A, V> {
 
 	boolean isString();
 
-	A asArray();
-
-	boolean isArray();
-
 	S asSection();
 
 	boolean isSection();
+
+	A asArray();
+
+	boolean isArray();
 
 	@Nullable
 	V getValue();

@@ -24,9 +24,28 @@
 
 package net.mcparkour.unifig.model.value;
 
+import net.mcparkour.unifig.model.section.ModelSection;
+
 public interface ModelValueFactory<S, A, V> {
 
 	ModelValue<S, A, V> createNullModelValue();
 
-	ModelValue<S, A, V> createModelValue(Object value);
+	ModelValue<S, A, V> createBooleanModelValue(boolean value);
+
+	ModelValue<S, A, V> createCharacterModelValue(char value);
+
+	ModelValue<S, A, V> createNumberModelValue(Number value);
+
+	ModelValue<S, A, V> createStringModelValue(String value);
+
+	default ModelValue<S, A, V> createSectionModelValue(ModelSection<S, A, V> section) {
+		S rawSection = section.getSection();
+		return createSectionModelValue(rawSection);
+	}
+
+	ModelValue<S, A, V> createSectionModelValue(S section);
+
+	ModelValue<S, A, V> createArrayModelValue(A array);
+
+	ModelValue<S, A, V> createModelValue(V value);
 }

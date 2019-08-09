@@ -29,6 +29,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
+import net.mcparkour.unifig.codec.CodecNotFoundException;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
 import net.mcparkour.unifig.model.converter.ModelConverter;
@@ -82,8 +83,8 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
-			S section = fromConfiguration(object).getSection();
-			return this.modelValueFactory.createModelValue(section);
+			ModelSection<S, A, V> section = fromConfiguration(object);
+			return this.modelValueFactory.createSectionModelValue(section);
 		}
 		return codec.encode(object);
 	}
@@ -126,7 +127,11 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
-			ModelSection<S, A, V> section = this.modelSectionFactory.createModelSection(value.asSection());
+			if (!value.isSection()) {
+				throw new CodecNotFoundException(type);
+			}
+			S rawSection = value.asSection();
+			ModelSection<S, A, V> section = this.modelSectionFactory.createModelSection(rawSection);
 			return toConfiguration(section, type);
 		}
 		return codec.decode(value);

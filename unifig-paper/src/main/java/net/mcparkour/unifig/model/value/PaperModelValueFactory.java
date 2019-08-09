@@ -34,6 +34,36 @@ public class PaperModelValueFactory implements ModelValueFactory<ConfigurationSe
 	}
 
 	@Override
+	public ModelValue<ConfigurationSection, Object, Object> createBooleanModelValue(boolean value) {
+		return createModelValue(value);
+	}
+
+	@Override
+	public ModelValue<ConfigurationSection, Object, Object> createCharacterModelValue(char value) {
+		return createModelValue(value);
+	}
+
+	@Override
+	public ModelValue<ConfigurationSection, Object, Object> createNumberModelValue(Number value) {
+		return createModelValue(value);
+	}
+
+	@Override
+	public ModelValue<ConfigurationSection, Object, Object> createStringModelValue(String value) {
+		return createModelValue(value);
+	}
+
+	@Override
+	public ModelValue<ConfigurationSection, Object, Object> createSectionModelValue(ConfigurationSection section) {
+		return createModelValue(section);
+	}
+
+	@Override
+	public ModelValue<ConfigurationSection, Object, Object> createArrayModelValue(Object array) {
+		return createModelValue(array);
+	}
+
+	@Override
 	public ModelValue<ConfigurationSection, Object, Object> createModelValue(Object value) {
 		return new PaperModelValue(value);
 	}
