@@ -26,5 +26,7 @@ package net.mcparkour.unifig.model.section;
 
 public interface ModelSectionFactory<S, A, V> {
 
-	ModelSection<S, A, V> createModelSection();
+	ModelSection<S, A, V> createEmptyModelSection();
+
+	ModelSection<S, A, V> createModelSection(S section);
 }

@@ -29,9 +29,7 @@ import net.mcparkour.unifig.annotation.Ignored;
 import net.mcparkour.unifig.annotation.Property;
 import org.jetbrains.annotations.Nullable;
 
-public class TestConfiguration {
-
-	public static final String JSON = "{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\",\"subConfiguration\":{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\"}}";
+public class TestSubConfiguration {
 
 	private boolean primitiveBoolean;
 	private Boolean wrapperBoolean;
@@ -68,13 +66,11 @@ public class TestConfiguration {
 	@Ignored
 	private String ignored = "ignored";
 
-	private TestSubConfiguration subConfiguration;
-
-	public TestConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", new TestSubConfiguration());
+	public TestSubConfiguration() {
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar");
 	}
 
-	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestSubConfiguration subConfiguration) {
+	public TestSubConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -93,7 +89,6 @@ public class TestConfiguration {
 		this.wrapperDouble = wrapperDouble;
 		this.string = string;
 		this.foo = foo;
-		this.subConfiguration = subConfiguration;
 	}
 
 	@Override
@@ -104,7 +99,7 @@ public class TestConfiguration {
 		if (object == null || getClass() != object.getClass()) {
 			return false;
 		}
-		TestConfiguration that = (TestConfiguration) object;
+		TestSubConfiguration that = (TestSubConfiguration) object;
 		return this.primitiveBoolean == that.primitiveBoolean &&
 			this.primitiveCharacter == that.primitiveCharacter &&
 			this.primitiveByte == that.primitiveByte &&
@@ -123,18 +118,17 @@ public class TestConfiguration {
 			Objects.equals(this.wrapperDouble, that.wrapperDouble) &&
 			Objects.equals(this.string, that.string) &&
 			Objects.equals(this.nullString, that.nullString) &&
-			Objects.equals(this.foo, that.foo) &&
-			Objects.equals(this.subConfiguration, that.subConfiguration);
+			Objects.equals(this.foo, that.foo);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.subConfiguration);
+		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo);
 	}
 
 	@Override
 	public String toString() {
-		return "TestConfiguration{" +
+		return "TestSubConfiguration{" +
 			"primitiveBoolean=" + this.primitiveBoolean +
 			", wrapperBoolean=" + this.wrapperBoolean +
 			", primitiveCharacter=" + this.primitiveCharacter +
@@ -154,7 +148,6 @@ public class TestConfiguration {
 			", string='" + this.string + "'" +
 			", nullString='" + this.nullString + "'" +
 			", foo='" + this.foo + "'" +
-			", subConfiguration=" + this.subConfiguration +
 			"}";
 	}
 
@@ -237,9 +230,5 @@ public class TestConfiguration {
 
 	public String getIgnored() {
 		return this.ignored;
-	}
-
-	public TestSubConfiguration getSubConfiguration() {
-		return this.subConfiguration;
 	}
 }

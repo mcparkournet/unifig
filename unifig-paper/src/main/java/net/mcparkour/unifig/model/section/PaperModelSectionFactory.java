@@ -30,8 +30,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class PaperModelSectionFactory implements ModelSectionFactory<ConfigurationSection, Object, Object> {
 
 	@Override
-	public ModelSection<ConfigurationSection, Object, Object> createModelSection() {
+	public ModelSection<ConfigurationSection, Object, Object> createEmptyModelSection() {
 		YamlConfiguration section = new YamlConfiguration();
+		return new PaperModelSection(section);
+	}
+
+	@Override
+	public ModelSection<ConfigurationSection, Object, Object> createModelSection(ConfigurationSection section) {
 		return new PaperModelSection(section);
 	}
 }

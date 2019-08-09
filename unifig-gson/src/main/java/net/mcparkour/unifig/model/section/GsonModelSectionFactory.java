@@ -31,8 +31,13 @@ import com.google.gson.JsonObject;
 public class GsonModelSectionFactory implements ModelSectionFactory<JsonObject, JsonArray, JsonElement> {
 
 	@Override
-	public ModelSection<JsonObject, JsonArray, JsonElement> createModelSection() {
+	public ModelSection<JsonObject, JsonArray, JsonElement> createEmptyModelSection() {
 		JsonObject section = new JsonObject();
+		return new GsonModelSection(section);
+	}
+
+	@Override
+	public ModelSection<JsonObject, JsonArray, JsonElement> createModelSection(JsonObject section) {
 		return new GsonModelSection(section);
 	}
 }

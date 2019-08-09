@@ -29,7 +29,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.codec.CodecNotFoundException;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
 import net.mcparkour.unifig.model.converter.ModelConverter;
@@ -61,7 +60,7 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 
 	@Override
 	public ModelSection<S, A, V> fromConfiguration(Object configuration) {
-		ModelSection<S, A, V> section = this.modelSectionFactory.createModelSection();
+		ModelSection<S, A, V> section = this.modelSectionFactory.createEmptyModelSection();
 		Class<?> configurationType = configuration.getClass();
 		Field[] fields = configurationType.getDeclaredFields();
 		for (Field field : fields) {
@@ -82,6 +81,10 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 			return this.modelValueFactory.createNullModelValue();
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
+		if (codec == null) {
+			S section = fromConfiguration(object).getSection();
+			return this.modelValueFactory.createModelValue(section);
+		}
 		return codec.encode(object);
 	}
 
@@ -122,14 +125,19 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 			return null;
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
+		if (codec == null) {
+			ModelSection<S, A, V> section = this.modelSectionFactory.createModelSection(value.asSection());
+			return toConfiguration(section, type);
+		}
 		return codec.decode(value);
 	}
 
 	@SuppressWarnings("unchecked")
+	@Nullable
 	private Codec<S, A, V, Object> getObjectCodec(Class<?> type) {
 		Codec<S, A, V, ?> codec = this.codecRegistry.get(type);
 		if (codec == null) {
-			throw new CodecNotFoundException(type);
+			return null;
 		}
 		return (Codec<S, A, V, Object>) codec;
 	}
