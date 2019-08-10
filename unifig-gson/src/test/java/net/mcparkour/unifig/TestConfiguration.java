@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TestConfiguration {
 
-	public static final String JSON = "{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\",\"subConfiguration\":{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\"}}";
+	public static final String JSON = "{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\",\"subConfiguration\":{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\"},\"testEnum\":\"TWO\"}";
 
 	private boolean primitiveBoolean;
 	private Boolean wrapperBoolean;
@@ -70,11 +70,13 @@ public class TestConfiguration {
 
 	private TestSubConfiguration subConfiguration;
 
+	private TestEnum testEnum;
+
 	public TestConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", new TestSubConfiguration());
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", new TestSubConfiguration(), TestEnum.TWO);
 	}
 
-	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestSubConfiguration subConfiguration) {
+	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestSubConfiguration subConfiguration, TestEnum testEnum) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -94,6 +96,7 @@ public class TestConfiguration {
 		this.string = string;
 		this.foo = foo;
 		this.subConfiguration = subConfiguration;
+		this.testEnum = testEnum;
 	}
 
 	@Override
@@ -124,12 +127,13 @@ public class TestConfiguration {
 			Objects.equals(this.string, that.string) &&
 			Objects.equals(this.nullString, that.nullString) &&
 			Objects.equals(this.foo, that.foo) &&
-			Objects.equals(this.subConfiguration, that.subConfiguration);
+			Objects.equals(this.subConfiguration, that.subConfiguration) &&
+			this.testEnum == that.testEnum;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.subConfiguration);
+		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.subConfiguration, this.testEnum);
 	}
 
 	@Override
@@ -155,6 +159,7 @@ public class TestConfiguration {
 			", nullString='" + this.nullString + "'" +
 			", foo='" + this.foo + "'" +
 			", subConfiguration=" + this.subConfiguration +
+			", testEnum=" + this.testEnum +
 			"}";
 	}
 
@@ -241,5 +246,9 @@ public class TestConfiguration {
 
 	public TestSubConfiguration getSubConfiguration() {
 		return this.subConfiguration;
+	}
+
+	public TestEnum getTestEnum() {
+		return this.testEnum;
 	}
 }

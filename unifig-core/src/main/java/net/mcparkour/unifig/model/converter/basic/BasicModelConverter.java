@@ -81,6 +81,11 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 		if (object == null) {
 			return this.modelValueFactory.createNullModelValue();
 		}
+		if (type.isEnum()) {
+			Enum<?> anEnum = (Enum<?>) object;
+			String name = anEnum.name();
+			return this.modelValueFactory.createStringModelValue(name);
+		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
 			ModelSection<S, A, V> section = fromConfiguration(object);
@@ -124,6 +129,16 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 	private Object toObject(ModelValue<S, A, V> value, Class<?> type) {
 		if (value.isNull()) {
 			return null;
+		}
+		if (type.isEnum() && value.isString()) {
+			String string = value.asString();
+			Object[] constants = type.getEnumConstants();
+			for (Object constant : constants) {
+				String name = constant.toString();
+				if (string.equals(name)) {
+					return constant;
+				}
+			}
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
