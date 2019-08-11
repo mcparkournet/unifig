@@ -28,6 +28,7 @@ import net.mcparkour.unifig.codec.basic.BooleanCodec;
 import net.mcparkour.unifig.codec.basic.ByteCodec;
 import net.mcparkour.unifig.codec.basic.CharacterCodec;
 import net.mcparkour.unifig.codec.basic.DoubleCodec;
+import net.mcparkour.unifig.codec.basic.EnumCodec;
 import net.mcparkour.unifig.codec.basic.FloatCodec;
 import net.mcparkour.unifig.codec.basic.IntegerCodec;
 import net.mcparkour.unifig.codec.basic.LongCodec;
@@ -91,6 +92,7 @@ public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactor
 			.codec(new FloatCodec<>(this.modelValueFactory), float.class, Float.class)
 			.codec(new DoubleCodec<>(this.modelValueFactory), double.class, Double.class)
 			.codec(new StringCodec<>(this.modelValueFactory), String.class)
+			.codec(new EnumCodec<>(this.modelValueFactory), Enum.class)
 			.build();
 	}
 

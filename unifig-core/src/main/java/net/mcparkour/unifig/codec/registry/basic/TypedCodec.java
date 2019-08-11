@@ -22,33 +22,34 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.basic;
+package net.mcparkour.unifig.codec.registry.basic;
 
+import java.util.Map;
 import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.codec.CodecDecodeException;
-import net.mcparkour.unifig.model.value.ModelValue;
-import net.mcparkour.unifig.model.value.ModelValueFactory;
-import org.jetbrains.annotations.Nullable;
 
-public class CharacterCodec<S, A, V> implements Codec<S, A, V, Character> {
+public class TypedCodec<S, A, V> {
 
-	private ModelValueFactory<S, A, V> modelValueFactory;
+	private Class<?> type;
+	private Codec<S, A, V, ?> codec;
 
-	public CharacterCodec(ModelValueFactory<S, A, V> modelValueFactory) {
-		this.modelValueFactory = modelValueFactory;
+	public TypedCodec(Map.Entry<Class<?>, ? extends Codec<S, A, V, ?>> entry) {
+		this(entry.getKey(), entry.getValue());
 	}
 
-	@Override
-	public ModelValue<S, A, V> encode(Character object) {
-		return this.modelValueFactory.createCharacterModelValue(object);
+	public TypedCodec(Class<?> type, Codec<S, A, V, ?> codec) {
+		this.codec = codec;
+		this.type = type;
 	}
 
-	@Nullable
-	@Override
-	public Character decode(ModelValue<S, A, V> value, Class<? extends Character> type) {
-		if (!value.isCharacter()) {
-			throw new CodecDecodeException("value is not a character");
-		}
-		return value.asCharacter();
+	public Map.Entry<Class<?>, Codec<S, A, V, ?>> toEntry() {
+		return Map.entry(this.type, this.codec);
+	}
+
+	public Class<?> getType() {
+		return this.type;
+	}
+
+	public Codec<S, A, V, ?> getCodec() {
+		return this.codec;
 	}
 }

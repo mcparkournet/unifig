@@ -32,5 +32,5 @@ public interface Codec<S, A, V, T> {
 	ModelValue<S, A, V> encode(T object);
 
 	@Nullable
-	T decode(ModelValue<S, A, V> value);
+	T decode(ModelValue<S, A, V> value, Class<? extends T> type);
 }

@@ -45,7 +45,7 @@ public class StringCodec<S, A, V> implements Codec<S, A, V, String> {
 
 	@Nullable
 	@Override
-	public String decode(ModelValue<S, A, V> value) {
+	public String decode(ModelValue<S, A, V> value, Class<? extends String> type) {
 		if (!value.isString()) {
 			throw new CodecDecodeException("value is not a String");
 		}

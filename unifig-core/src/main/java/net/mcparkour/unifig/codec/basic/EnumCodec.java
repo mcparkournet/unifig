@@ -24,31 +24,34 @@
 
 package net.mcparkour.unifig.codec.basic;
 
+import java.util.Arrays;
 import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.codec.CodecDecodeException;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class CharacterCodec<S, A, V> implements Codec<S, A, V, Character> {
+public class EnumCodec<S, A, V> implements Codec<S, A, V, Enum<?>> {
 
 	private ModelValueFactory<S, A, V> modelValueFactory;
 
-	public CharacterCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+	public EnumCodec(ModelValueFactory<S, A, V> modelValueFactory) {
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelValue<S, A, V> encode(Character object) {
-		return this.modelValueFactory.createCharacterModelValue(object);
+	public ModelValue<S, A, V> encode(Enum<?> object) {
+		String name = object.name();
+		return this.modelValueFactory.createStringModelValue(name);
 	}
 
-	@Nullable
 	@Override
-	public Character decode(ModelValue<S, A, V> value, Class<? extends Character> type) {
-		if (!value.isCharacter()) {
-			throw new CodecDecodeException("value is not a character");
-		}
-		return value.asCharacter();
+	@Nullable
+	public Enum<?> decode(ModelValue<S, A, V> value, Class<? extends Enum<?>> type) {
+		Enum<?>[] enumConstants = type.getEnumConstants();
+		String valueString = value.asString();
+		return Arrays.stream(enumConstants)
+			.filter(enumConstant -> valueString.equals(enumConstant.name()))
+			.findFirst()
+			.orElse(null);
 	}
 }

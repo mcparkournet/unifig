@@ -45,7 +45,7 @@ public abstract class AbstractNumberCodec<S, A, V, T extends Number> implements 
 
 	@Nullable
 	@Override
-	public T decode(ModelValue<S, A, V> value) {
+	public T decode(ModelValue<S, A, V> value, Class<? extends T> type) {
 		if (!value.isNumber()) {
 			throw new CodecDecodeException("value is not a number");
 		}

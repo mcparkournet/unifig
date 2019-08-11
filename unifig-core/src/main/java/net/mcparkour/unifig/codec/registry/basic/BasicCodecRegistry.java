@@ -24,7 +24,10 @@
 
 package net.mcparkour.unifig.codec.registry.basic;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
@@ -32,24 +35,30 @@ import org.jetbrains.annotations.Nullable;
 
 public class BasicCodecRegistry<S, A, V> implements CodecRegistry<S, A, V> {
 
-	private Map<Class<?>, ? extends Codec<S, A, V, ?>> codecs;
+	private List<? extends TypedCodec<S, A, V>> codecs;
 
 	public static <S, A, V> CodecRegistryBuilder<S, A, V> builder() {
 		return new BasicCodecRegistryBuilder<>();
 	}
 
-	public BasicCodecRegistry(Map<Class<?>, ? extends Codec<S, A, V, ?>> codecs) {
+	public BasicCodecRegistry(List<? extends TypedCodec<S, A, V>> codecs) {
 		this.codecs = codecs;
 	}
 
 	@Override
 	@Nullable
 	public Codec<S, A, V, ?> get(Class<?> type) {
-		return this.codecs.get(type);
+		return this.codecs.stream()
+			.filter(codec -> codec.getType().isAssignableFrom(type))
+			.findFirst()
+			.map(TypedCodec::getCodec)
+			.orElse(null);
 	}
 
 	@Override
-	public Map<Class<?>, Codec<S, A, V, ?>> getCodecs() {
-		return Map.copyOf(this.codecs);
+	public Set<Map.Entry<Class<?>, Codec<S, A, V, ?>>> getCodecs() {
+		return this.codecs.stream()
+			.map(TypedCodec::toEntry)
+			.collect(Collectors.toUnmodifiableSet());
 	}
 }

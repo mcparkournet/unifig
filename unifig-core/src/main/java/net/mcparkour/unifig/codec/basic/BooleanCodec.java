@@ -45,7 +45,7 @@ public class BooleanCodec<S, A, V> implements Codec<S, A, V, Boolean> {
 
 	@Nullable
 	@Override
-	public Boolean decode(ModelValue<S, A, V> value) {
+	public Boolean decode(ModelValue<S, A, V> value, Class<? extends Boolean> type) {
 		if (!value.isBoolean()) {
 			throw new CodecDecodeException("Value is not a boolean");
 		}

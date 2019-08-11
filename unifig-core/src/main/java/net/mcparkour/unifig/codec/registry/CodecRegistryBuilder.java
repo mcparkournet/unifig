@@ -26,12 +26,13 @@ package net.mcparkour.unifig.codec.registry;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import net.mcparkour.unifig.codec.Codec;
 
 public interface CodecRegistryBuilder<S, A, V> extends CodecRegistryDataHolder<S, A, V> {
 
 	default CodecRegistryBuilder<S, A, V> with(CodecRegistryDataHolder<S, A, V> registry) {
-		Map<Class<?>, Codec<S, A, V, ?>> codecs = registry.getCodecs();
+		Set<Map.Entry<Class<?>, Codec<S, A, V, ?>>> codecs = registry.getCodecs();
 		return codecs(codecs);
 	}
 
@@ -44,7 +45,7 @@ public interface CodecRegistryBuilder<S, A, V> extends CodecRegistryDataHolder<S
 
 	CodecRegistryBuilder<S, A, V> codec(Codec<S, A, V, ?> codec, List<Class<?>> types);
 
-	CodecRegistryBuilder<S, A, V> codecs(Map<Class<?>, ? extends Codec<S, A, V, ?>> codecs);
+	CodecRegistryBuilder<S, A, V> codecs(Set<? extends Map.Entry<Class<?>, Codec<S, A, V, ?>>> codecs);
 
 	CodecRegistry<S, A, V> build();
 }
