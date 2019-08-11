@@ -24,10 +24,13 @@
 
 package net.mcparkour.unifig.codec.basic;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
+import net.mcparkour.unifig.util.reflection.Reflections;
 import org.jetbrains.annotations.Nullable;
 
 public class EnumCodec<S, A, V> implements Codec<S, A, V, Enum<?>> {
@@ -40,7 +43,8 @@ public class EnumCodec<S, A, V> implements Codec<S, A, V, Enum<?>> {
 
 	@Override
 	public ModelValue<S, A, V> encode(Enum<?> object) {
-		String name = object.name();
+		Class<? extends Enum<?>> type = object.getDeclaringClass();
+		String name = getEnumName(object, type);
 		return this.modelValueFactory.createStringModelValue(name);
 	}
 
@@ -50,8 +54,18 @@ public class EnumCodec<S, A, V> implements Codec<S, A, V, Enum<?>> {
 		Enum<?>[] enumConstants = type.getEnumConstants();
 		String valueString = value.asString();
 		return Arrays.stream(enumConstants)
-			.filter(enumConstant -> valueString.equals(enumConstant.name()))
+			.filter(enumConstant -> valueString.equals(getEnumName(enumConstant, type)))
 			.findFirst()
 			.orElse(null);
+	}
+
+	private String getEnumName(Enum<?> object, Class<? extends Enum<?>> type) {
+		String name = object.name();
+		Field field = Reflections.getField(type, name);
+		Property property = field.getAnnotation(Property.class);
+		if (property != null) {
+			return property.value();
+		}
+		return name;
 	}
 }

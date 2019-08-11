@@ -24,10 +24,13 @@
 
 package net.mcparkour.unifig;
 
+import net.mcparkour.unifig.annotation.Property;
+
 public enum TestEnum {
 
 	ONE("1"),
 	TWO("2"),
+	@Property("not-four")
 	THREE("3");
 
 	private String text;
