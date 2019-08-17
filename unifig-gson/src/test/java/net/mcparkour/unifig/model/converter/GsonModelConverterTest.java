@@ -37,6 +37,8 @@ import org.junit.jupiter.api.Test;
 
 public class GsonModelConverterTest {
 
+	private static final String JSON = "{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\",\"subConfiguration\":{\"primitiveBoolean\":true,\"wrapperBoolean\":true,\"primitiveCharacter\":\"c\",\"wrapperCharacter\":\"c\",\"primitiveByte\":1,\"wrapperByte\":1,\"primitiveShort\":1,\"wrapperShort\":1,\"primitiveInteger\":1,\"wrapperInteger\":1,\"primitiveLong\":1,\"wrapperLong\":1,\"primitiveFloat\":0.1,\"wrapperFloat\":0.1,\"primitiveDouble\":0.1,\"wrapperDouble\":0.1,\"string\":\"string\",\"nullString\":null,\"bar\":\"foobar\"},\"testEnum\":\"TWO\",\"testEnum2\":\"not-four\"}";
+
 	private ModelConverter<JsonObject, JsonArray, JsonElement> modelConverter;
 	private JsonObject expectedJsonObject;
 	private TestConfiguration expectedTestConfiguration;
@@ -46,7 +48,7 @@ public class GsonModelConverterTest {
 		GsonModelConverterFactory factory = new GsonModelConverterFactory();
 		this.modelConverter = factory.createModelConverter();
 		this.expectedTestConfiguration = new TestConfiguration();
-		this.expectedJsonObject = (JsonObject) new JsonParser().parse(TestConfiguration.JSON);
+		this.expectedJsonObject = (JsonObject) new JsonParser().parse(JSON);
 	}
 
 	@Test

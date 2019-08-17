@@ -37,6 +37,46 @@ import org.junit.jupiter.api.Test;
 
 public class PaperModelConverterTest {
 
+	private static final String YAML = "primitiveBoolean: true\n" +
+		"wrapperBoolean: true\n" +
+		"primitiveCharacter: c\n" +
+		"wrapperCharacter: c\n" +
+		"primitiveByte: 1\n" +
+		"wrapperByte: 1\n" +
+		"primitiveShort: 1\n" +
+		"wrapperShort: 1\n" +
+		"primitiveInteger: 1\n" +
+		"wrapperInteger: 1\n" +
+		"primitiveLong: 1\n" +
+		"wrapperLong: 1\n" +
+		"primitiveFloat: 0.1\n" +
+		"wrapperFloat: 0.1\n" +
+		"primitiveDouble: 0.1\n" +
+		"wrapperDouble: 0.1\n" +
+		"string: string\n" +
+		"bar: foobar\n" +
+		"subConfiguration:\n" +
+		"  primitiveBoolean: true\n" +
+		"  wrapperBoolean: true\n" +
+		"  primitiveCharacter: c\n" +
+		"  wrapperCharacter: c\n" +
+		"  primitiveByte: 1\n" +
+		"  wrapperByte: 1\n" +
+		"  primitiveShort: 1\n" +
+		"  wrapperShort: 1\n" +
+		"  primitiveInteger: 1\n" +
+		"  wrapperInteger: 1\n" +
+		"  primitiveLong: 1\n" +
+		"  wrapperLong: 1\n" +
+		"  primitiveFloat: 0.1\n" +
+		"  wrapperFloat: 0.1\n" +
+		"  primitiveDouble: 0.1\n" +
+		"  wrapperDouble: 0.1\n" +
+		"  string: string\n" +
+		"  bar: foobar\n" +
+		"testEnum: TWO\n" +
+		"testEnum2: not-four";
+
 	private ModelConverter<ConfigurationSection, Object, Object> modelConverter;
 	private FileConfiguration expectedConfiguration;
 	private TestConfiguration expectedTestConfiguration;
@@ -47,7 +87,7 @@ public class PaperModelConverterTest {
 		this.modelConverter = factory.createModelConverter();
 		this.expectedTestConfiguration = new TestConfiguration();
 		YamlConfiguration yamlConfiguration = new YamlConfiguration();
-		yamlConfiguration.loadFromString(TestConfiguration.YAML);
+		yamlConfiguration.loadFromString(YAML);
 		this.expectedConfiguration = yamlConfiguration;
 	}
 
