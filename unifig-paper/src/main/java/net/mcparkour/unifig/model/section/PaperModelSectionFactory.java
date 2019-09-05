@@ -24,20 +24,20 @@
 
 package net.mcparkour.unifig.model.section;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
+import java.util.Map;
 
-public class PaperModelSectionFactory implements ModelSectionFactory<ConfigurationSection, List<Object>, Object> {
+public class PaperModelSectionFactory implements ModelSectionFactory<Map<String, Object>, List<Object>, Object> {
 
 	@Override
-	public ModelSection<ConfigurationSection, List<Object>, Object> createEmptyModelSection() {
-		YamlConfiguration section = new YamlConfiguration();
+	public ModelSection<Map<String, Object>, List<Object>, Object> createEmptyModelSection() {
+		Map<String, Object> section = new LinkedHashMap<>();
 		return new PaperModelSection(section);
 	}
 
 	@Override
-	public ModelSection<ConfigurationSection, List<Object>, Object> createModelSection(ConfigurationSection section) {
+	public ModelSection<Map<String, Object>, List<Object>, Object> createModelSection(Map<String, Object> section) {
 		return new PaperModelSection(section);
 	}
 }

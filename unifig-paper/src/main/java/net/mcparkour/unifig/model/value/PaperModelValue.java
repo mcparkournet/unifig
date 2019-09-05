@@ -27,10 +27,9 @@ package net.mcparkour.unifig.model.value;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.Nullable;
 
-public class PaperModelValue implements ModelValue<ConfigurationSection, List<Object>, Object> {
+public class PaperModelValue implements ModelValue<Map<String, Object>, List<Object>, Object> {
 
 	@Nullable
 	private Object value;
@@ -116,22 +115,22 @@ public class PaperModelValue implements ModelValue<ConfigurationSection, List<Ob
 	}
 
 	@Override
-	public ConfigurationSection asSection() {
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> asSection() {
 		Object value = getNotNullValue();
 		if (!isSection()) {
-			throw new ValueConversionException(ConfigurationSection.class);
+			throw new ValueConversionException(Map.class);
 		}
-		if (value instanceof Map) {
-			YamlConfiguration section = new YamlConfiguration();
-			Map<?, ?> map = (Map<?, ?>) value;
-			return section.createSection(".", map);
+		if (value instanceof ConfigurationSection) {
+			ConfigurationSection section = (ConfigurationSection) value;
+			return section.getValues(false);
 		}
-		return (ConfigurationSection) value;
+		return (Map<String, Object>) value;
 	}
 
 	@Override
 	public boolean isSection() {
-		return this.value instanceof ConfigurationSection || this.value instanceof Map;
+		return this.value instanceof Map || this.value instanceof ConfigurationSection;
 	}
 
 	private Object getNotNullValue() {

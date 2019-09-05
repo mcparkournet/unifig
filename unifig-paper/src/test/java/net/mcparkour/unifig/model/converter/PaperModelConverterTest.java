@@ -25,10 +25,11 @@
 package net.mcparkour.unifig.model.converter;
 
 import java.util.List;
+import java.util.Map;
+import net.mcparkour.unifig.MapYamlConfiguration;
 import net.mcparkour.unifig.TestConfiguration;
 import net.mcparkour.unifig.model.section.ModelSection;
 import net.mcparkour.unifig.model.section.PaperModelSection;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -55,6 +56,7 @@ public class PaperModelConverterTest {
 		"primitiveDouble: 0.1\n" +
 		"wrapperDouble: 0.1\n" +
 		"string: string\n" +
+		"nullString: null\n" +
 		"bar: foobar\n" +
 		"subConfiguration:\n" +
 		"  primitiveBoolean: true\n" +
@@ -74,70 +76,74 @@ public class PaperModelConverterTest {
 		"  primitiveDouble: 0.1\n" +
 		"  wrapperDouble: 0.1\n" +
 		"  string: string\n" +
+		"  nullString: null\n" +
 		"  bar: foobar\n" +
 		"testEnum: TWO\n" +
 		"testEnum2: not-four\n" +
 		"stringList:\n" +
-		"  - '1'\n" +
-		"  - '2'\n" +
-		"  - '3'\n" +
+		"- '1'\n" +
+		"- '2'\n" +
+		"- '3'\n" +
 		"objectList:\n" +
-		"  - primitiveBoolean: true\n" +
-		"    wrapperBoolean: true\n" +
-		"    primitiveCharacter: c\n" +
-		"    wrapperCharacter: c\n" +
-		"    primitiveByte: 1\n" +
-		"    wrapperByte: 1\n" +
-		"    primitiveShort: 1\n" +
-		"    wrapperShort: 1\n" +
-		"    primitiveInteger: 1\n" +
-		"    wrapperInteger: 1\n" +
-		"    primitiveLong: 1\n" +
-		"    wrapperLong: 1\n" +
-		"    primitiveFloat: 0.1\n" +
-		"    wrapperFloat: 0.1\n" +
-		"    primitiveDouble: 0.1\n" +
-		"    wrapperDouble: 0.1\n" +
-		"    string: string\n" +
-		"    bar: foobar\n" +
-		"  - primitiveBoolean: true\n" +
-		"    wrapperBoolean: true\n" +
-		"    primitiveCharacter: c\n" +
-		"    wrapperCharacter: c\n" +
-		"    primitiveByte: 1\n" +
-		"    wrapperByte: 1\n" +
-		"    primitiveShort: 1\n" +
-		"    wrapperShort: 1\n" +
-		"    primitiveInteger: 1\n" +
-		"    wrapperInteger: 1\n" +
-		"    primitiveLong: 1\n" +
-		"    wrapperLong: 1\n" +
-		"    primitiveFloat: 0.1\n" +
-		"    wrapperFloat: 0.1\n" +
-		"    primitiveDouble: 0.1\n" +
-		"    wrapperDouble: 0.1\n" +
-		"    string: string\n" +
-		"    bar: foobar\n" +
-		"  - primitiveBoolean: true\n" +
-		"    wrapperBoolean: true\n" +
-		"    primitiveCharacter: c\n" +
-		"    wrapperCharacter: c\n" +
-		"    primitiveByte: 1\n" +
-		"    wrapperByte: 1\n" +
-		"    primitiveShort: 1\n" +
-		"    wrapperShort: 1\n" +
-		"    primitiveInteger: 1\n" +
-		"    wrapperInteger: 1\n" +
-		"    primitiveLong: 1\n" +
-		"    wrapperLong: 1\n" +
-		"    primitiveFloat: 0.1\n" +
-		"    wrapperFloat: 0.1\n" +
-		"    primitiveDouble: 0.1\n" +
-		"    wrapperDouble: 0.1\n" +
-		"    string: string\n" +
-		"    bar: foobar\n";
+		"- primitiveBoolean: true\n" +
+		"  wrapperBoolean: true\n" +
+		"  primitiveCharacter: c\n" +
+		"  wrapperCharacter: c\n" +
+		"  primitiveByte: 1\n" +
+		"  wrapperByte: 1\n" +
+		"  primitiveShort: 1\n" +
+		"  wrapperShort: 1\n" +
+		"  primitiveInteger: 1\n" +
+		"  wrapperInteger: 1\n" +
+		"  primitiveLong: 1\n" +
+		"  wrapperLong: 1\n" +
+		"  primitiveFloat: 0.1\n" +
+		"  wrapperFloat: 0.1\n" +
+		"  primitiveDouble: 0.1\n" +
+		"  wrapperDouble: 0.1\n" +
+		"  string: string\n" +
+		"  nullString: null\n" +
+		"  bar: foobar\n" +
+		"- primitiveBoolean: true\n" +
+		"  wrapperBoolean: true\n" +
+		"  primitiveCharacter: c\n" +
+		"  wrapperCharacter: c\n" +
+		"  primitiveByte: 1\n" +
+		"  wrapperByte: 1\n" +
+		"  primitiveShort: 1\n" +
+		"  wrapperShort: 1\n" +
+		"  primitiveInteger: 1\n" +
+		"  wrapperInteger: 1\n" +
+		"  primitiveLong: 1\n" +
+		"  wrapperLong: 1\n" +
+		"  primitiveFloat: 0.1\n" +
+		"  wrapperFloat: 0.1\n" +
+		"  primitiveDouble: 0.1\n" +
+		"  wrapperDouble: 0.1\n" +
+		"  string: string\n" +
+		"  nullString: null\n" +
+		"  bar: foobar\n" +
+		"- primitiveBoolean: true\n" +
+		"  wrapperBoolean: true\n" +
+		"  primitiveCharacter: c\n" +
+		"  wrapperCharacter: c\n" +
+		"  primitiveByte: 1\n" +
+		"  wrapperByte: 1\n" +
+		"  primitiveShort: 1\n" +
+		"  wrapperShort: 1\n" +
+		"  primitiveInteger: 1\n" +
+		"  wrapperInteger: 1\n" +
+		"  primitiveLong: 1\n" +
+		"  wrapperLong: 1\n" +
+		"  primitiveFloat: 0.1\n" +
+		"  wrapperFloat: 0.1\n" +
+		"  primitiveDouble: 0.1\n" +
+		"  wrapperDouble: 0.1\n" +
+		"  string: string\n" +
+		"  nullString: null\n" +
+		"  bar: foobar\n";
 
-	private ModelConverter<ConfigurationSection, List<Object>, Object> modelConverter;
+	private ModelConverter<Map<String, Object>, List<Object>, Object> modelConverter;
 	private FileConfiguration expectedConfiguration;
 	private TestConfiguration expectedTestConfiguration;
 
@@ -146,20 +152,23 @@ public class PaperModelConverterTest {
 		PaperModelConverterFactory factory = new PaperModelConverterFactory();
 		this.modelConverter = factory.createModelConverter();
 		this.expectedTestConfiguration = new TestConfiguration();
-		YamlConfiguration yamlConfiguration = new YamlConfiguration();
-		yamlConfiguration.loadFromString(YAML);
-		this.expectedConfiguration = yamlConfiguration;
+		YamlConfiguration configuration = new YamlConfiguration();
+		configuration.loadFromString(YAML);
+		this.expectedConfiguration = configuration;
 	}
 
 	@Test
 	public void testFromConfiguration() {
-		ModelSection<ConfigurationSection, List<Object>, Object> section = this.modelConverter.fromConfiguration(this.expectedTestConfiguration);
-		Assertions.assertEquals(this.expectedConfiguration.saveToString(), ((FileConfiguration) section.getSection()).saveToString());
+		ModelSection<Map<String, Object>, List<Object>, Object> section = this.modelConverter.fromConfiguration(this.expectedTestConfiguration);
+		Map<String, Object> rawSection = section.getSection();
+		MapYamlConfiguration configuration = new MapYamlConfiguration(rawSection);
+		Assertions.assertEquals(YAML, configuration.saveToString());
 	}
 
 	@Test
 	public void testToConfiguration() {
-		PaperModelSection section = new PaperModelSection(this.expectedConfiguration);
+		Map<String, Object> map = this.expectedConfiguration.getValues(false);
+		PaperModelSection section = new PaperModelSection(map);
 		TestConfiguration testConfiguration = this.modelConverter.toConfiguration(section, TestConfiguration.class);
 		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
 	}

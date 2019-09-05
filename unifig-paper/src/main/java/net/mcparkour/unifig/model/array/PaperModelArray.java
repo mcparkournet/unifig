@@ -26,11 +26,11 @@ package net.mcparkour.unifig.model.array;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.PaperModelValue;
-import org.bukkit.configuration.ConfigurationSection;
 
-public class PaperModelArray implements ModelArray<ConfigurationSection, List<Object>, Object> {
+public class PaperModelArray implements ModelArray<Map<String, Object>, List<Object>, Object> {
 
 	private List<Object> array;
 
@@ -39,13 +39,13 @@ public class PaperModelArray implements ModelArray<ConfigurationSection, List<Ob
 	}
 
 	@Override
-	public void addValue(ModelValue<ConfigurationSection, List<Object>, Object> value) {
+	public void addValue(ModelValue<Map<String, Object>, List<Object>, Object> value) {
 		Object rawValue = value.getValue();
 		this.array.add(rawValue);
 	}
 
 	@Override
-	public void removeValue(ModelValue<ConfigurationSection, List<Object>, Object> value) {
+	public void removeValue(ModelValue<Map<String, Object>, List<Object>, Object> value) {
 		Object rawValue = value.getValue();
 		this.array.remove(rawValue);
 	}
@@ -56,13 +56,13 @@ public class PaperModelArray implements ModelArray<ConfigurationSection, List<Ob
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> getValue(int index) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> getValue(int index) {
 		Object value = this.array.get(index);
 		return new PaperModelValue(value);
 	}
 
 	@Override
-	public void setValue(int index, ModelValue<ConfigurationSection, List<Object>, Object> value) {
+	public void setValue(int index, ModelValue<Map<String, Object>, List<Object>, Object> value) {
 		Object rawValue = value.getValue();
 		this.array.set(index, rawValue);
 	}
@@ -78,12 +78,12 @@ public class PaperModelArray implements ModelArray<ConfigurationSection, List<Ob
 	}
 
 	@Override
-	public Iterator<ModelValue<ConfigurationSection, List<Object>, Object>> iterator() {
+	public Iterator<ModelValue<Map<String, Object>, List<Object>, Object>> iterator() {
 		Iterator<Object> iterator = this.array.iterator();
 		return new PaperModelArrayIterator(iterator);
 	}
 
-	private static final class PaperModelArrayIterator implements Iterator<ModelValue<ConfigurationSection, List<Object>, Object>> {
+	private static final class PaperModelArrayIterator implements Iterator<ModelValue<Map<String, Object>, List<Object>, Object>> {
 
 		private Iterator<Object> iterator;
 
@@ -97,7 +97,7 @@ public class PaperModelArray implements ModelArray<ConfigurationSection, List<Ob
 		}
 
 		@Override
-		public ModelValue<ConfigurationSection, List<Object>, Object> next() {
+		public ModelValue<Map<String, Object>, List<Object>, Object> next() {
 			Object next = this.iterator.next();
 			return new PaperModelValue(next);
 		}

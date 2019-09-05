@@ -26,18 +26,18 @@ package net.mcparkour.unifig.model.array;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.configuration.ConfigurationSection;
+import java.util.Map;
 
-public class PaperModelArrayFactory implements ModelArrayFactory<ConfigurationSection, List<Object>, Object> {
+public class PaperModelArrayFactory implements ModelArrayFactory<Map<String, Object>, List<Object>, Object> {
 
 	@Override
-	public ModelArray<ConfigurationSection, List<Object>, Object> createEmptyModelArray() {
+	public ModelArray<Map<String, Object>, List<Object>, Object> createEmptyModelArray() {
 		List<Object> array = new ArrayList<>();
 		return new PaperModelArray(array);
 	}
 
 	@Override
-	public ModelArray<ConfigurationSection, List<Object>, Object> createModelArray(List<Object> array) {
+	public ModelArray<Map<String, Object>, List<Object>, Object> createModelArray(List<Object> array) {
 		return new PaperModelArray(array);
 	}
 }

@@ -25,47 +25,47 @@
 package net.mcparkour.unifig.model.value;
 
 import java.util.List;
-import org.bukkit.configuration.ConfigurationSection;
+import java.util.Map;
 
-public class PaperModelValueFactory implements ModelValueFactory<ConfigurationSection, List<Object>, Object> {
+public class PaperModelValueFactory implements ModelValueFactory<Map<String, Object>, List<Object>, Object> {
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> createNullModelValue() {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createNullModelValue() {
 		return new PaperModelValue(null);
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> createBooleanModelValue(boolean value) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createBooleanModelValue(boolean value) {
 		return createModelValue(value);
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> createCharacterModelValue(char value) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createCharacterModelValue(char value) {
 		return createModelValue(value);
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> createNumberModelValue(Number value) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createNumberModelValue(Number value) {
 		return createModelValue(value);
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> createStringModelValue(String value) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createStringModelValue(String value) {
 		return createModelValue(value);
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> createSectionModelValue(ConfigurationSection section) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createSectionModelValue(Map<String, Object> section) {
 		return createModelValue(section);
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> createArrayModelValue(List<Object> array) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createArrayModelValue(List<Object> array) {
 		return createModelValue(array);
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, List<Object>, Object> createModelValue(Object value) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createModelValue(Object value) {
 		return new PaperModelValue(value);
 	}
 }

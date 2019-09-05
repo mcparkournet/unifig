@@ -25,13 +25,13 @@
 package net.mcparkour.unifig.model.converter;
 
 import java.util.List;
+import java.util.Map;
 import net.mcparkour.unifig.model.array.PaperModelArrayFactory;
 import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
 import net.mcparkour.unifig.model.section.PaperModelSectionFactory;
 import net.mcparkour.unifig.model.value.PaperModelValueFactory;
-import org.bukkit.configuration.ConfigurationSection;
 
-public class PaperModelConverterFactory extends BasicModelConverterFactory<ConfigurationSection, List<Object>, Object> {
+public class PaperModelConverterFactory extends BasicModelConverterFactory<Map<String, Object>, List<Object>, Object> {
 
 	public PaperModelConverterFactory() {
 		super(new PaperModelSectionFactory(), new PaperModelArrayFactory(), new PaperModelValueFactory());

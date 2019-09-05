@@ -22,35 +22,14 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig;
 
-import java.util.List;
 import java.util.Map;
-import net.mcparkour.unifig.model.value.ModelValue;
-import net.mcparkour.unifig.model.value.PaperModelValue;
+import org.bukkit.configuration.file.YamlConfiguration;
 
-public class PaperModelSection implements ModelSection<Map<String, Object>, List<Object>, Object> {
+public class MapYamlConfiguration extends YamlConfiguration {
 
-	private Map<String, Object> section;
-
-	public PaperModelSection(Map<String, Object> section) {
-		this.section = section;
-	}
-
-	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> getValue(String key) {
-		Object value = this.section.get(key);
-		return new PaperModelValue(value);
-	}
-
-	@Override
-	public void setValue(String key, ModelValue<Map<String, Object>, List<Object>, Object> value) {
-		Object rawValue = value.getValue();
-		this.section.put(key, rawValue);
-	}
-
-	@Override
-	public Map<String, Object> getSection() {
-		return this.section;
+	public MapYamlConfiguration(Map<String, Object> map) {
+		this.map.putAll(map);
 	}
 }
