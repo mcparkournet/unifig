@@ -27,12 +27,15 @@ package net.mcparkour.unifig.model.converter;
 import java.util.List;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.section.ModelSectionFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
 public interface ModelConverterDataHolder<S, A, V> {
 
 	ModelSectionFactory<S, A, V> getModelSectionFactory();
+
+	ModelArrayFactory<S, A, V> getModelArrayFactory();
 
 	ModelValueFactory<S, A, V> getModelValueFactory();
 

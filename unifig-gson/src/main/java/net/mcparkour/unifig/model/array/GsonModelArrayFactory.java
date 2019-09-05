@@ -22,18 +22,22 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter;
+package net.mcparkour.unifig.model.array;
 
-import java.util.List;
-import net.mcparkour.unifig.model.array.PaperModelArrayFactory;
-import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
-import net.mcparkour.unifig.model.section.PaperModelSectionFactory;
-import net.mcparkour.unifig.model.value.PaperModelValueFactory;
-import org.bukkit.configuration.ConfigurationSection;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-public class PaperModelConverterFactory extends BasicModelConverterFactory<ConfigurationSection, List<Object>, Object> {
+public class GsonModelArrayFactory implements ModelArrayFactory<JsonObject, JsonArray, JsonElement> {
 
-	public PaperModelConverterFactory() {
-		super(new PaperModelSectionFactory(), new PaperModelArrayFactory(), new PaperModelValueFactory());
+	@Override
+	public ModelArray<JsonObject, JsonArray, JsonElement> createEmptyModelArray() {
+		JsonArray array = new JsonArray();
+		return new GsonModelArray(array);
+	}
+
+	@Override
+	public ModelArray<JsonObject, JsonArray, JsonElement> createModelArray(JsonArray array) {
+		return new GsonModelArray(array);
 	}
 }

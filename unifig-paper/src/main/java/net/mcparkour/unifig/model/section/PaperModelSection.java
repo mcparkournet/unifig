@@ -24,11 +24,12 @@
 
 package net.mcparkour.unifig.model.section;
 
+import java.util.List;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.PaperModelValue;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class PaperModelSection implements ModelSection<ConfigurationSection, Object, Object> {
+public class PaperModelSection implements ModelSection<ConfigurationSection, List<Object>, Object> {
 
 	private ConfigurationSection section;
 
@@ -37,13 +38,13 @@ public class PaperModelSection implements ModelSection<ConfigurationSection, Obj
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, Object, Object> getValue(String key) {
+	public ModelValue<ConfigurationSection, List<Object>, Object> getValue(String key) {
 		Object value = this.section.get(key);
 		return new PaperModelValue(value);
 	}
 
 	@Override
-	public void setValue(String key, ModelValue<ConfigurationSection, Object, Object> value) {
+	public void setValue(String key, ModelValue<ConfigurationSection, List<Object>, Object> value) {
 		Object rawValue = value.getValue();
 		this.section.set(key, rawValue);
 	}

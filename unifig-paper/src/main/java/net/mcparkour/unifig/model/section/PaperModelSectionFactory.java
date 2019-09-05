@@ -24,19 +24,20 @@
 
 package net.mcparkour.unifig.model.section;
 
+import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class PaperModelSectionFactory implements ModelSectionFactory<ConfigurationSection, Object, Object> {
+public class PaperModelSectionFactory implements ModelSectionFactory<ConfigurationSection, List<Object>, Object> {
 
 	@Override
-	public ModelSection<ConfigurationSection, Object, Object> createEmptyModelSection() {
+	public ModelSection<ConfigurationSection, List<Object>, Object> createEmptyModelSection() {
 		YamlConfiguration section = new YamlConfiguration();
 		return new PaperModelSection(section);
 	}
 
 	@Override
-	public ModelSection<ConfigurationSection, Object, Object> createModelSection(ConfigurationSection section) {
+	public ModelSection<ConfigurationSection, List<Object>, Object> createModelSection(ConfigurationSection section) {
 		return new PaperModelSection(section);
 	}
 }

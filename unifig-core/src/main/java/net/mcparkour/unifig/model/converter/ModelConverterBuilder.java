@@ -27,6 +27,7 @@ package net.mcparkour.unifig.model.converter;
 import java.util.List;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.section.ModelSectionFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
@@ -34,16 +35,20 @@ public interface ModelConverterBuilder<S, A, V> extends ModelConverterDataHolder
 
 	default ModelConverterBuilder<S, A, V> with(ModelConverterDataHolder<S, A, V> store) {
 		ModelSectionFactory<S, A, V> sectionFactory = store.getModelSectionFactory();
+		ModelArrayFactory<S, A, V> arrayFactory = store.getModelArrayFactory();
 		ModelValueFactory<S, A, V> valueFactory = store.getModelValueFactory();
 		CodecRegistry<S, A, V> codecRegistry = store.getCodecRegistry();
 		List<FieldCondition> fieldConditions = store.getFieldConditions();
 		return modelSectionFactory(sectionFactory)
+			.modelArrayFactory(arrayFactory)
 			.modelValueFactory(valueFactory)
 			.codecRegistry(codecRegistry)
 			.fieldConditions(fieldConditions);
 	}
 
 	ModelConverterBuilder<S, A, V> modelSectionFactory(ModelSectionFactory<S, A, V> factory);
+
+	ModelConverterBuilder<S, A, V> modelArrayFactory(ModelArrayFactory<S, A, V> factory);
 
 	ModelConverterBuilder<S, A, V> modelValueFactory(ModelValueFactory<S, A, V> factory);
 

@@ -22,18 +22,11 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter;
+package net.mcparkour.unifig.model.array;
 
-import java.util.List;
-import net.mcparkour.unifig.model.array.PaperModelArrayFactory;
-import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
-import net.mcparkour.unifig.model.section.PaperModelSectionFactory;
-import net.mcparkour.unifig.model.value.PaperModelValueFactory;
-import org.bukkit.configuration.ConfigurationSection;
+public interface ModelArrayFactory<S, A, V> {
 
-public class PaperModelConverterFactory extends BasicModelConverterFactory<ConfigurationSection, List<Object>, Object> {
+	ModelArray<S, A, V> createEmptyModelArray();
 
-	public PaperModelConverterFactory() {
-		super(new PaperModelSectionFactory(), new PaperModelArrayFactory(), new PaperModelValueFactory());
-	}
+	ModelArray<S, A, V> createModelArray(A array);
 }

@@ -38,6 +38,7 @@ import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.codec.registry.basic.BasicCodecRegistry;
 import net.mcparkour.unifig.condition.basic.IgnoredAnnotationNotPresentedFieldCondition;
 import net.mcparkour.unifig.condition.basic.NonStaticFieldCondition;
+import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
 import net.mcparkour.unifig.model.converter.ModelConverterFactory;
@@ -47,10 +48,12 @@ import net.mcparkour.unifig.model.value.ModelValueFactory;
 public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactory<S, A, V> {
 
 	private ModelSectionFactory<S, A, V> modelSectionFactory;
+	private ModelArrayFactory<S, A, V> modelArrayFactory;
 	private ModelValueFactory<S, A, V> modelValueFactory;
 
-	public BasicModelConverterFactory(ModelSectionFactory<S, A, V> modelSectionFactory, ModelValueFactory<S, A, V> modelValueFactory) {
+	public BasicModelConverterFactory(ModelSectionFactory<S, A, V> modelSectionFactory, ModelArrayFactory<S, A, V> modelArrayFactory, ModelValueFactory<S, A, V> modelValueFactory) {
 		this.modelSectionFactory = modelSectionFactory;
+		this.modelArrayFactory = modelArrayFactory;
 		this.modelValueFactory = modelValueFactory;
 	}
 
@@ -76,6 +79,7 @@ public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactor
 	private ModelConverterBuilder<S, A, V> createModelConverterBuilder() {
 		return BasicModelConverter.<S, A, V>builder()
 			.modelSectionFactory(this.modelSectionFactory)
+			.modelArrayFactory(this.modelArrayFactory)
 			.modelValueFactory(this.modelValueFactory)
 			.codecRegistry(createCodecRegistry())
 			.fieldConditions(new NonStaticFieldCondition(), new IgnoredAnnotationNotPresentedFieldCondition());
@@ -98,6 +102,10 @@ public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactor
 
 	public ModelSectionFactory<S, A, V> getModelSectionFactory() {
 		return this.modelSectionFactory;
+	}
+
+	public ModelArrayFactory<S, A, V> getModelArrayFactory() {
+		return this.modelArrayFactory;
 	}
 
 	public ModelValueFactory<S, A, V> getModelValueFactory() {

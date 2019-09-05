@@ -26,12 +26,15 @@ package net.mcparkour.unifig.model.converter.basic;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecNotFoundException;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.model.array.ModelArray;
+import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
 import net.mcparkour.unifig.model.section.ModelSection;
@@ -44,6 +47,7 @@ import org.jetbrains.annotations.Nullable;
 public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 
 	private ModelSectionFactory<S, A, V> modelSectionFactory;
+	private ModelArrayFactory<S, A, V> modelArrayFactory;
 	private ModelValueFactory<S, A, V> modelValueFactory;
 	private CodecRegistry<S, A, V> codecRegistry;
 	private List<? extends FieldCondition> fieldConditions;
@@ -52,8 +56,9 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 		return new BasicModelConverterBuilder<>();
 	}
 
-	public BasicModelConverter(ModelSectionFactory<S, A, V> modelSectionFactory, ModelValueFactory<S, A, V> modelValueFactory, CodecRegistry<S, A, V> codecRegistry, List<? extends FieldCondition> fieldConditions) {
+	public BasicModelConverter(ModelSectionFactory<S, A, V> modelSectionFactory, ModelArrayFactory<S, A, V> modelArrayFactory, ModelValueFactory<S, A, V> modelValueFactory, CodecRegistry<S, A, V> codecRegistry, List<? extends FieldCondition> fieldConditions) {
 		this.modelSectionFactory = modelSectionFactory;
+		this.modelArrayFactory = modelArrayFactory;
 		this.modelValueFactory = modelValueFactory;
 		this.codecRegistry = codecRegistry;
 		this.fieldConditions = fieldConditions;
@@ -81,6 +86,16 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 		if (object == null) {
 			return this.modelValueFactory.createNullModelValue();
 		}
+		if (List.class.isAssignableFrom(type)) {
+			List<?> collection = (List<?>) object;
+			ModelArray<S, A, V> array = this.modelArrayFactory.createEmptyModelArray();
+			for (Object element : collection) {
+				Class<?> elementType = element.getClass();
+				ModelValue<S, A, V> elementValue = toModelValue(element, elementType);
+				array.addValue(elementValue);
+			}
+			return this.modelValueFactory.createArrayModelValue(array);
+		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
 			ModelSection<S, A, V> section = fromConfiguration(object);
@@ -100,7 +115,7 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 				String fieldName = getFieldName(field);
 				Class<?> fieldType = field.getType();
 				ModelValue<S, A, V> value = section.getValue(fieldName);
-				Object object = toObject(value, fieldType);
+				Object object = toObject(value, fieldType, field);
 				Reflections.setFieldValue(field, instance, object);
 			}
 		}
@@ -121,9 +136,22 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 	}
 
 	@Nullable
-	private Object toObject(ModelValue<S, A, V> value, Class<?> type) {
+	private Object toObject(ModelValue<S, A, V> value, Class<?> type, Field field) {
 		if (value.isNull()) {
 			return null;
+		}
+		if (value.isArray()) {
+			A rawArray = value.asArray();
+			ModelArray<S, A, V> array = this.modelArrayFactory.createModelArray(rawArray);
+			int size = array.getSize();
+			List<Object> list = new ArrayList<>(size);
+			List<Class<?>> genericTypes = Reflections.getGenericTypes(field);
+			Class<?> genericType = genericTypes.get(0);
+			for (ModelValue<S, A, V> elementValue : array) {
+				Object object = toObject(elementValue, genericType, field);
+				list.add(object);
+			}
+			return list;
 		}
 		Codec<S, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
@@ -150,6 +178,11 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 	@Override
 	public ModelSectionFactory<S, A, V> getModelSectionFactory() {
 		return this.modelSectionFactory;
+	}
+
+	@Override
+	public ModelArrayFactory<S, A, V> getModelArrayFactory() {
+		return this.modelArrayFactory;
 	}
 
 	@Override

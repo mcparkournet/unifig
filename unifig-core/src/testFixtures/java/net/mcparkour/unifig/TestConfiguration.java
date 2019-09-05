@@ -24,6 +24,7 @@
 
 package net.mcparkour.unifig;
 
+import java.util.List;
 import java.util.Objects;
 import net.mcparkour.unifig.annotation.Ignored;
 import net.mcparkour.unifig.annotation.Property;
@@ -58,7 +59,7 @@ public class TestConfiguration {
 	private String string;
 
 	@Nullable
-	private String nullString = null;
+	private String nullString;
 
 	@Property("bar")
 	private String foo;
@@ -71,11 +72,14 @@ public class TestConfiguration {
 	private TestEnum testEnum;
 	private TestEnum testEnum2;
 
+	private List<String> stringList;
+	private List<TestSubConfiguration> objectList;
+
 	public TestConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", new TestSubConfiguration(), TestEnum.TWO, TestEnum.THREE);
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", new TestSubConfiguration(), TestEnum.TWO, TestEnum.THREE, List.of("1", "2", "3"), List.of(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()));
 	}
 
-	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestSubConfiguration subConfiguration, TestEnum testEnum, TestEnum testEnum2) {
+	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestSubConfiguration subConfiguration, TestEnum testEnum, TestEnum testEnum2, List<String> stringList, List<TestSubConfiguration> objectList) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -97,6 +101,8 @@ public class TestConfiguration {
 		this.subConfiguration = subConfiguration;
 		this.testEnum = testEnum;
 		this.testEnum2 = testEnum2;
+		this.stringList = stringList;
+		this.objectList = objectList;
 	}
 
 	@Override
@@ -129,12 +135,14 @@ public class TestConfiguration {
 			Objects.equals(this.foo, that.foo) &&
 			Objects.equals(this.subConfiguration, that.subConfiguration) &&
 			this.testEnum == that.testEnum &&
-			this.testEnum2 == that.testEnum2;
+			this.testEnum2 == that.testEnum2 &&
+			Objects.equals(this.stringList, that.stringList) &&
+			Objects.equals(this.objectList, that.objectList);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.subConfiguration, this.testEnum, this.testEnum2);
+		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.subConfiguration, this.testEnum, this.testEnum2, this.stringList, this.objectList);
 	}
 
 	@Override
@@ -162,6 +170,8 @@ public class TestConfiguration {
 			", subConfiguration=" + this.subConfiguration +
 			", testEnum=" + this.testEnum +
 			", testEnum2=" + this.testEnum2 +
+			", stringList=" + this.stringList +
+			", objectList=" + this.objectList +
 			"}";
 	}
 
@@ -256,5 +266,13 @@ public class TestConfiguration {
 
 	public TestEnum getTestEnum2() {
 		return this.testEnum2;
+	}
+
+	public List<String> getStringList() {
+		return this.stringList;
+	}
+
+	public List<TestSubConfiguration> getObjectList() {
+		return this.objectList;
 	}
 }

@@ -26,8 +26,10 @@ package net.mcparkour.unifig.model.converter.basic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
 import net.mcparkour.unifig.model.section.ModelSectionFactory;
@@ -36,6 +38,7 @@ import net.mcparkour.unifig.model.value.ModelValueFactory;
 public class BasicModelConverterBuilder<S, A, V> implements ModelConverterBuilder<S, A, V> {
 
 	private ModelSectionFactory<S, A, V> modelSectionFactory;
+	private ModelArrayFactory<S, A, V> modelArrayFactory;
 	private ModelValueFactory<S, A, V> modelValueFactory;
 	private CodecRegistry<S, A, V> codecRegistry;
 	private List<FieldCondition> fieldConditions = new ArrayList<>();
@@ -43,6 +46,12 @@ public class BasicModelConverterBuilder<S, A, V> implements ModelConverterBuilde
 	@Override
 	public ModelConverterBuilder<S, A, V> modelSectionFactory(ModelSectionFactory<S, A, V> factory) {
 		this.modelSectionFactory = factory;
+		return this;
+	}
+
+	@Override
+	public ModelConverterBuilder<S, A, V> modelArrayFactory(ModelArrayFactory<S, A, V> factory) {
+		this.modelArrayFactory = factory;
 		return this;
 	}
 
@@ -72,12 +81,21 @@ public class BasicModelConverterBuilder<S, A, V> implements ModelConverterBuilde
 
 	@Override
 	public ModelConverter<S, A, V> build() {
-		return new BasicModelConverter<>(this.modelSectionFactory, this.modelValueFactory, this.codecRegistry, this.fieldConditions);
+		Objects.requireNonNull(this.modelSectionFactory);
+		Objects.requireNonNull(this.modelArrayFactory);
+		Objects.requireNonNull(this.modelValueFactory);
+		Objects.requireNonNull(this.codecRegistry);
+		return new BasicModelConverter<>(this.modelSectionFactory, this.modelArrayFactory, this.modelValueFactory, this.codecRegistry, this.fieldConditions);
 	}
 
 	@Override
 	public ModelSectionFactory<S, A, V> getModelSectionFactory() {
 		return this.modelSectionFactory;
+	}
+
+	@Override
+	public ModelArrayFactory<S, A, V> getModelArrayFactory() {
+		return this.modelArrayFactory;
 	}
 
 	@Override

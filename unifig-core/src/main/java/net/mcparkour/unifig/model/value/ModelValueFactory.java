@@ -24,6 +24,7 @@
 
 package net.mcparkour.unifig.model.value;
 
+import net.mcparkour.unifig.model.array.ModelArray;
 import net.mcparkour.unifig.model.section.ModelSection;
 
 public interface ModelValueFactory<S, A, V> {
@@ -44,6 +45,11 @@ public interface ModelValueFactory<S, A, V> {
 	}
 
 	ModelValue<S, A, V> createSectionModelValue(S section);
+
+	default ModelValue<S, A, V> createArrayModelValue(ModelArray<S, A, V> array) {
+		A rawArray = array.getArray();
+		return createArrayModelValue(rawArray);
+	}
 
 	ModelValue<S, A, V> createArrayModelValue(A array);
 
