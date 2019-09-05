@@ -22,14 +22,11 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.model.reader;
 
-import java.util.Map;
-import org.bukkit.configuration.file.YamlConfiguration;
+import net.mcparkour.unifig.model.object.ModelObject;
 
-public class MapYamlConfiguration extends YamlConfiguration {
+public interface ModelReader<O, A, V> {
 
-	public MapYamlConfiguration(Map<String, Object> map) {
-		this.map.putAll(map);
-	}
+	ModelObject<O, A, V> read(String string);
 }

@@ -26,12 +26,13 @@ package net.mcparkour.unifig.model.converter;
 
 import java.util.List;
 import java.util.Map;
-import net.mcparkour.unifig.MapYamlConfiguration;
 import net.mcparkour.unifig.TestConfiguration;
 import net.mcparkour.unifig.model.object.ModelObject;
-import net.mcparkour.unifig.model.object.PaperModelObject;
+import net.mcparkour.unifig.model.reader.ModelReader;
+import net.mcparkour.unifig.model.reader.PaperModelReader;
+import net.mcparkour.unifig.model.writer.ModelWriter;
+import net.mcparkour.unifig.model.writer.PaperModelWriter;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -167,14 +168,18 @@ public class PaperModelConverterTest {
 		"  - '2'\n" +
 		"  - '3'\n";
 
-	private ModelConverter<Map<String, Object>, List<Object>, Object> modelConverter;
-	private FileConfiguration expectedConfiguration;
+	private ModelConverter<Map<String, Object>, List<Object>, Object> converter;
+	private ModelWriter<Map<String, Object>, List<Object>, Object> writer;
+	private ModelReader<Map<String, Object>, List<Object>, Object> reader;
+	private YamlConfiguration expectedConfiguration;
 	private TestConfiguration expectedTestConfiguration;
 
 	@BeforeEach
 	public void setUp() throws InvalidConfigurationException {
 		PaperModelConverterFactory factory = new PaperModelConverterFactory();
-		this.modelConverter = factory.createModelConverter();
+		this.converter = factory.createModelConverter();
+		this.writer = new PaperModelWriter();
+		this.reader = new PaperModelReader();
 		this.expectedTestConfiguration = new TestConfiguration();
 		YamlConfiguration configuration = new YamlConfiguration();
 		configuration.loadFromString(YAML);
@@ -183,17 +188,15 @@ public class PaperModelConverterTest {
 
 	@Test
 	public void testFromConfiguration() {
-		ModelObject<Map<String, Object>, List<Object>, Object> object = this.modelConverter.fromConfiguration(this.expectedTestConfiguration);
-		Map<String, Object> rawObject = object.getObject();
-		MapYamlConfiguration configuration = new MapYamlConfiguration(rawObject);
-		Assertions.assertEquals(YAML, configuration.saveToString());
+		ModelObject<Map<String, Object>, List<Object>, Object> object = this.converter.fromConfiguration(new TestConfiguration());
+		String written = this.writer.write(object);
+		Assertions.assertEquals(this.expectedConfiguration.saveToString(), written);
 	}
 
 	@Test
 	public void testToConfiguration() {
-		Map<String, Object> map = this.expectedConfiguration.getValues(false);
-		PaperModelObject object = new PaperModelObject(map);
-		TestConfiguration testConfiguration = this.modelConverter.toConfiguration(object, TestConfiguration.class);
+		ModelObject<Map<String, Object>, List<Object>, Object> object = this.reader.read(YAML);
+		TestConfiguration testConfiguration = this.converter.toConfiguration(object, TestConfiguration.class);
 		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
 	}
 }
