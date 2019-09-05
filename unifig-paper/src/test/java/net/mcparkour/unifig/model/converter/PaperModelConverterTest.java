@@ -78,6 +78,12 @@ public class PaperModelConverterTest {
 		"  string: string\n" +
 		"  nullString: null\n" +
 		"  bar: foobar\n" +
+		"  testEnum: TWO\n" +
+		"  testEnum2: not-four\n" +
+		"  stringList:\n" +
+		"  - '1'\n" +
+		"  - '2'\n" +
+		"  - '3'\n" +
 		"testEnum: TWO\n" +
 		"testEnum2: not-four\n" +
 		"stringList:\n" +
@@ -104,6 +110,12 @@ public class PaperModelConverterTest {
 		"  string: string\n" +
 		"  nullString: null\n" +
 		"  bar: foobar\n" +
+		"  testEnum: TWO\n" +
+		"  testEnum2: not-four\n" +
+		"  stringList:\n" +
+		"  - '1'\n" +
+		"  - '2'\n" +
+		"  - '3'\n" +
 		"- primitiveBoolean: true\n" +
 		"  wrapperBoolean: true\n" +
 		"  primitiveCharacter: c\n" +
@@ -123,6 +135,12 @@ public class PaperModelConverterTest {
 		"  string: string\n" +
 		"  nullString: null\n" +
 		"  bar: foobar\n" +
+		"  testEnum: TWO\n" +
+		"  testEnum2: not-four\n" +
+		"  stringList:\n" +
+		"  - '1'\n" +
+		"  - '2'\n" +
+		"  - '3'\n" +
 		"- primitiveBoolean: true\n" +
 		"  wrapperBoolean: true\n" +
 		"  primitiveCharacter: c\n" +
@@ -141,7 +159,13 @@ public class PaperModelConverterTest {
 		"  wrapperDouble: 0.1\n" +
 		"  string: string\n" +
 		"  nullString: null\n" +
-		"  bar: foobar\n";
+		"  bar: foobar\n" +
+		"  testEnum: TWO\n" +
+		"  testEnum2: not-four\n" +
+		"  stringList:\n" +
+		"  - '1'\n" +
+		"  - '2'\n" +
+		"  - '3'\n";
 
 	private ModelConverter<Map<String, Object>, List<Object>, Object> modelConverter;
 	private FileConfiguration expectedConfiguration;

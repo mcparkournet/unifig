@@ -24,6 +24,7 @@
 
 package net.mcparkour.unifig;
 
+import java.util.List;
 import java.util.Objects;
 import net.mcparkour.unifig.annotation.Ignored;
 import net.mcparkour.unifig.annotation.Property;
@@ -66,11 +67,16 @@ public class TestSubConfiguration {
 	@Ignored
 	private String ignored = "ignored";
 
+	private TestEnum testEnum;
+	private TestEnum testEnum2;
+
+	private List<String> stringList;
+
 	public TestSubConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar");
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", TestEnum.TWO, TestEnum.THREE, List.of("1", "2", "3"));
 	}
 
-	public TestSubConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo) {
+	public TestSubConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestEnum testEnum, TestEnum testEnum2, List<String> stringList) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -89,6 +95,9 @@ public class TestSubConfiguration {
 		this.wrapperDouble = wrapperDouble;
 		this.string = string;
 		this.foo = foo;
+		this.testEnum = testEnum;
+		this.testEnum2 = testEnum2;
+		this.stringList = stringList;
 	}
 
 	@Override
@@ -118,12 +127,15 @@ public class TestSubConfiguration {
 			Objects.equals(this.wrapperDouble, that.wrapperDouble) &&
 			Objects.equals(this.string, that.string) &&
 			Objects.equals(this.nullString, that.nullString) &&
-			Objects.equals(this.foo, that.foo);
+			Objects.equals(this.foo, that.foo) &&
+			this.testEnum == that.testEnum &&
+			this.testEnum2 == that.testEnum2 &&
+			Objects.equals(this.stringList, that.stringList);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo);
+		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.testEnum, this.testEnum2, this.stringList);
 	}
 
 	@Override
@@ -148,6 +160,9 @@ public class TestSubConfiguration {
 			", string='" + this.string + "'" +
 			", nullString='" + this.nullString + "'" +
 			", foo='" + this.foo + "'" +
+			", testEnum=" + this.testEnum +
+			", testEnum2=" + this.testEnum2 +
+			", stringList=" + this.stringList +
 			"}";
 	}
 
@@ -230,5 +245,17 @@ public class TestSubConfiguration {
 
 	public String getIgnored() {
 		return this.ignored;
+	}
+
+	public TestEnum getTestEnum() {
+		return this.testEnum;
+	}
+
+	public TestEnum getTestEnum2() {
+		return this.testEnum2;
+	}
+
+	public List<String> getStringList() {
+		return this.stringList;
 	}
 }
