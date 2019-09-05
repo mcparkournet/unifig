@@ -101,6 +101,25 @@ public class PaperModelValue implements ModelValue<Map<String, Object>, List<Obj
 
 	@Override
 	@SuppressWarnings("unchecked")
+	public Map<String, Object> asObject() {
+		Object value = getNotNullValue();
+		if (!isObject()) {
+			throw new ValueConversionException(Map.class);
+		}
+		if (value instanceof ConfigurationSection) {
+			ConfigurationSection section = (ConfigurationSection) value;
+			return section.getValues(false);
+		}
+		return (Map<String, Object>) value;
+	}
+
+	@Override
+	public boolean isObject() {
+		return this.value instanceof Map || this.value instanceof ConfigurationSection;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
 	public List<Object> asArray() {
 		Object value = getNotNullValue();
 		if (!isArray()) {
@@ -112,25 +131,6 @@ public class PaperModelValue implements ModelValue<Map<String, Object>, List<Obj
 	@Override
 	public boolean isArray() {
 		return this.value instanceof List;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> asSection() {
-		Object value = getNotNullValue();
-		if (!isSection()) {
-			throw new ValueConversionException(Map.class);
-		}
-		if (value instanceof ConfigurationSection) {
-			ConfigurationSection section = (ConfigurationSection) value;
-			return section.getValues(false);
-		}
-		return (Map<String, Object>) value;
-	}
-
-	@Override
-	public boolean isSection() {
-		return this.value instanceof Map || this.value instanceof ConfigurationSection;
 	}
 
 	private Object getNotNullValue() {

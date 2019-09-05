@@ -24,11 +24,11 @@
 
 package net.mcparkour.unifig.model.converter;
 
-import net.mcparkour.unifig.model.section.ModelSection;
+import net.mcparkour.unifig.model.object.ModelObject;
 
-public interface ModelConverter<S, A, V> extends ModelConverterDataHolder<S, A, V> {
+public interface ModelConverter<O, A, V> extends ModelConverterDataHolder<O, A, V> {
 
-	ModelSection<S, A, V> fromConfiguration(Object configuration);
+	ModelObject<O, A, V> fromConfiguration(Object configuration);
 
-	<T> T toConfiguration(ModelSection<S, A, V> section, Class<T> configurationType);
+	<T> T toConfiguration(ModelObject<O, A, V> object, Class<T> configurationType);
 }

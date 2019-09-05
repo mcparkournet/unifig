@@ -30,22 +30,22 @@ import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class CharacterCodec<S, A, V> implements Codec<S, A, V, Character> {
+public class CharacterCodec<O, A, V> implements Codec<O, A, V, Character> {
 
-	private ModelValueFactory<S, A, V> modelValueFactory;
+	private ModelValueFactory<O, A, V> modelValueFactory;
 
-	public CharacterCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+	public CharacterCodec(ModelValueFactory<O, A, V> modelValueFactory) {
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelValue<S, A, V> encode(Character object) {
+	public ModelValue<O, A, V> encode(Character object) {
 		return this.modelValueFactory.createCharacterModelValue(object);
 	}
 
 	@Nullable
 	@Override
-	public Character decode(ModelValue<S, A, V> value, Class<? extends Character> type) {
+	public Character decode(ModelValue<O, A, V> value, Class<? extends Character> type) {
 		if (!value.isCharacter()) {
 			throw new CodecDecodeException("value is not a character");
 		}

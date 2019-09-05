@@ -29,12 +29,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.mcparkour.unifig.model.array.GsonModelArrayFactory;
 import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
-import net.mcparkour.unifig.model.section.GsonModelSectionFactory;
+import net.mcparkour.unifig.model.object.GsonModelObjectFactory;
 import net.mcparkour.unifig.model.value.GsonModelValueFactory;
 
 public class GsonModelConverterFactory extends BasicModelConverterFactory<JsonObject, JsonArray, JsonElement> {
 
 	public GsonModelConverterFactory() {
-		super(new GsonModelSectionFactory(), new GsonModelArrayFactory(), new GsonModelValueFactory());
+		super(new GsonModelObjectFactory(), new GsonModelArrayFactory(), new GsonModelValueFactory());
 	}
 }

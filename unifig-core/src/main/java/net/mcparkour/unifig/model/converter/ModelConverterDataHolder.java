@@ -28,18 +28,18 @@ import java.util.List;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
-import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public interface ModelConverterDataHolder<S, A, V> {
+public interface ModelConverterDataHolder<O, A, V> {
 
-	ModelSectionFactory<S, A, V> getModelSectionFactory();
+	ModelObjectFactory<O, A, V> getModelObjectFactory();
 
-	ModelArrayFactory<S, A, V> getModelArrayFactory();
+	ModelArrayFactory<O, A, V> getModelArrayFactory();
 
-	ModelValueFactory<S, A, V> getModelValueFactory();
+	ModelValueFactory<O, A, V> getModelValueFactory();
 
-	CodecRegistry<S, A, V> getCodecRegistry();
+	CodecRegistry<O, A, V> getCodecRegistry();
 
 	List<FieldCondition> getFieldConditions();
 }

@@ -24,9 +24,9 @@
 
 package net.mcparkour.unifig.model.converter;
 
-public interface ModelConverterFactory<S, A, V> {
+public interface ModelConverterFactory<O, A, V> {
 
-	ModelConverter<S, A, V> createModelConverter();
+	ModelConverter<O, A, V> createModelConverter();
 
-	ModelConverter<S, A, V> createModelConverter(ModelConverterBuilder<S, A, V> builder);
+	ModelConverter<O, A, V> createModelConverter(ModelConverterBuilder<O, A, V> builder);
 }

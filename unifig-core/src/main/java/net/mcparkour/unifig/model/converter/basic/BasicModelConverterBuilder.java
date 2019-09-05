@@ -32,79 +32,79 @@ import net.mcparkour.unifig.condition.FieldCondition;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
-import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public class BasicModelConverterBuilder<S, A, V> implements ModelConverterBuilder<S, A, V> {
+public class BasicModelConverterBuilder<O, A, V> implements ModelConverterBuilder<O, A, V> {
 
-	private ModelSectionFactory<S, A, V> modelSectionFactory;
-	private ModelArrayFactory<S, A, V> modelArrayFactory;
-	private ModelValueFactory<S, A, V> modelValueFactory;
-	private CodecRegistry<S, A, V> codecRegistry;
+	private ModelObjectFactory<O, A, V> modelObjectFactory;
+	private ModelArrayFactory<O, A, V> modelArrayFactory;
+	private ModelValueFactory<O, A, V> modelValueFactory;
+	private CodecRegistry<O, A, V> codecRegistry;
 	private List<FieldCondition> fieldConditions = new ArrayList<>();
 
 	@Override
-	public ModelConverterBuilder<S, A, V> modelSectionFactory(ModelSectionFactory<S, A, V> factory) {
-		this.modelSectionFactory = factory;
+	public ModelConverterBuilder<O, A, V> modelObjectFactory(ModelObjectFactory<O, A, V> factory) {
+		this.modelObjectFactory = factory;
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<S, A, V> modelArrayFactory(ModelArrayFactory<S, A, V> factory) {
+	public ModelConverterBuilder<O, A, V> modelArrayFactory(ModelArrayFactory<O, A, V> factory) {
 		this.modelArrayFactory = factory;
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<S, A, V> modelValueFactory(ModelValueFactory<S, A, V> factory) {
+	public ModelConverterBuilder<O, A, V> modelValueFactory(ModelValueFactory<O, A, V> factory) {
 		this.modelValueFactory = factory;
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<S, A, V> codecRegistry(CodecRegistry<S, A, V> registry) {
+	public ModelConverterBuilder<O, A, V> codecRegistry(CodecRegistry<O, A, V> registry) {
 		this.codecRegistry = registry;
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<S, A, V> fieldCondition(FieldCondition fieldCondition) {
+	public ModelConverterBuilder<O, A, V> fieldCondition(FieldCondition fieldCondition) {
 		this.fieldConditions.add(fieldCondition);
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<S, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions) {
+	public ModelConverterBuilder<O, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions) {
 		this.fieldConditions.addAll(fieldConditions);
 		return this;
 	}
 
 	@Override
-	public ModelConverter<S, A, V> build() {
-		Objects.requireNonNull(this.modelSectionFactory);
+	public ModelConverter<O, A, V> build() {
+		Objects.requireNonNull(this.modelObjectFactory);
 		Objects.requireNonNull(this.modelArrayFactory);
 		Objects.requireNonNull(this.modelValueFactory);
 		Objects.requireNonNull(this.codecRegistry);
-		return new BasicModelConverter<>(this.modelSectionFactory, this.modelArrayFactory, this.modelValueFactory, this.codecRegistry, this.fieldConditions);
+		return new BasicModelConverter<>(this.modelObjectFactory, this.modelArrayFactory, this.modelValueFactory, this.codecRegistry, this.fieldConditions);
 	}
 
 	@Override
-	public ModelSectionFactory<S, A, V> getModelSectionFactory() {
-		return this.modelSectionFactory;
+	public ModelObjectFactory<O, A, V> getModelObjectFactory() {
+		return this.modelObjectFactory;
 	}
 
 	@Override
-	public ModelArrayFactory<S, A, V> getModelArrayFactory() {
+	public ModelArrayFactory<O, A, V> getModelArrayFactory() {
 		return this.modelArrayFactory;
 	}
 
 	@Override
-	public ModelValueFactory<S, A, V> getModelValueFactory() {
+	public ModelValueFactory<O, A, V> getModelValueFactory() {
 		return this.modelValueFactory;
 	}
 
 	@Override
-	public CodecRegistry<S, A, V> getCodecRegistry() {
+	public CodecRegistry<O, A, V> getCodecRegistry() {
 		return this.codecRegistry;
 	}
 

@@ -26,9 +26,9 @@ package net.mcparkour.unifig.codec.basic;
 
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public class LongCodec<S, A, V> extends AbstractNumberCodec<S, A, V, Long> {
+public class LongCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Long> {
 
-	public LongCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+	public LongCodec(ModelValueFactory<O, A, V> modelValueFactory) {
 		super(modelValueFactory);
 	}
 

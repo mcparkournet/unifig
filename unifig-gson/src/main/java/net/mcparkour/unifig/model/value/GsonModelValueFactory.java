@@ -62,8 +62,8 @@ public class GsonModelValueFactory implements ModelValueFactory<JsonObject, Json
 	}
 
 	@Override
-	public ModelValue<JsonObject, JsonArray, JsonElement> createSectionModelValue(JsonObject section) {
-		return createModelValue(section);
+	public ModelValue<JsonObject, JsonArray, JsonElement> createObjectModelValue(JsonObject object) {
+		return createModelValue(object);
 	}
 
 	@Override

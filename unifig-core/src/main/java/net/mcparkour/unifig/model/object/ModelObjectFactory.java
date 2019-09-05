@@ -22,15 +22,11 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.model.object;
 
-import net.mcparkour.unifig.model.value.ModelValue;
+public interface ModelObjectFactory<O, A, V> {
 
-public interface ModelSection<S, A, V> {
+	ModelObject<O, A, V> createEmptyModelObject();
 
-	ModelValue<S, A, V> getValue(String key);
-
-	void setValue(String key, ModelValue<S, A, V> value);
-
-	S getSection();
+	ModelObject<O, A, V> createModelObject(O object);
 }

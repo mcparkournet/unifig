@@ -92,6 +92,16 @@ public class GsonModelValue implements ModelValue<JsonObject, JsonArray, JsonEle
 	}
 
 	@Override
+	public JsonObject asObject() {
+		return this.value.getAsJsonObject();
+	}
+
+	@Override
+	public boolean isObject() {
+		return this.value.isJsonObject();
+	}
+
+	@Override
 	public JsonArray asArray() {
 		return this.value.getAsJsonArray();
 	}
@@ -99,16 +109,6 @@ public class GsonModelValue implements ModelValue<JsonObject, JsonArray, JsonEle
 	@Override
 	public boolean isArray() {
 		return this.value.isJsonArray();
-	}
-
-	@Override
-	public JsonObject asSection() {
-		return this.value.getAsJsonObject();
-	}
-
-	@Override
-	public boolean isSection() {
-		return this.value.isJsonObject();
 	}
 
 	@Nullable

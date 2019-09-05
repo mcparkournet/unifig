@@ -37,27 +37,27 @@ import net.mcparkour.unifig.model.array.ModelArray;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
-import net.mcparkour.unifig.model.section.ModelSection;
-import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import net.mcparkour.unifig.util.reflection.Reflections;
 import org.jetbrains.annotations.Nullable;
 
-public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
+public class BasicModelConverter<O, A, V> implements ModelConverter<O, A, V> {
 
-	private ModelSectionFactory<S, A, V> modelSectionFactory;
-	private ModelArrayFactory<S, A, V> modelArrayFactory;
-	private ModelValueFactory<S, A, V> modelValueFactory;
-	private CodecRegistry<S, A, V> codecRegistry;
+	private ModelObjectFactory<O, A, V> modelObjectFactory;
+	private ModelArrayFactory<O, A, V> modelArrayFactory;
+	private ModelValueFactory<O, A, V> modelValueFactory;
+	private CodecRegistry<O, A, V> codecRegistry;
 	private List<? extends FieldCondition> fieldConditions;
 
-	public static <S, A, V> ModelConverterBuilder<S, A, V> builder() {
+	public static <O, A, V> ModelConverterBuilder<O, A, V> builder() {
 		return new BasicModelConverterBuilder<>();
 	}
 
-	public BasicModelConverter(ModelSectionFactory<S, A, V> modelSectionFactory, ModelArrayFactory<S, A, V> modelArrayFactory, ModelValueFactory<S, A, V> modelValueFactory, CodecRegistry<S, A, V> codecRegistry, List<? extends FieldCondition> fieldConditions) {
-		this.modelSectionFactory = modelSectionFactory;
+	public BasicModelConverter(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory, CodecRegistry<O, A, V> codecRegistry, List<? extends FieldCondition> fieldConditions) {
+		this.modelObjectFactory = modelObjectFactory;
 		this.modelArrayFactory = modelArrayFactory;
 		this.modelValueFactory = modelValueFactory;
 		this.codecRegistry = codecRegistry;
@@ -65,8 +65,8 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 	}
 
 	@Override
-	public ModelSection<S, A, V> fromConfiguration(Object configuration) {
-		ModelSection<S, A, V> section = this.modelSectionFactory.createEmptyModelSection();
+	public ModelObject<O, A, V> fromConfiguration(Object configuration) {
+		ModelObject<O, A, V> object = this.modelObjectFactory.createEmptyModelObject();
 		Class<?> configurationType = configuration.getClass();
 		Field[] fields = configurationType.getDeclaredFields();
 		for (Field field : fields) {
@@ -75,37 +75,37 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 				String fieldName = getFieldName(field);
 				Class<?> fieldType = field.getType();
 				Object fieldValue = Reflections.getFieldValue(field, configuration);
-				ModelValue<S, A, V> value = toModelValue(fieldValue, fieldType);
-				section.setValue(fieldName, value);
+				ModelValue<O, A, V> value = toModelValue(fieldValue, fieldType);
+				object.setValue(fieldName, value);
 			}
 		}
-		return section;
+		return object;
 	}
 
-	private ModelValue<S, A, V> toModelValue(@Nullable Object object, Class<?> type) {
+	private ModelValue<O, A, V> toModelValue(@Nullable Object object, Class<?> type) {
 		if (object == null) {
 			return this.modelValueFactory.createNullModelValue();
 		}
 		if (List.class.isAssignableFrom(type)) {
 			List<?> collection = (List<?>) object;
-			ModelArray<S, A, V> array = this.modelArrayFactory.createEmptyModelArray();
+			ModelArray<O, A, V> array = this.modelArrayFactory.createEmptyModelArray();
 			for (Object element : collection) {
 				Class<?> elementType = element.getClass();
-				ModelValue<S, A, V> elementValue = toModelValue(element, elementType);
+				ModelValue<O, A, V> elementValue = toModelValue(element, elementType);
 				array.addValue(elementValue);
 			}
 			return this.modelValueFactory.createArrayModelValue(array);
 		}
-		Codec<S, A, V, Object> codec = getObjectCodec(type);
+		Codec<O, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
-			ModelSection<S, A, V> section = fromConfiguration(object);
-			return this.modelValueFactory.createSectionModelValue(section);
+			ModelObject<O, A, V> modelObject = fromConfiguration(object);
+			return this.modelValueFactory.createObjectModelValue(modelObject);
 		}
 		return codec.encode(object);
 	}
 
 	@Override
-	public <T> T toConfiguration(ModelSection<S, A, V> section, Class<T> configurationType) {
+	public <T> T toConfiguration(ModelObject<O, A, V> object, Class<T> configurationType) {
 		Constructor<T> constructor = Reflections.getSerializationConstructor(configurationType);
 		T instance = Reflections.newInstance(constructor);
 		Field[] fields = configurationType.getDeclaredFields();
@@ -114,9 +114,9 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 				field.trySetAccessible();
 				String fieldName = getFieldName(field);
 				Class<?> fieldType = field.getType();
-				ModelValue<S, A, V> value = section.getValue(fieldName);
-				Object object = toObject(value, fieldType, field);
-				Reflections.setFieldValue(field, instance, object);
+				ModelValue<O, A, V> value = object.getValue(fieldName);
+				Object rawObject = toObject(value, fieldType, field);
+				Reflections.setFieldValue(field, instance, rawObject);
 			}
 		}
 		return instance;
@@ -136,62 +136,62 @@ public class BasicModelConverter<S, A, V> implements ModelConverter<S, A, V> {
 	}
 
 	@Nullable
-	private Object toObject(ModelValue<S, A, V> value, Class<?> type, Field field) {
+	private Object toObject(ModelValue<O, A, V> value, Class<?> type, Field field) {
 		if (value.isNull()) {
 			return null;
 		}
 		if (value.isArray()) {
 			A rawArray = value.asArray();
-			ModelArray<S, A, V> array = this.modelArrayFactory.createModelArray(rawArray);
+			ModelArray<O, A, V> array = this.modelArrayFactory.createModelArray(rawArray);
 			int size = array.getSize();
 			List<Object> list = new ArrayList<>(size);
 			List<Class<?>> genericTypes = Reflections.getGenericTypes(field);
 			Class<?> genericType = genericTypes.get(0);
-			for (ModelValue<S, A, V> elementValue : array) {
+			for (ModelValue<O, A, V> elementValue : array) {
 				Object object = toObject(elementValue, genericType, field);
 				list.add(object);
 			}
 			return list;
 		}
-		Codec<S, A, V, Object> codec = getObjectCodec(type);
+		Codec<O, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
-			if (!value.isSection()) {
+			if (!value.isObject()) {
 				throw new CodecNotFoundException(type);
 			}
-			S rawSection = value.asSection();
-			ModelSection<S, A, V> section = this.modelSectionFactory.createModelSection(rawSection);
-			return toConfiguration(section, type);
+			O rawObject = value.asObject();
+			ModelObject<O, A, V> object = this.modelObjectFactory.createModelObject(rawObject);
+			return toConfiguration(object, type);
 		}
 		return codec.decode(value, type);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Nullable
-	private Codec<S, A, V, Object> getObjectCodec(Class<?> type) {
-		Codec<S, A, V, ?> codec = this.codecRegistry.get(type);
+	private Codec<O, A, V, Object> getObjectCodec(Class<?> type) {
+		Codec<O, A, V, ?> codec = this.codecRegistry.get(type);
 		if (codec == null) {
 			return null;
 		}
-		return (Codec<S, A, V, Object>) codec;
+		return (Codec<O, A, V, Object>) codec;
 	}
 
 	@Override
-	public ModelSectionFactory<S, A, V> getModelSectionFactory() {
-		return this.modelSectionFactory;
+	public ModelObjectFactory<O, A, V> getModelObjectFactory() {
+		return this.modelObjectFactory;
 	}
 
 	@Override
-	public ModelArrayFactory<S, A, V> getModelArrayFactory() {
+	public ModelArrayFactory<O, A, V> getModelArrayFactory() {
 		return this.modelArrayFactory;
 	}
 
 	@Override
-	public ModelValueFactory<S, A, V> getModelValueFactory() {
+	public ModelValueFactory<O, A, V> getModelValueFactory() {
 		return this.modelValueFactory;
 	}
 
 	@Override
-	public CodecRegistry<S, A, V> getCodecRegistry() {
+	public CodecRegistry<O, A, V> getCodecRegistry() {
 		return this.codecRegistry;
 	}
 

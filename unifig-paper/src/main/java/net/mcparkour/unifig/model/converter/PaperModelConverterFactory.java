@@ -28,12 +28,12 @@ import java.util.List;
 import java.util.Map;
 import net.mcparkour.unifig.model.array.PaperModelArrayFactory;
 import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
-import net.mcparkour.unifig.model.section.PaperModelSectionFactory;
+import net.mcparkour.unifig.model.object.PaperModelObjectFactory;
 import net.mcparkour.unifig.model.value.PaperModelValueFactory;
 
 public class PaperModelConverterFactory extends BasicModelConverterFactory<Map<String, Object>, List<Object>, Object> {
 
 	public PaperModelConverterFactory() {
-		super(new PaperModelSectionFactory(), new PaperModelArrayFactory(), new PaperModelValueFactory());
+		super(new PaperModelObjectFactory(), new PaperModelArrayFactory(), new PaperModelValueFactory());
 	}
 }

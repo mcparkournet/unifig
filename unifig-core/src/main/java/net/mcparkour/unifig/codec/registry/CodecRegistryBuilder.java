@@ -29,23 +29,23 @@ import java.util.Map;
 import java.util.Set;
 import net.mcparkour.unifig.codec.Codec;
 
-public interface CodecRegistryBuilder<S, A, V> extends CodecRegistryDataHolder<S, A, V> {
+public interface CodecRegistryBuilder<O, A, V> extends CodecRegistryDataHolder<O, A, V> {
 
-	default CodecRegistryBuilder<S, A, V> with(CodecRegistryDataHolder<S, A, V> registry) {
-		Set<Map.Entry<Class<?>, Codec<S, A, V, ?>>> codecs = registry.getCodecs();
+	default CodecRegistryBuilder<O, A, V> with(CodecRegistryDataHolder<O, A, V> registry) {
+		Set<Map.Entry<Class<?>, Codec<O, A, V, ?>>> codecs = registry.getCodecs();
 		return codecs(codecs);
 	}
 
-	CodecRegistryBuilder<S, A, V> codec(Codec<S, A, V, ?> codec, Class<?> type);
+	CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, Class<?> type);
 
-	default CodecRegistryBuilder<S, A, V> codec(Codec<S, A, V, ?> codec, Class<?>... types) {
+	default CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, Class<?>... types) {
 		List<Class<?>> typesList = List.of(types);
 		return codec(codec, typesList);
 	}
 
-	CodecRegistryBuilder<S, A, V> codec(Codec<S, A, V, ?> codec, List<Class<?>> types);
+	CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, List<Class<?>> types);
 
-	CodecRegistryBuilder<S, A, V> codecs(Set<? extends Map.Entry<Class<?>, Codec<S, A, V, ?>>> codecs);
+	CodecRegistryBuilder<O, A, V> codecs(Set<? extends Map.Entry<Class<?>, Codec<O, A, V, ?>>> codecs);
 
-	CodecRegistry<S, A, V> build();
+	CodecRegistry<O, A, V> build();
 }

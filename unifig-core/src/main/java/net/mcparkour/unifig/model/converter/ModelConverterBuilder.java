@@ -28,40 +28,40 @@ import java.util.List;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
-import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public interface ModelConverterBuilder<S, A, V> extends ModelConverterDataHolder<S, A, V> {
+public interface ModelConverterBuilder<O, A, V> extends ModelConverterDataHolder<O, A, V> {
 
-	default ModelConverterBuilder<S, A, V> with(ModelConverterDataHolder<S, A, V> store) {
-		ModelSectionFactory<S, A, V> sectionFactory = store.getModelSectionFactory();
-		ModelArrayFactory<S, A, V> arrayFactory = store.getModelArrayFactory();
-		ModelValueFactory<S, A, V> valueFactory = store.getModelValueFactory();
-		CodecRegistry<S, A, V> codecRegistry = store.getCodecRegistry();
+	default ModelConverterBuilder<O, A, V> with(ModelConverterDataHolder<O, A, V> store) {
+		ModelObjectFactory<O, A, V> objectFactory = store.getModelObjectFactory();
+		ModelArrayFactory<O, A, V> arrayFactory = store.getModelArrayFactory();
+		ModelValueFactory<O, A, V> valueFactory = store.getModelValueFactory();
+		CodecRegistry<O, A, V> codecRegistry = store.getCodecRegistry();
 		List<FieldCondition> fieldConditions = store.getFieldConditions();
-		return modelSectionFactory(sectionFactory)
+		return modelObjectFactory(objectFactory)
 			.modelArrayFactory(arrayFactory)
 			.modelValueFactory(valueFactory)
 			.codecRegistry(codecRegistry)
 			.fieldConditions(fieldConditions);
 	}
 
-	ModelConverterBuilder<S, A, V> modelSectionFactory(ModelSectionFactory<S, A, V> factory);
+	ModelConverterBuilder<O, A, V> modelObjectFactory(ModelObjectFactory<O, A, V> factory);
 
-	ModelConverterBuilder<S, A, V> modelArrayFactory(ModelArrayFactory<S, A, V> factory);
+	ModelConverterBuilder<O, A, V> modelArrayFactory(ModelArrayFactory<O, A, V> factory);
 
-	ModelConverterBuilder<S, A, V> modelValueFactory(ModelValueFactory<S, A, V> factory);
+	ModelConverterBuilder<O, A, V> modelValueFactory(ModelValueFactory<O, A, V> factory);
 
-	ModelConverterBuilder<S, A, V> codecRegistry(CodecRegistry<S, A, V> registry);
+	ModelConverterBuilder<O, A, V> codecRegistry(CodecRegistry<O, A, V> registry);
 
-	ModelConverterBuilder<S, A, V> fieldCondition(FieldCondition fieldCondition);
+	ModelConverterBuilder<O, A, V> fieldCondition(FieldCondition fieldCondition);
 
-	default ModelConverterBuilder<S, A, V> fieldConditions(FieldCondition... fieldConditions) {
+	default ModelConverterBuilder<O, A, V> fieldConditions(FieldCondition... fieldConditions) {
 		List<FieldCondition> fieldConditionList = List.of(fieldConditions);
 		return fieldConditions(fieldConditionList);
 	}
 
-	ModelConverterBuilder<S, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions);
+	ModelConverterBuilder<O, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions);
 
-	ModelConverter<S, A, V> build();
+	ModelConverter<O, A, V> build();
 }

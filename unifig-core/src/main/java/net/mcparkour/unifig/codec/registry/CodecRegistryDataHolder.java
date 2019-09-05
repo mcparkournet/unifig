@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import net.mcparkour.unifig.codec.Codec;
 
-public interface CodecRegistryDataHolder<S, A, V> {
+public interface CodecRegistryDataHolder<O, A, V> {
 
-	Set<Map.Entry<Class<?>, Codec<S, A, V, ?>>> getCodecs();
+	Set<Map.Entry<Class<?>, Codec<O, A, V, ?>>> getCodecs();
 }

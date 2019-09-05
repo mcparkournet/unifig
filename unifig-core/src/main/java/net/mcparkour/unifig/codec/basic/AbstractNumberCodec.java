@@ -30,22 +30,22 @@ import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractNumberCodec<S, A, V, T extends Number> implements Codec<S, A, V, T> {
+public abstract class AbstractNumberCodec<O, A, V, T extends Number> implements Codec<O, A, V, T> {
 
-	private ModelValueFactory<S, A, V> modelValueFactory;
+	private ModelValueFactory<O, A, V> modelValueFactory;
 
-	public AbstractNumberCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+	public AbstractNumberCodec(ModelValueFactory<O, A, V> modelValueFactory) {
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelValue<S, A, V> encode(Number object) {
+	public ModelValue<O, A, V> encode(Number object) {
 		return this.modelValueFactory.createNumberModelValue(object);
 	}
 
 	@Nullable
 	@Override
-	public T decode(ModelValue<S, A, V> value, Class<? extends T> type) {
+	public T decode(ModelValue<O, A, V> value, Class<? extends T> type) {
 		if (!value.isNumber()) {
 			throw new CodecDecodeException("value is not a number");
 		}

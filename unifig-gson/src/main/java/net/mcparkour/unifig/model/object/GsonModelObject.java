@@ -22,22 +22,36 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.model.object;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.mcparkour.unifig.model.value.GsonModelValue;
+import net.mcparkour.unifig.model.value.ModelValue;
 
-public class PaperModelSectionFactory implements ModelSectionFactory<Map<String, Object>, List<Object>, Object> {
+public class GsonModelObject implements ModelObject<JsonObject, JsonArray, JsonElement> {
 
-	@Override
-	public ModelSection<Map<String, Object>, List<Object>, Object> createEmptyModelSection() {
-		Map<String, Object> section = new LinkedHashMap<>();
-		return new PaperModelSection(section);
+	private JsonObject object;
+
+	public GsonModelObject(JsonObject object) {
+		this.object = object;
 	}
 
 	@Override
-	public ModelSection<Map<String, Object>, List<Object>, Object> createModelSection(Map<String, Object> section) {
-		return new PaperModelSection(section);
+	public ModelValue<JsonObject, JsonArray, JsonElement> getValue(String key) {
+		JsonElement value = this.object.get(key);
+		return new GsonModelValue(value);
+	}
+
+	@Override
+	public void setValue(String key, ModelValue<JsonObject, JsonArray, JsonElement> value) {
+		JsonElement rawValue = value.getValue();
+		this.object.add(key, rawValue);
+	}
+
+	@Override
+	public JsonObject getObject() {
+		return this.object;
 	}
 }

@@ -30,22 +30,22 @@ import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class BooleanCodec<S, A, V> implements Codec<S, A, V, Boolean> {
+public class BooleanCodec<O, A, V> implements Codec<O, A, V, Boolean> {
 
-	private ModelValueFactory<S, A, V> modelValueFactory;
+	private ModelValueFactory<O, A, V> modelValueFactory;
 
-	public BooleanCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+	public BooleanCodec(ModelValueFactory<O, A, V> modelValueFactory) {
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelValue<S, A, V> encode(Boolean object) {
+	public ModelValue<O, A, V> encode(Boolean object) {
 		return this.modelValueFactory.createBooleanModelValue(object);
 	}
 
 	@Nullable
 	@Override
-	public Boolean decode(ModelValue<S, A, V> value, Class<? extends Boolean> type) {
+	public Boolean decode(ModelValue<O, A, V> value, Class<? extends Boolean> type) {
 		if (!value.isBoolean()) {
 			throw new CodecDecodeException("Value is not a boolean");
 		}

@@ -26,17 +26,17 @@ package net.mcparkour.unifig.model.array;
 
 import net.mcparkour.unifig.model.value.ModelValue;
 
-public interface ModelArray<S, A, V> extends Iterable<ModelValue<S, A, V>> {
+public interface ModelArray<O, A, V> extends Iterable<ModelValue<O, A, V>> {
 
-	void addValue(ModelValue<S, A, V> value);
+	void addValue(ModelValue<O, A, V> value);
 
-	void removeValue(ModelValue<S, A, V> value);
+	void removeValue(ModelValue<O, A, V> value);
 
 	void removeValue(int index);
 
-	ModelValue<S, A, V> getValue(int index);
+	ModelValue<O, A, V> getValue(int index);
 
-	void setValue(int index, ModelValue<S, A, V> value);
+	void setValue(int index, ModelValue<O, A, V> value);
 
 	int getSize();
 

@@ -22,11 +22,35 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.model.object;
 
-public interface ModelSectionFactory<S, A, V> {
+import java.util.List;
+import java.util.Map;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.PaperModelValue;
 
-	ModelSection<S, A, V> createEmptyModelSection();
+public class PaperModelObject implements ModelObject<Map<String, Object>, List<Object>, Object> {
 
-	ModelSection<S, A, V> createModelSection(S section);
+	private Map<String, Object> object;
+
+	public PaperModelObject(Map<String, Object> object) {
+		this.object = object;
+	}
+
+	@Override
+	public ModelValue<Map<String, Object>, List<Object>, Object> getValue(String key) {
+		Object value = this.object.get(key);
+		return new PaperModelValue(value);
+	}
+
+	@Override
+	public void setValue(String key, ModelValue<Map<String, Object>, List<Object>, Object> value) {
+		Object rawValue = value.getValue();
+		this.object.put(key, rawValue);
+	}
+
+	@Override
+	public Map<String, Object> getObject() {
+		return this.object;
+	}
 }

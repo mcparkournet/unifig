@@ -42,31 +42,31 @@ import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.converter.ModelConverter;
 import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
 import net.mcparkour.unifig.model.converter.ModelConverterFactory;
-import net.mcparkour.unifig.model.section.ModelSectionFactory;
+import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactory<S, A, V> {
+public class BasicModelConverterFactory<O, A, V> implements ModelConverterFactory<O, A, V> {
 
-	private ModelSectionFactory<S, A, V> modelSectionFactory;
-	private ModelArrayFactory<S, A, V> modelArrayFactory;
-	private ModelValueFactory<S, A, V> modelValueFactory;
+	private ModelObjectFactory<O, A, V> modelObjectFactory;
+	private ModelArrayFactory<O, A, V> modelArrayFactory;
+	private ModelValueFactory<O, A, V> modelValueFactory;
 
-	public BasicModelConverterFactory(ModelSectionFactory<S, A, V> modelSectionFactory, ModelArrayFactory<S, A, V> modelArrayFactory, ModelValueFactory<S, A, V> modelValueFactory) {
-		this.modelSectionFactory = modelSectionFactory;
+	public BasicModelConverterFactory(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory) {
+		this.modelObjectFactory = modelObjectFactory;
 		this.modelArrayFactory = modelArrayFactory;
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelConverter<S, A, V> createModelConverter() {
+	public ModelConverter<O, A, V> createModelConverter() {
 		return createModelConverterBuilder()
 			.build();
 	}
 
 	@Override
-	public ModelConverter<S, A, V> createModelConverter(ModelConverterBuilder<S, A, V> builder) {
-		ModelConverterBuilder<S, A, V> modelConverterBuilder = createModelConverterBuilder();
-		CodecRegistry<S, A, V> codecRegistry = BasicCodecRegistry.<S, A, V>builder()
+	public ModelConverter<O, A, V> createModelConverter(ModelConverterBuilder<O, A, V> builder) {
+		ModelConverterBuilder<O, A, V> modelConverterBuilder = createModelConverterBuilder();
+		CodecRegistry<O, A, V> codecRegistry = BasicCodecRegistry.<O, A, V>builder()
 			.with(builder.getCodecRegistry())
 			.with(modelConverterBuilder.getCodecRegistry())
 			.build();
@@ -76,17 +76,17 @@ public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactor
 			.build();
 	}
 
-	private ModelConverterBuilder<S, A, V> createModelConverterBuilder() {
-		return BasicModelConverter.<S, A, V>builder()
-			.modelSectionFactory(this.modelSectionFactory)
+	private ModelConverterBuilder<O, A, V> createModelConverterBuilder() {
+		return BasicModelConverter.<O, A, V>builder()
+			.modelObjectFactory(this.modelObjectFactory)
 			.modelArrayFactory(this.modelArrayFactory)
 			.modelValueFactory(this.modelValueFactory)
 			.codecRegistry(createCodecRegistry())
 			.fieldConditions(new NonStaticFieldCondition(), new IgnoredAnnotationNotPresentedFieldCondition());
 	}
 
-	private CodecRegistry<S, A, V> createCodecRegistry() {
-		return BasicCodecRegistry.<S, A, V>builder()
+	private CodecRegistry<O, A, V> createCodecRegistry() {
+		return BasicCodecRegistry.<O, A, V>builder()
 			.codec(new BooleanCodec<>(this.modelValueFactory), boolean.class, Boolean.class)
 			.codec(new CharacterCodec<>(this.modelValueFactory), char.class, Character.class)
 			.codec(new ByteCodec<>(this.modelValueFactory), byte.class, Byte.class)
@@ -100,15 +100,15 @@ public class BasicModelConverterFactory<S, A, V> implements ModelConverterFactor
 			.build();
 	}
 
-	public ModelSectionFactory<S, A, V> getModelSectionFactory() {
-		return this.modelSectionFactory;
+	public ModelObjectFactory<O, A, V> getModelObjectFactory() {
+		return this.modelObjectFactory;
 	}
 
-	public ModelArrayFactory<S, A, V> getModelArrayFactory() {
+	public ModelArrayFactory<O, A, V> getModelArrayFactory() {
 		return this.modelArrayFactory;
 	}
 
-	public ModelValueFactory<S, A, V> getModelValueFactory() {
+	public ModelValueFactory<O, A, V> getModelValueFactory() {
 		return this.modelValueFactory;
 	}
 }

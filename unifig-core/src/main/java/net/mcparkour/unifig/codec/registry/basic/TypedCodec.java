@@ -27,21 +27,21 @@ package net.mcparkour.unifig.codec.registry.basic;
 import java.util.Map;
 import net.mcparkour.unifig.codec.Codec;
 
-public class TypedCodec<S, A, V> {
+public class TypedCodec<O, A, V> {
 
 	private Class<?> type;
-	private Codec<S, A, V, ?> codec;
+	private Codec<O, A, V, ?> codec;
 
-	public TypedCodec(Map.Entry<Class<?>, ? extends Codec<S, A, V, ?>> entry) {
+	public TypedCodec(Map.Entry<Class<?>, ? extends Codec<O, A, V, ?>> entry) {
 		this(entry.getKey(), entry.getValue());
 	}
 
-	public TypedCodec(Class<?> type, Codec<S, A, V, ?> codec) {
+	public TypedCodec(Class<?> type, Codec<O, A, V, ?> codec) {
 		this.codec = codec;
 		this.type = type;
 	}
 
-	public Map.Entry<Class<?>, Codec<S, A, V, ?>> toEntry() {
+	public Map.Entry<Class<?>, Codec<O, A, V, ?>> toEntry() {
 		return Map.entry(this.type, this.codec);
 	}
 
@@ -49,7 +49,7 @@ public class TypedCodec<S, A, V> {
 		return this.type;
 	}
 
-	public Codec<S, A, V, ?> getCodec() {
+	public Codec<O, A, V, ?> getCodec() {
 		return this.codec;
 	}
 }

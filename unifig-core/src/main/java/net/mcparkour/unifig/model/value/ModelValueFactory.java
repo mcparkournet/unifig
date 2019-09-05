@@ -25,33 +25,33 @@
 package net.mcparkour.unifig.model.value;
 
 import net.mcparkour.unifig.model.array.ModelArray;
-import net.mcparkour.unifig.model.section.ModelSection;
+import net.mcparkour.unifig.model.object.ModelObject;
 
-public interface ModelValueFactory<S, A, V> {
+public interface ModelValueFactory<O, A, V> {
 
-	ModelValue<S, A, V> createNullModelValue();
+	ModelValue<O, A, V> createNullModelValue();
 
-	ModelValue<S, A, V> createBooleanModelValue(boolean value);
+	ModelValue<O, A, V> createBooleanModelValue(boolean value);
 
-	ModelValue<S, A, V> createCharacterModelValue(char value);
+	ModelValue<O, A, V> createCharacterModelValue(char value);
 
-	ModelValue<S, A, V> createNumberModelValue(Number value);
+	ModelValue<O, A, V> createNumberModelValue(Number value);
 
-	ModelValue<S, A, V> createStringModelValue(String value);
+	ModelValue<O, A, V> createStringModelValue(String value);
 
-	default ModelValue<S, A, V> createSectionModelValue(ModelSection<S, A, V> section) {
-		S rawSection = section.getSection();
-		return createSectionModelValue(rawSection);
+	default ModelValue<O, A, V> createObjectModelValue(ModelObject<O, A, V> object) {
+		O rawObject = object.getObject();
+		return createObjectModelValue(rawObject);
 	}
 
-	ModelValue<S, A, V> createSectionModelValue(S section);
+	ModelValue<O, A, V> createObjectModelValue(O object);
 
-	default ModelValue<S, A, V> createArrayModelValue(ModelArray<S, A, V> array) {
+	default ModelValue<O, A, V> createArrayModelValue(ModelArray<O, A, V> array) {
 		A rawArray = array.getArray();
 		return createArrayModelValue(rawArray);
 	}
 
-	ModelValue<S, A, V> createArrayModelValue(A array);
+	ModelValue<O, A, V> createArrayModelValue(A array);
 
-	ModelValue<S, A, V> createModelValue(V value);
+	ModelValue<O, A, V> createModelValue(V value);
 }

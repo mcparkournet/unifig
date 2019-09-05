@@ -33,16 +33,16 @@ import net.mcparkour.unifig.model.value.ModelValueFactory;
 import net.mcparkour.unifig.util.reflection.Reflections;
 import org.jetbrains.annotations.Nullable;
 
-public class EnumCodec<S, A, V> implements Codec<S, A, V, Enum<?>> {
+public class EnumCodec<O, A, V> implements Codec<O, A, V, Enum<?>> {
 
-	private ModelValueFactory<S, A, V> modelValueFactory;
+	private ModelValueFactory<O, A, V> modelValueFactory;
 
-	public EnumCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+	public EnumCodec(ModelValueFactory<O, A, V> modelValueFactory) {
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelValue<S, A, V> encode(Enum<?> object) {
+	public ModelValue<O, A, V> encode(Enum<?> object) {
 		Class<? extends Enum<?>> type = object.getDeclaringClass();
 		String name = getEnumName(object, type);
 		return this.modelValueFactory.createStringModelValue(name);
@@ -50,7 +50,7 @@ public class EnumCodec<S, A, V> implements Codec<S, A, V, Enum<?>> {
 
 	@Override
 	@Nullable
-	public Enum<?> decode(ModelValue<S, A, V> value, Class<? extends Enum<?>> type) {
+	public Enum<?> decode(ModelValue<O, A, V> value, Class<? extends Enum<?>> type) {
 		Enum<?>[] enumConstants = type.getEnumConstants();
 		String valueString = value.asString();
 		return Arrays.stream(enumConstants)

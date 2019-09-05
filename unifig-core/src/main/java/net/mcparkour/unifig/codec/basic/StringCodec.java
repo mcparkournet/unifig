@@ -30,22 +30,22 @@ import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class StringCodec<S, A, V> implements Codec<S, A, V, String> {
+public class StringCodec<O, A, V> implements Codec<O, A, V, String> {
 
-	private ModelValueFactory<S, A, V> modelValueFactory;
+	private ModelValueFactory<O, A, V> modelValueFactory;
 
-	public StringCodec(ModelValueFactory<S, A, V> modelValueFactory) {
+	public StringCodec(ModelValueFactory<O, A, V> modelValueFactory) {
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelValue<S, A, V> encode(String object) {
+	public ModelValue<O, A, V> encode(String object) {
 		return this.modelValueFactory.createStringModelValue(object);
 	}
 
 	@Nullable
 	@Override
-	public String decode(ModelValue<S, A, V> value, Class<? extends String> type) {
+	public String decode(ModelValue<O, A, V> value, Class<? extends String> type) {
 		if (!value.isString()) {
 			throw new CodecDecodeException("value is not a String");
 		}

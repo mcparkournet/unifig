@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Map;
 import net.mcparkour.unifig.MapYamlConfiguration;
 import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.model.section.ModelSection;
-import net.mcparkour.unifig.model.section.PaperModelSection;
+import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.unifig.model.object.PaperModelObject;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -159,17 +159,17 @@ public class PaperModelConverterTest {
 
 	@Test
 	public void testFromConfiguration() {
-		ModelSection<Map<String, Object>, List<Object>, Object> section = this.modelConverter.fromConfiguration(this.expectedTestConfiguration);
-		Map<String, Object> rawSection = section.getSection();
-		MapYamlConfiguration configuration = new MapYamlConfiguration(rawSection);
+		ModelObject<Map<String, Object>, List<Object>, Object> object = this.modelConverter.fromConfiguration(this.expectedTestConfiguration);
+		Map<String, Object> rawObject = object.getObject();
+		MapYamlConfiguration configuration = new MapYamlConfiguration(rawObject);
 		Assertions.assertEquals(YAML, configuration.saveToString());
 	}
 
 	@Test
 	public void testToConfiguration() {
 		Map<String, Object> map = this.expectedConfiguration.getValues(false);
-		PaperModelSection section = new PaperModelSection(map);
-		TestConfiguration testConfiguration = this.modelConverter.toConfiguration(section, TestConfiguration.class);
+		PaperModelObject object = new PaperModelObject(map);
+		TestConfiguration testConfiguration = this.modelConverter.toConfiguration(object, TestConfiguration.class);
 		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
 	}
 }

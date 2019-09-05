@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.model.object;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class GsonModelSectionFactory implements ModelSectionFactory<JsonObject, JsonArray, JsonElement> {
+public class GsonModelObjectFactory implements ModelObjectFactory<JsonObject, JsonArray, JsonElement> {
 
 	@Override
-	public ModelSection<JsonObject, JsonArray, JsonElement> createEmptyModelSection() {
-		JsonObject section = new JsonObject();
-		return new GsonModelSection(section);
+	public ModelObject<JsonObject, JsonArray, JsonElement> createEmptyModelObject() {
+		JsonObject object = new JsonObject();
+		return new GsonModelObject(object);
 	}
 
 	@Override
-	public ModelSection<JsonObject, JsonArray, JsonElement> createModelSection(JsonObject section) {
-		return new GsonModelSection(section);
+	public ModelObject<JsonObject, JsonArray, JsonElement> createModelObject(JsonObject object) {
+		return new GsonModelObject(object);
 	}
 }

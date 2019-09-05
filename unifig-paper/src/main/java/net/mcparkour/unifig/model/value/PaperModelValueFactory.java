@@ -55,8 +55,8 @@ public class PaperModelValueFactory implements ModelValueFactory<Map<String, Obj
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createSectionModelValue(Map<String, Object> section) {
-		return createModelValue(section);
+	public ModelValue<Map<String, Object>, List<Object>, Object> createObjectModelValue(Map<String, Object> object) {
+		return createModelValue(object);
 	}
 
 	@Override

@@ -22,36 +22,15 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.model.object;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.mcparkour.unifig.model.value.GsonModelValue;
 import net.mcparkour.unifig.model.value.ModelValue;
 
-public class GsonModelSection implements ModelSection<JsonObject, JsonArray, JsonElement> {
+public interface ModelObject<O, A, V> {
 
-	private JsonObject section;
+	ModelValue<O, A, V> getValue(String key);
 
-	public GsonModelSection(JsonObject section) {
-		this.section = section;
-	}
+	void setValue(String key, ModelValue<O, A, V> value);
 
-	@Override
-	public ModelValue<JsonObject, JsonArray, JsonElement> getValue(String key) {
-		JsonElement value = this.section.get(key);
-		return new GsonModelValue(value);
-	}
-
-	@Override
-	public void setValue(String key, ModelValue<JsonObject, JsonArray, JsonElement> value) {
-		JsonElement rawValue = value.getValue();
-		this.section.add(key, rawValue);
-	}
-
-	@Override
-	public JsonObject getSection() {
-		return this.section;
-	}
+	O getObject();
 }

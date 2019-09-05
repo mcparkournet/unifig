@@ -29,8 +29,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.model.section.GsonModelSection;
-import net.mcparkour.unifig.model.section.ModelSection;
+import net.mcparkour.unifig.model.object.GsonModelObject;
+import net.mcparkour.unifig.model.object.ModelObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,14 +53,14 @@ public class GsonModelConverterTest {
 
 	@Test
 	public void testFromConfigurationObject() {
-		ModelSection<JsonObject, JsonArray, JsonElement> jsonObject = this.modelConverter.fromConfiguration(this.expectedTestConfiguration);
-		Assertions.assertEquals(this.expectedJsonObject.toString(), jsonObject.getSection().toString());
+		ModelObject<JsonObject, JsonArray, JsonElement> object = this.modelConverter.fromConfiguration(this.expectedTestConfiguration);
+		Assertions.assertEquals(this.expectedJsonObject.toString(), object.getObject().toString());
 	}
 
 	@Test
 	public void testToConfigurationObject() {
-		GsonModelSection section = new GsonModelSection(this.expectedJsonObject);
-		TestConfiguration testConfiguration = this.modelConverter.toConfiguration(section, TestConfiguration.class);
+		GsonModelObject object = new GsonModelObject(this.expectedJsonObject);
+		TestConfiguration testConfiguration = this.modelConverter.toConfiguration(object, TestConfiguration.class);
 		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
 	}
 }

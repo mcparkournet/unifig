@@ -24,9 +24,9 @@
 
 package net.mcparkour.unifig.model.array;
 
-public interface ModelArrayFactory<S, A, V> {
+public interface ModelArrayFactory<O, A, V> {
 
-	ModelArray<S, A, V> createEmptyModelArray();
+	ModelArray<O, A, V> createEmptyModelArray();
 
-	ModelArray<S, A, V> createModelArray(A array);
+	ModelArray<O, A, V> createModelArray(A array);
 }
