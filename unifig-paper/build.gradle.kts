@@ -1,5 +1,10 @@
 repositories {
-	maven("https://papermc.io/repo/repository/maven-public")
+	maven("https://papermc.io/repo/repository/maven-public") {
+		content {
+			includeGroup("com.destroystokyo.paper")
+			includeGroup("net.md-5")
+		}
+	}
 }
 
 dependencies {
