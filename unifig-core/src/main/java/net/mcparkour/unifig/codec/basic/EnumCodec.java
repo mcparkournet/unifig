@@ -26,11 +26,11 @@ package net.mcparkour.unifig.codec.basic;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import net.mcparkour.common.reflection.Reflections;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
-import net.mcparkour.unifig.util.reflection.Reflections;
 import org.jetbrains.annotations.Nullable;
 
 public class EnumCodec<O, A, V> implements Codec<O, A, V, Enum<?>> {

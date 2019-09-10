@@ -25,8 +25,8 @@
 package net.mcparkour.unifig.condition.basic;
 
 import java.lang.reflect.Field;
+import net.mcparkour.common.reflection.Reflections;
 import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.util.reflection.Reflections;
 
 public class NonStaticFieldCondition implements FieldCondition {
 

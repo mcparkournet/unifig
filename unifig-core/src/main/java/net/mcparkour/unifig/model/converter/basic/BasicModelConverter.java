@@ -28,6 +28,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import net.mcparkour.common.reflection.Reflections;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecNotFoundException;
@@ -41,7 +42,6 @@ import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
-import net.mcparkour.unifig.util.reflection.Reflections;
 import org.jetbrains.annotations.Nullable;
 
 public class BasicModelConverter<O, A, V> implements ModelConverter<O, A, V> {
