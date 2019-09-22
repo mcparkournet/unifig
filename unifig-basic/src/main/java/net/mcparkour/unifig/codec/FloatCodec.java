@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.basic;
+package net.mcparkour.unifig.codec;
 
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 

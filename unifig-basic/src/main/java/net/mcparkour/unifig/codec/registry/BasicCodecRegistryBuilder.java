@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry.basic;
+package net.mcparkour.unifig.codec.registry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +30,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
 
 public class BasicCodecRegistryBuilder<O, A, V> implements CodecRegistryBuilder<O, A, V> {
 

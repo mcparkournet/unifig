@@ -27,7 +27,6 @@ package net.mcparkour.unifig.model.converter;
 import java.util.List;
 import java.util.Map;
 import net.mcparkour.unifig.model.array.PaperModelArrayFactory;
-import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
 import net.mcparkour.unifig.model.object.PaperModelObjectFactory;
 import net.mcparkour.unifig.model.value.PaperModelValueFactory;
 

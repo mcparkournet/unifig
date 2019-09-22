@@ -8,8 +8,8 @@ repositories {
 }
 
 dependencies {
-	api(project(":unifig-core"))
+	api(project(":unifig-basic"))
 	compileOnly("com.destroystokyo.paper:paper-api:1.14.4-R0.1-SNAPSHOT")
+	testImplementation(testFixtures(project(":unifig-basic")))
 	testImplementation("com.destroystokyo.paper:paper-api:1.14.4-R0.1-SNAPSHOT")
-	testImplementation(testFixtures(project(":unifig-core")))
 }

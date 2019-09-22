@@ -22,33 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.basic;
+package net.mcparkour.unifig.codec;
 
-import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.codec.CodecDecodeException;
-import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
-import org.jetbrains.annotations.Nullable;
 
-public class CharacterCodec<O, A, V> implements Codec<O, A, V, Character> {
+public class LongCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Long> {
 
-	private ModelValueFactory<O, A, V> modelValueFactory;
-
-	public CharacterCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		this.modelValueFactory = modelValueFactory;
+	public LongCodec(ModelValueFactory<O, A, V> modelValueFactory) {
+		super(modelValueFactory);
 	}
 
 	@Override
-	public ModelValue<O, A, V> encode(Character object) {
-		return this.modelValueFactory.createCharacterModelValue(object);
-	}
-
-	@Nullable
-	@Override
-	public Character decode(ModelValue<O, A, V> value, Class<? extends Character> type) {
-		if (!value.isCharacter()) {
-			throw new CodecDecodeException("value is not a character");
-		}
-		return value.asCharacter();
+	public Long decode(Number number) {
+		return number.longValue();
 	}
 }

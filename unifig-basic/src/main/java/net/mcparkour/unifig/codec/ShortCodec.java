@@ -22,34 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry.basic;
+package net.mcparkour.unifig.codec;
 
-import java.util.Map;
-import net.mcparkour.unifig.codec.Codec;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public class TypedCodec<O, A, V> {
+public class ShortCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Short> {
 
-	private Class<?> type;
-	private Codec<O, A, V, ?> codec;
-
-	public TypedCodec(Map.Entry<Class<?>, ? extends Codec<O, A, V, ?>> entry) {
-		this(entry.getKey(), entry.getValue());
+	public ShortCodec(ModelValueFactory<O, A, V> modelValueFactory) {
+		super(modelValueFactory);
 	}
 
-	public TypedCodec(Class<?> type, Codec<O, A, V, ?> codec) {
-		this.codec = codec;
-		this.type = type;
-	}
-
-	public Map.Entry<Class<?>, Codec<O, A, V, ?>> toEntry() {
-		return Map.entry(this.type, this.codec);
-	}
-
-	public Class<?> getType() {
-		return this.type;
-	}
-
-	public Codec<O, A, V, ?> getCodec() {
-		return this.codec;
+	@Override
+	public Short decode(Number number) {
+		return number.shortValue();
 	}
 }

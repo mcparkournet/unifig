@@ -22,18 +22,18 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.basic;
+package net.mcparkour.unifig.codec;
 
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public class IntegerCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Integer> {
+public class DoubleCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Double> {
 
-	public IntegerCodec(ModelValueFactory<O, A, V> modelValueFactory) {
+	public DoubleCodec(ModelValueFactory<O, A, V> modelValueFactory) {
 		super(modelValueFactory);
 	}
 
 	@Override
-	public Integer decode(Number number) {
-		return number.intValue();
+	public Double decode(Number number) {
+		return number.doubleValue();
 	}
 }

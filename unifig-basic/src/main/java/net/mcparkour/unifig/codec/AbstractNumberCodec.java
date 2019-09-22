@@ -22,16 +22,34 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.condition.basic;
+package net.mcparkour.unifig.codec;
 
-import java.lang.reflect.Field;
-import net.mcparkour.common.reflection.Reflections;
-import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
+import org.jetbrains.annotations.Nullable;
 
-public class NonStaticFieldCondition implements FieldCondition {
+public abstract class AbstractNumberCodec<O, A, V, T extends Number> implements Codec<O, A, V, T> {
+
+	private ModelValueFactory<O, A, V> modelValueFactory;
+
+	public AbstractNumberCodec(ModelValueFactory<O, A, V> modelValueFactory) {
+		this.modelValueFactory = modelValueFactory;
+	}
 
 	@Override
-	public boolean check(Field field) {
-		return !Reflections.isStatic(field);
+	public ModelValue<O, A, V> encode(Number object) {
+		return this.modelValueFactory.createNumberModelValue(object);
 	}
+
+	@Nullable
+	@Override
+	public T decode(ModelValue<O, A, V> value, Class<? extends T> type) {
+		if (!value.isNumber()) {
+			throw new CodecDecodeException("value is not a number");
+		}
+		Number number = value.asNumber();
+		return decode(number);
+	}
+
+	public abstract T decode(Number number);
 }

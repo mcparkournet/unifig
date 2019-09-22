@@ -22,18 +22,15 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.basic;
+package net.mcparkour.unifig.condition;
 
-import net.mcparkour.unifig.model.value.ModelValueFactory;
+import java.lang.reflect.Field;
+import net.mcparkour.unifig.annotation.Ignored;
 
-public class ShortCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Short> {
-
-	public ShortCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		super(modelValueFactory);
-	}
+public class IgnoredAnnotationNotPresentedFieldCondition implements FieldCondition {
 
 	@Override
-	public Short decode(Number number) {
-		return number.shortValue();
+	public boolean check(Field field) {
+		return !field.isAnnotationPresent(Ignored.class);
 	}
 }

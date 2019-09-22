@@ -22,33 +22,41 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.basic;
+package net.mcparkour.unifig.codec.registry;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.codec.CodecDecodeException;
-import net.mcparkour.unifig.model.value.ModelValue;
-import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class StringCodec<O, A, V> implements Codec<O, A, V, String> {
+public class BasicCodecRegistry<O, A, V> implements CodecRegistry<O, A, V> {
 
-	private ModelValueFactory<O, A, V> modelValueFactory;
+	private List<? extends TypedCodec<O, A, V>> codecs;
 
-	public StringCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		this.modelValueFactory = modelValueFactory;
+	public static <O, A, V> CodecRegistryBuilder<O, A, V> builder() {
+		return new BasicCodecRegistryBuilder<>();
+	}
+
+	public BasicCodecRegistry(List<? extends TypedCodec<O, A, V>> codecs) {
+		this.codecs = codecs;
 	}
 
 	@Override
-	public ModelValue<O, A, V> encode(String object) {
-		return this.modelValueFactory.createStringModelValue(object);
-	}
-
 	@Nullable
+	public Codec<O, A, V, ?> get(Class<?> type) {
+		return this.codecs.stream()
+			.filter(codec -> codec.getType().isAssignableFrom(type))
+			.findFirst()
+			.map(TypedCodec::getCodec)
+			.orElse(null);
+	}
+
 	@Override
-	public String decode(ModelValue<O, A, V> value, Class<? extends String> type) {
-		if (!value.isString()) {
-			throw new CodecDecodeException("value is not a String");
-		}
-		return value.asString();
+	public Set<Map.Entry<Class<?>, Codec<O, A, V, ?>>> getCodecs() {
+		return this.codecs.stream()
+			.map(TypedCodec::toEntry)
+			.collect(Collectors.toUnmodifiableSet());
 	}
 }

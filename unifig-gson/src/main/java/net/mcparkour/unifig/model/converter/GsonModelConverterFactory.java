@@ -28,7 +28,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.mcparkour.unifig.model.array.GsonModelArrayFactory;
-import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
 import net.mcparkour.unifig.model.object.GsonModelObjectFactory;
 import net.mcparkour.unifig.model.value.GsonModelValueFactory;
 

@@ -22,50 +22,33 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.basic;
+package net.mcparkour.unifig.codec;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import net.mcparkour.common.reflection.Reflections;
-import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
+import net.mcparkour.unifig.codec.CodecDecodeException;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class EnumCodec<O, A, V> implements Codec<O, A, V, Enum<?>> {
+public class CharacterCodec<O, A, V> implements Codec<O, A, V, Character> {
 
 	private ModelValueFactory<O, A, V> modelValueFactory;
 
-	public EnumCodec(ModelValueFactory<O, A, V> modelValueFactory) {
+	public CharacterCodec(ModelValueFactory<O, A, V> modelValueFactory) {
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelValue<O, A, V> encode(Enum<?> object) {
-		Class<? extends Enum<?>> type = object.getDeclaringClass();
-		String name = getEnumName(object, type);
-		return this.modelValueFactory.createStringModelValue(name);
+	public ModelValue<O, A, V> encode(Character object) {
+		return this.modelValueFactory.createCharacterModelValue(object);
 	}
 
-	@Override
 	@Nullable
-	public Enum<?> decode(ModelValue<O, A, V> value, Class<? extends Enum<?>> type) {
-		Enum<?>[] enumConstants = type.getEnumConstants();
-		String valueString = value.asString();
-		return Arrays.stream(enumConstants)
-			.filter(enumConstant -> valueString.equals(getEnumName(enumConstant, type)))
-			.findFirst()
-			.orElse(null);
-	}
-
-	private String getEnumName(Enum<?> object, Class<? extends Enum<?>> type) {
-		String name = object.name();
-		Field field = Reflections.getField(type, name);
-		Property property = field.getAnnotation(Property.class);
-		if (property != null) {
-			return property.value();
+	@Override
+	public Character decode(ModelValue<O, A, V> value, Class<? extends Character> type) {
+		if (!value.isCharacter()) {
+			throw new CodecDecodeException("value is not a character");
 		}
-		return name;
+		return value.asCharacter();
 	}
 }

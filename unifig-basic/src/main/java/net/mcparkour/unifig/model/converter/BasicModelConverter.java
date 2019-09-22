@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter.basic;
+package net.mcparkour.unifig.model.converter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -36,8 +36,6 @@ import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
 import net.mcparkour.unifig.model.array.ModelArray;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
-import net.mcparkour.unifig.model.converter.ModelConverter;
-import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
 import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValue;

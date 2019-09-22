@@ -22,16 +22,33 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.condition.basic;
+package net.mcparkour.unifig.codec;
 
-import java.lang.reflect.Field;
-import net.mcparkour.unifig.annotation.Ignored;
-import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.codec.Codec;
+import net.mcparkour.unifig.codec.CodecDecodeException;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
+import org.jetbrains.annotations.Nullable;
 
-public class IgnoredAnnotationNotPresentedFieldCondition implements FieldCondition {
+public class BooleanCodec<O, A, V> implements Codec<O, A, V, Boolean> {
+
+	private ModelValueFactory<O, A, V> modelValueFactory;
+
+	public BooleanCodec(ModelValueFactory<O, A, V> modelValueFactory) {
+		this.modelValueFactory = modelValueFactory;
+	}
 
 	@Override
-	public boolean check(Field field) {
-		return !field.isAnnotationPresent(Ignored.class);
+	public ModelValue<O, A, V> encode(Boolean object) {
+		return this.modelValueFactory.createBooleanModelValue(object);
+	}
+
+	@Nullable
+	@Override
+	public Boolean decode(ModelValue<O, A, V> value, Class<? extends Boolean> type) {
+		if (!value.isBoolean()) {
+			throw new CodecDecodeException("Value is not a boolean");
+		}
+		return value.asBoolean();
 	}
 }

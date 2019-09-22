@@ -22,26 +22,23 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter.basic;
+package net.mcparkour.unifig.model.converter;
 
-import net.mcparkour.unifig.codec.basic.BooleanCodec;
-import net.mcparkour.unifig.codec.basic.ByteCodec;
-import net.mcparkour.unifig.codec.basic.CharacterCodec;
-import net.mcparkour.unifig.codec.basic.DoubleCodec;
-import net.mcparkour.unifig.codec.basic.EnumCodec;
-import net.mcparkour.unifig.codec.basic.FloatCodec;
-import net.mcparkour.unifig.codec.basic.IntegerCodec;
-import net.mcparkour.unifig.codec.basic.LongCodec;
-import net.mcparkour.unifig.codec.basic.ShortCodec;
-import net.mcparkour.unifig.codec.basic.StringCodec;
+import net.mcparkour.unifig.codec.BooleanCodec;
+import net.mcparkour.unifig.codec.ByteCodec;
+import net.mcparkour.unifig.codec.CharacterCodec;
+import net.mcparkour.unifig.codec.DoubleCodec;
+import net.mcparkour.unifig.codec.EnumCodec;
+import net.mcparkour.unifig.codec.FloatCodec;
+import net.mcparkour.unifig.codec.IntegerCodec;
+import net.mcparkour.unifig.codec.LongCodec;
+import net.mcparkour.unifig.codec.ShortCodec;
+import net.mcparkour.unifig.codec.StringCodec;
+import net.mcparkour.unifig.codec.registry.BasicCodecRegistry;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.codec.registry.basic.BasicCodecRegistry;
-import net.mcparkour.unifig.condition.basic.IgnoredAnnotationNotPresentedFieldCondition;
-import net.mcparkour.unifig.condition.basic.NonStaticFieldCondition;
+import net.mcparkour.unifig.condition.IgnoredAnnotationNotPresentedFieldCondition;
+import net.mcparkour.unifig.condition.NonStaticFieldCondition;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
-import net.mcparkour.unifig.model.converter.ModelConverter;
-import net.mcparkour.unifig.model.converter.ModelConverterBuilder;
-import net.mcparkour.unifig.model.converter.ModelConverterFactory;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 

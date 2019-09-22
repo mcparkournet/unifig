@@ -22,43 +22,15 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry.basic;
+package net.mcparkour.unifig.condition;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
-import org.jetbrains.annotations.Nullable;
+import java.lang.reflect.Field;
+import net.mcparkour.common.reflection.Reflections;
 
-public class BasicCodecRegistry<O, A, V> implements CodecRegistry<O, A, V> {
-
-	private List<? extends TypedCodec<O, A, V>> codecs;
-
-	public static <O, A, V> CodecRegistryBuilder<O, A, V> builder() {
-		return new BasicCodecRegistryBuilder<>();
-	}
-
-	public BasicCodecRegistry(List<? extends TypedCodec<O, A, V>> codecs) {
-		this.codecs = codecs;
-	}
+public class NonStaticFieldCondition implements FieldCondition {
 
 	@Override
-	@Nullable
-	public Codec<O, A, V, ?> get(Class<?> type) {
-		return this.codecs.stream()
-			.filter(codec -> codec.getType().isAssignableFrom(type))
-			.findFirst()
-			.map(TypedCodec::getCodec)
-			.orElse(null);
-	}
-
-	@Override
-	public Set<Map.Entry<Class<?>, Codec<O, A, V, ?>>> getCodecs() {
-		return this.codecs.stream()
-			.map(TypedCodec::toEntry)
-			.collect(Collectors.toUnmodifiableSet());
+	public boolean check(Field field) {
+		return !Reflections.isStatic(field);
 	}
 }
