@@ -56,8 +56,7 @@ public class BasicConverterFactory<O, A, V> implements ConverterFactory<O, A, V>
 
 	@Override
 	public Converter<O, A, V> createConverter() {
-		return createModelConverterBuilder()
-			.build();
+		return createModelConverterBuilder().build();
 	}
 
 	@Override
