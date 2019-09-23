@@ -31,9 +31,9 @@ import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public interface ModelConverterBuilder<O, A, V> extends ModelConverterDataHolder<O, A, V> {
+public interface ConverterBuilder<O, A, V> extends ConverterDataHolder<O, A, V> {
 
-	default ModelConverterBuilder<O, A, V> with(ModelConverterDataHolder<O, A, V> store) {
+	default ConverterBuilder<O, A, V> with(ConverterDataHolder<O, A, V> store) {
 		ModelObjectFactory<O, A, V> objectFactory = store.getModelObjectFactory();
 		ModelArrayFactory<O, A, V> arrayFactory = store.getModelArrayFactory();
 		ModelValueFactory<O, A, V> valueFactory = store.getModelValueFactory();
@@ -46,22 +46,22 @@ public interface ModelConverterBuilder<O, A, V> extends ModelConverterDataHolder
 			.fieldConditions(fieldConditions);
 	}
 
-	ModelConverterBuilder<O, A, V> modelObjectFactory(ModelObjectFactory<O, A, V> factory);
+	ConverterBuilder<O, A, V> modelObjectFactory(ModelObjectFactory<O, A, V> factory);
 
-	ModelConverterBuilder<O, A, V> modelArrayFactory(ModelArrayFactory<O, A, V> factory);
+	ConverterBuilder<O, A, V> modelArrayFactory(ModelArrayFactory<O, A, V> factory);
 
-	ModelConverterBuilder<O, A, V> modelValueFactory(ModelValueFactory<O, A, V> factory);
+	ConverterBuilder<O, A, V> modelValueFactory(ModelValueFactory<O, A, V> factory);
 
-	ModelConverterBuilder<O, A, V> codecRegistry(CodecRegistry<O, A, V> registry);
+	ConverterBuilder<O, A, V> codecRegistry(CodecRegistry<O, A, V> registry);
 
-	ModelConverterBuilder<O, A, V> fieldCondition(FieldCondition fieldCondition);
+	ConverterBuilder<O, A, V> fieldCondition(FieldCondition fieldCondition);
 
-	default ModelConverterBuilder<O, A, V> fieldConditions(FieldCondition... fieldConditions) {
+	default ConverterBuilder<O, A, V> fieldConditions(FieldCondition... fieldConditions) {
 		List<FieldCondition> fieldConditionList = List.of(fieldConditions);
 		return fieldConditions(fieldConditionList);
 	}
 
-	ModelConverterBuilder<O, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions);
+	ConverterBuilder<O, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions);
 
-	ModelConverter<O, A, V> build();
+	Converter<O, A, V> build();
 }

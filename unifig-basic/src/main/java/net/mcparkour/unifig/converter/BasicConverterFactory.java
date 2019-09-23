@@ -42,39 +42,39 @@ import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public class BasicModelConverterFactory<O, A, V> implements ModelConverterFactory<O, A, V> {
+public class BasicConverterFactory<O, A, V> implements ConverterFactory<O, A, V> {
 
 	private ModelObjectFactory<O, A, V> modelObjectFactory;
 	private ModelArrayFactory<O, A, V> modelArrayFactory;
 	private ModelValueFactory<O, A, V> modelValueFactory;
 
-	public BasicModelConverterFactory(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory) {
+	public BasicConverterFactory(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory) {
 		this.modelObjectFactory = modelObjectFactory;
 		this.modelArrayFactory = modelArrayFactory;
 		this.modelValueFactory = modelValueFactory;
 	}
 
 	@Override
-	public ModelConverter<O, A, V> createModelConverter() {
+	public Converter<O, A, V> createConverter() {
 		return createModelConverterBuilder()
 			.build();
 	}
 
 	@Override
-	public ModelConverter<O, A, V> createModelConverter(ModelConverterBuilder<O, A, V> builder) {
-		ModelConverterBuilder<O, A, V> modelConverterBuilder = createModelConverterBuilder();
+	public Converter<O, A, V> createConverter(ConverterBuilder<O, A, V> builder) {
+		ConverterBuilder<O, A, V> converterBuilder = createModelConverterBuilder();
 		CodecRegistry<O, A, V> codecRegistry = BasicCodecRegistry.<O, A, V>builder()
 			.with(builder.getCodecRegistry())
-			.with(modelConverterBuilder.getCodecRegistry())
+			.with(converterBuilder.getCodecRegistry())
 			.build();
-		return modelConverterBuilder
+		return converterBuilder
 			.with(builder)
 			.codecRegistry(codecRegistry)
 			.build();
 	}
 
-	private ModelConverterBuilder<O, A, V> createModelConverterBuilder() {
-		return BasicModelConverter.<O, A, V>builder()
+	private ConverterBuilder<O, A, V> createModelConverterBuilder() {
+		return BasicConverter.<O, A, V>builder()
 			.modelObjectFactory(this.modelObjectFactory)
 			.modelArrayFactory(this.modelArrayFactory)
 			.modelValueFactory(this.modelValueFactory)

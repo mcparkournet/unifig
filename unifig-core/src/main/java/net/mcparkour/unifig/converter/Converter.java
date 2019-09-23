@@ -24,9 +24,11 @@
 
 package net.mcparkour.unifig.converter;
 
-public interface ModelConverterFactory<O, A, V> {
+import net.mcparkour.unifig.model.object.ModelObject;
 
-	ModelConverter<O, A, V> createModelConverter();
+public interface Converter<O, A, V> extends ConverterDataHolder<O, A, V> {
 
-	ModelConverter<O, A, V> createModelConverter(ModelConverterBuilder<O, A, V> builder);
+	ModelObject<O, A, V> fromConfiguration(Object configuration);
+
+	<T> T toConfiguration(ModelObject<O, A, V> object, Class<T> configurationType);
 }

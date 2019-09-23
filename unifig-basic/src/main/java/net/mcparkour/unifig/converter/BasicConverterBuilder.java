@@ -33,7 +33,7 @@ import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public class BasicModelConverterBuilder<O, A, V> implements ModelConverterBuilder<O, A, V> {
+public class BasicConverterBuilder<O, A, V> implements ConverterBuilder<O, A, V> {
 
 	private ModelObjectFactory<O, A, V> modelObjectFactory;
 	private ModelArrayFactory<O, A, V> modelArrayFactory;
@@ -42,48 +42,48 @@ public class BasicModelConverterBuilder<O, A, V> implements ModelConverterBuilde
 	private List<FieldCondition> fieldConditions = new ArrayList<>();
 
 	@Override
-	public ModelConverterBuilder<O, A, V> modelObjectFactory(ModelObjectFactory<O, A, V> factory) {
+	public ConverterBuilder<O, A, V> modelObjectFactory(ModelObjectFactory<O, A, V> factory) {
 		this.modelObjectFactory = factory;
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<O, A, V> modelArrayFactory(ModelArrayFactory<O, A, V> factory) {
+	public ConverterBuilder<O, A, V> modelArrayFactory(ModelArrayFactory<O, A, V> factory) {
 		this.modelArrayFactory = factory;
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<O, A, V> modelValueFactory(ModelValueFactory<O, A, V> factory) {
+	public ConverterBuilder<O, A, V> modelValueFactory(ModelValueFactory<O, A, V> factory) {
 		this.modelValueFactory = factory;
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<O, A, V> codecRegistry(CodecRegistry<O, A, V> registry) {
+	public ConverterBuilder<O, A, V> codecRegistry(CodecRegistry<O, A, V> registry) {
 		this.codecRegistry = registry;
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<O, A, V> fieldCondition(FieldCondition fieldCondition) {
+	public ConverterBuilder<O, A, V> fieldCondition(FieldCondition fieldCondition) {
 		this.fieldConditions.add(fieldCondition);
 		return this;
 	}
 
 	@Override
-	public ModelConverterBuilder<O, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions) {
+	public ConverterBuilder<O, A, V> fieldConditions(List<? extends FieldCondition> fieldConditions) {
 		this.fieldConditions.addAll(fieldConditions);
 		return this;
 	}
 
 	@Override
-	public ModelConverter<O, A, V> build() {
+	public Converter<O, A, V> build() {
 		Objects.requireNonNull(this.modelObjectFactory);
 		Objects.requireNonNull(this.modelArrayFactory);
 		Objects.requireNonNull(this.modelValueFactory);
 		Objects.requireNonNull(this.codecRegistry);
-		return new BasicModelConverter<>(this.modelObjectFactory, this.modelArrayFactory, this.modelValueFactory, this.codecRegistry, this.fieldConditions);
+		return new BasicConverter<>(this.modelObjectFactory, this.modelArrayFactory, this.modelValueFactory, this.codecRegistry, this.fieldConditions);
 	}
 
 	@Override

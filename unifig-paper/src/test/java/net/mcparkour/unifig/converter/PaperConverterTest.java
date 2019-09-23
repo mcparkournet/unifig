@@ -40,17 +40,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PaperModelConverterTest {
+public class PaperConverterTest {
 
-	private ModelConverter<Map<String, Object>, List<Object>, Object> converter;
+	private Converter<Map<String, Object>, List<Object>, Object> converter;
 	private ModelWriter<Map<String, Object>, List<Object>, Object> writer;
 	private ModelReader<Map<String, Object>, List<Object>, Object> reader;
 	private String configuration;
 
 	@BeforeEach
 	public void setUp() throws IOException {
-		PaperModelConverterFactory factory = new PaperModelConverterFactory();
-		this.converter = factory.createModelConverter();
+		PaperConverterFactory factory = new PaperConverterFactory();
+		this.converter = factory.createConverter();
 		this.writer = new PaperModelWriter();
 		this.reader = new PaperModelReader();
 		Path configurationPath = Resources.getResourcePath("configuration.yml");

@@ -24,22 +24,9 @@
 
 package net.mcparkour.unifig.converter;
 
-import java.util.List;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.model.array.ModelArrayFactory;
-import net.mcparkour.unifig.model.object.ModelObjectFactory;
-import net.mcparkour.unifig.model.value.ModelValueFactory;
+public interface ConverterFactory<O, A, V> {
 
-public interface ModelConverterDataHolder<O, A, V> {
+	Converter<O, A, V> createConverter();
 
-	ModelObjectFactory<O, A, V> getModelObjectFactory();
-
-	ModelArrayFactory<O, A, V> getModelArrayFactory();
-
-	ModelValueFactory<O, A, V> getModelValueFactory();
-
-	CodecRegistry<O, A, V> getCodecRegistry();
-
-	List<FieldCondition> getFieldConditions();
+	Converter<O, A, V> createConverter(ConverterBuilder<O, A, V> builder);
 }

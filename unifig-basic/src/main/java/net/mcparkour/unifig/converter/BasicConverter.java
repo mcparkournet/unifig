@@ -42,7 +42,7 @@ import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class BasicModelConverter<O, A, V> implements ModelConverter<O, A, V> {
+public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 
 	private ModelObjectFactory<O, A, V> modelObjectFactory;
 	private ModelArrayFactory<O, A, V> modelArrayFactory;
@@ -50,11 +50,11 @@ public class BasicModelConverter<O, A, V> implements ModelConverter<O, A, V> {
 	private CodecRegistry<O, A, V> codecRegistry;
 	private List<? extends FieldCondition> fieldConditions;
 
-	public static <O, A, V> ModelConverterBuilder<O, A, V> builder() {
-		return new BasicModelConverterBuilder<>();
+	public static <O, A, V> ConverterBuilder<O, A, V> builder() {
+		return new BasicConverterBuilder<>();
 	}
 
-	public BasicModelConverter(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory, CodecRegistry<O, A, V> codecRegistry, List<? extends FieldCondition> fieldConditions) {
+	public BasicConverter(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory, CodecRegistry<O, A, V> codecRegistry, List<? extends FieldCondition> fieldConditions) {
 		this.modelObjectFactory = modelObjectFactory;
 		this.modelArrayFactory = modelArrayFactory;
 		this.modelValueFactory = modelValueFactory;

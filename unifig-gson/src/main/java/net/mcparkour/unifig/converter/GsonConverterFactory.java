@@ -24,15 +24,16 @@
 
 package net.mcparkour.unifig.converter;
 
-import java.util.List;
-import java.util.Map;
-import net.mcparkour.unifig.model.array.PaperModelArrayFactory;
-import net.mcparkour.unifig.model.object.PaperModelObjectFactory;
-import net.mcparkour.unifig.model.value.PaperModelValueFactory;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.mcparkour.unifig.model.array.GsonModelArrayFactory;
+import net.mcparkour.unifig.model.object.GsonModelObjectFactory;
+import net.mcparkour.unifig.model.value.GsonModelValueFactory;
 
-public class PaperModelConverterFactory extends BasicModelConverterFactory<Map<String, Object>, List<Object>, Object> {
+public class GsonConverterFactory extends BasicConverterFactory<JsonObject, JsonArray, JsonElement> {
 
-	public PaperModelConverterFactory() {
-		super(new PaperModelObjectFactory(), new PaperModelArrayFactory(), new PaperModelValueFactory());
+	public GsonConverterFactory() {
+		super(new GsonModelObjectFactory(), new GsonModelArrayFactory(), new GsonModelValueFactory());
 	}
 }

@@ -24,11 +24,22 @@
 
 package net.mcparkour.unifig.converter;
 
-import net.mcparkour.unifig.model.object.ModelObject;
+import java.util.List;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.unifig.model.array.ModelArrayFactory;
+import net.mcparkour.unifig.model.object.ModelObjectFactory;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
 
-public interface ModelConverter<O, A, V> extends ModelConverterDataHolder<O, A, V> {
+public interface ConverterDataHolder<O, A, V> {
 
-	ModelObject<O, A, V> fromConfiguration(Object configuration);
+	ModelObjectFactory<O, A, V> getModelObjectFactory();
 
-	<T> T toConfiguration(ModelObject<O, A, V> object, Class<T> configurationType);
+	ModelArrayFactory<O, A, V> getModelArrayFactory();
+
+	ModelValueFactory<O, A, V> getModelValueFactory();
+
+	CodecRegistry<O, A, V> getCodecRegistry();
+
+	List<FieldCondition> getFieldConditions();
 }

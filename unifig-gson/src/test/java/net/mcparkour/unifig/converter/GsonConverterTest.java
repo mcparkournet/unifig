@@ -41,17 +41,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GsonModelConverterTest {
+public class GsonConverterTest {
 
-	private ModelConverter<JsonObject, JsonArray, JsonElement> converter;
+	private Converter<JsonObject, JsonArray, JsonElement> converter;
 	private ModelWriter<JsonObject, JsonArray, JsonElement> writer;
 	private ModelReader<JsonObject, JsonArray, JsonElement> reader;
 	private String configuration;
 
 	@BeforeEach
 	public void setUp() throws IOException {
-		GsonModelConverterFactory factory = new GsonModelConverterFactory();
-		this.converter = factory.createModelConverter();
+		GsonConverterFactory factory = new GsonConverterFactory();
+		this.converter = factory.createConverter();
 		this.writer = new GsonModelWriter();
 		this.reader = new GsonModelReader();
 		Path configurationPath = Resources.getResourcePath("configuration.json");
