@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter;
+package net.mcparkour.unifig.converter;
 
 public interface ModelConverterFactory<O, A, V> {
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter;
+package net.mcparkour.unifig.converter;
 
 import java.util.List;
 import java.util.Map;

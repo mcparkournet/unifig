@@ -22,24 +22,17 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter;
+package net.mcparkour.unifig.converter;
 
 import java.util.List;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.model.array.ModelArrayFactory;
-import net.mcparkour.unifig.model.object.ModelObjectFactory;
-import net.mcparkour.unifig.model.value.ModelValueFactory;
+import java.util.Map;
+import net.mcparkour.unifig.model.array.PaperModelArrayFactory;
+import net.mcparkour.unifig.model.object.PaperModelObjectFactory;
+import net.mcparkour.unifig.model.value.PaperModelValueFactory;
 
-public interface ModelConverterDataHolder<O, A, V> {
+public class PaperModelConverterFactory extends BasicModelConverterFactory<Map<String, Object>, List<Object>, Object> {
 
-	ModelObjectFactory<O, A, V> getModelObjectFactory();
-
-	ModelArrayFactory<O, A, V> getModelArrayFactory();
-
-	ModelValueFactory<O, A, V> getModelValueFactory();
-
-	CodecRegistry<O, A, V> getCodecRegistry();
-
-	List<FieldCondition> getFieldConditions();
+	public PaperModelConverterFactory() {
+		super(new PaperModelObjectFactory(), new PaperModelArrayFactory(), new PaperModelValueFactory());
+	}
 }

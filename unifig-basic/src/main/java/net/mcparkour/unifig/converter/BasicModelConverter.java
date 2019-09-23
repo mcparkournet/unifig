@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter;
+package net.mcparkour.unifig.converter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
