@@ -32,8 +32,6 @@ import net.mcparkour.unifig.model.reader.ModelReader;
 import net.mcparkour.unifig.model.reader.PaperModelReader;
 import net.mcparkour.unifig.model.writer.ModelWriter;
 import net.mcparkour.unifig.model.writer.PaperModelWriter;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -171,32 +169,26 @@ public class PaperModelConverterTest {
 	private ModelConverter<Map<String, Object>, List<Object>, Object> converter;
 	private ModelWriter<Map<String, Object>, List<Object>, Object> writer;
 	private ModelReader<Map<String, Object>, List<Object>, Object> reader;
-	private YamlConfiguration expectedConfiguration;
-	private TestConfiguration expectedTestConfiguration;
 
 	@BeforeEach
-	public void setUp() throws InvalidConfigurationException {
+	public void setUp() {
 		PaperModelConverterFactory factory = new PaperModelConverterFactory();
 		this.converter = factory.createModelConverter();
 		this.writer = new PaperModelWriter();
 		this.reader = new PaperModelReader();
-		this.expectedTestConfiguration = new TestConfiguration();
-		YamlConfiguration configuration = new YamlConfiguration();
-		configuration.loadFromString(YAML);
-		this.expectedConfiguration = configuration;
 	}
 
 	@Test
 	public void testFromConfiguration() {
 		ModelObject<Map<String, Object>, List<Object>, Object> object = this.converter.fromConfiguration(new TestConfiguration());
 		String written = this.writer.write(object);
-		Assertions.assertEquals(this.expectedConfiguration.saveToString(), written);
+		Assertions.assertEquals(YAML, written);
 	}
 
 	@Test
 	public void testToConfiguration() {
 		ModelObject<Map<String, Object>, List<Object>, Object> object = this.reader.read(YAML);
 		TestConfiguration testConfiguration = this.converter.toConfiguration(object, TestConfiguration.class);
-		Assertions.assertEquals(this.expectedTestConfiguration, testConfiguration);
+		Assertions.assertEquals(new TestConfiguration(), testConfiguration);
 	}
 }

@@ -24,18 +24,32 @@
 
 package net.mcparkour.unifig.model.writer;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import net.mcparkour.common.reflection.Reflections;
 import net.mcparkour.unifig.model.object.ModelObject;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class PaperModelWriter implements ModelWriter<Map<String, Object>, List<Object>, Object> {
+
+	private static final Field MAP_FIELD = Reflections.getField(MemorySection.class, "map");
 
 	@Override
 	public String write(ModelObject<Map<String, Object>, List<Object>, Object> object) {
 		Map<String, Object> rawObject = object.getObject();
 		YamlConfiguration configuration = new YamlConfiguration();
-		rawObject.forEach(configuration::set);
+		Map<String, Object> configurationMap = getMap(configuration);
+		configurationMap.putAll(rawObject);
 		return configuration.saveToString();
+	}
+
+	@SuppressWarnings("unchecked")
+	private Map<String, Object> getMap(YamlConfiguration configuration) {
+		Object value = Reflections.getFieldValue(MAP_FIELD, configuration);
+		Objects.requireNonNull(value);
+		return (Map<String, Object>) value;
 	}
 }
