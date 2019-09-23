@@ -24,6 +24,9 @@
 
 package net.mcparkour.unifig.converter;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import net.mcparkour.unifig.TestConfiguration;
@@ -32,162 +35,38 @@ import net.mcparkour.unifig.model.reader.ModelReader;
 import net.mcparkour.unifig.model.reader.PaperModelReader;
 import net.mcparkour.unifig.model.writer.ModelWriter;
 import net.mcparkour.unifig.model.writer.PaperModelWriter;
+import net.mcparkour.unifig.util.Resources;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class PaperModelConverterTest {
 
-	private static final String YAML = "primitiveBoolean: true\n" +
-		"wrapperBoolean: true\n" +
-		"primitiveCharacter: c\n" +
-		"wrapperCharacter: c\n" +
-		"primitiveByte: 1\n" +
-		"wrapperByte: 1\n" +
-		"primitiveShort: 1\n" +
-		"wrapperShort: 1\n" +
-		"primitiveInteger: 1\n" +
-		"wrapperInteger: 1\n" +
-		"primitiveLong: 1\n" +
-		"wrapperLong: 1\n" +
-		"primitiveFloat: 0.1\n" +
-		"wrapperFloat: 0.1\n" +
-		"primitiveDouble: 0.1\n" +
-		"wrapperDouble: 0.1\n" +
-		"string: string\n" +
-		"nullString: null\n" +
-		"bar: foobar\n" +
-		"subConfiguration:\n" +
-		"  primitiveBoolean: true\n" +
-		"  wrapperBoolean: true\n" +
-		"  primitiveCharacter: c\n" +
-		"  wrapperCharacter: c\n" +
-		"  primitiveByte: 1\n" +
-		"  wrapperByte: 1\n" +
-		"  primitiveShort: 1\n" +
-		"  wrapperShort: 1\n" +
-		"  primitiveInteger: 1\n" +
-		"  wrapperInteger: 1\n" +
-		"  primitiveLong: 1\n" +
-		"  wrapperLong: 1\n" +
-		"  primitiveFloat: 0.1\n" +
-		"  wrapperFloat: 0.1\n" +
-		"  primitiveDouble: 0.1\n" +
-		"  wrapperDouble: 0.1\n" +
-		"  string: string\n" +
-		"  nullString: null\n" +
-		"  bar: foobar\n" +
-		"  testEnum: TWO\n" +
-		"  testEnum2: not-four\n" +
-		"  stringList:\n" +
-		"  - '1'\n" +
-		"  - '2'\n" +
-		"  - '3'\n" +
-		"testEnum: TWO\n" +
-		"testEnum2: not-four\n" +
-		"stringList:\n" +
-		"- '1'\n" +
-		"- '2'\n" +
-		"- '3'\n" +
-		"objectList:\n" +
-		"- primitiveBoolean: true\n" +
-		"  wrapperBoolean: true\n" +
-		"  primitiveCharacter: c\n" +
-		"  wrapperCharacter: c\n" +
-		"  primitiveByte: 1\n" +
-		"  wrapperByte: 1\n" +
-		"  primitiveShort: 1\n" +
-		"  wrapperShort: 1\n" +
-		"  primitiveInteger: 1\n" +
-		"  wrapperInteger: 1\n" +
-		"  primitiveLong: 1\n" +
-		"  wrapperLong: 1\n" +
-		"  primitiveFloat: 0.1\n" +
-		"  wrapperFloat: 0.1\n" +
-		"  primitiveDouble: 0.1\n" +
-		"  wrapperDouble: 0.1\n" +
-		"  string: string\n" +
-		"  nullString: null\n" +
-		"  bar: foobar\n" +
-		"  testEnum: TWO\n" +
-		"  testEnum2: not-four\n" +
-		"  stringList:\n" +
-		"  - '1'\n" +
-		"  - '2'\n" +
-		"  - '3'\n" +
-		"- primitiveBoolean: true\n" +
-		"  wrapperBoolean: true\n" +
-		"  primitiveCharacter: c\n" +
-		"  wrapperCharacter: c\n" +
-		"  primitiveByte: 1\n" +
-		"  wrapperByte: 1\n" +
-		"  primitiveShort: 1\n" +
-		"  wrapperShort: 1\n" +
-		"  primitiveInteger: 1\n" +
-		"  wrapperInteger: 1\n" +
-		"  primitiveLong: 1\n" +
-		"  wrapperLong: 1\n" +
-		"  primitiveFloat: 0.1\n" +
-		"  wrapperFloat: 0.1\n" +
-		"  primitiveDouble: 0.1\n" +
-		"  wrapperDouble: 0.1\n" +
-		"  string: string\n" +
-		"  nullString: null\n" +
-		"  bar: foobar\n" +
-		"  testEnum: TWO\n" +
-		"  testEnum2: not-four\n" +
-		"  stringList:\n" +
-		"  - '1'\n" +
-		"  - '2'\n" +
-		"  - '3'\n" +
-		"- primitiveBoolean: true\n" +
-		"  wrapperBoolean: true\n" +
-		"  primitiveCharacter: c\n" +
-		"  wrapperCharacter: c\n" +
-		"  primitiveByte: 1\n" +
-		"  wrapperByte: 1\n" +
-		"  primitiveShort: 1\n" +
-		"  wrapperShort: 1\n" +
-		"  primitiveInteger: 1\n" +
-		"  wrapperInteger: 1\n" +
-		"  primitiveLong: 1\n" +
-		"  wrapperLong: 1\n" +
-		"  primitiveFloat: 0.1\n" +
-		"  wrapperFloat: 0.1\n" +
-		"  primitiveDouble: 0.1\n" +
-		"  wrapperDouble: 0.1\n" +
-		"  string: string\n" +
-		"  nullString: null\n" +
-		"  bar: foobar\n" +
-		"  testEnum: TWO\n" +
-		"  testEnum2: not-four\n" +
-		"  stringList:\n" +
-		"  - '1'\n" +
-		"  - '2'\n" +
-		"  - '3'\n";
-
 	private ModelConverter<Map<String, Object>, List<Object>, Object> converter;
 	private ModelWriter<Map<String, Object>, List<Object>, Object> writer;
 	private ModelReader<Map<String, Object>, List<Object>, Object> reader;
+	private String configuration;
 
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws IOException {
 		PaperModelConverterFactory factory = new PaperModelConverterFactory();
 		this.converter = factory.createModelConverter();
 		this.writer = new PaperModelWriter();
 		this.reader = new PaperModelReader();
+		Path configurationPath = Resources.getResourcePath("configuration.yml");
+		this.configuration = Files.readString(configurationPath);
 	}
 
 	@Test
 	public void testFromConfiguration() {
 		ModelObject<Map<String, Object>, List<Object>, Object> object = this.converter.fromConfiguration(new TestConfiguration());
 		String written = this.writer.write(object);
-		Assertions.assertEquals(YAML, written);
+		Assertions.assertEquals(this.configuration, written);
 	}
 
 	@Test
 	public void testToConfiguration() {
-		ModelObject<Map<String, Object>, List<Object>, Object> object = this.reader.read(YAML);
+		ModelObject<Map<String, Object>, List<Object>, Object> object = this.reader.read(this.configuration);
 		TestConfiguration testConfiguration = this.converter.toConfiguration(object, TestConfiguration.class);
 		Assertions.assertEquals(new TestConfiguration(), testConfiguration);
 	}

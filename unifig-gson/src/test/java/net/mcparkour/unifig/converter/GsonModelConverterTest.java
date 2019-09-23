@@ -24,6 +24,9 @@
 
 package net.mcparkour.unifig.converter;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -33,177 +36,38 @@ import net.mcparkour.unifig.model.reader.GsonModelReader;
 import net.mcparkour.unifig.model.reader.ModelReader;
 import net.mcparkour.unifig.model.writer.GsonModelWriter;
 import net.mcparkour.unifig.model.writer.ModelWriter;
+import net.mcparkour.unifig.util.Resources;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class GsonModelConverterTest {
 
-	private static final String JSON = "{\n" +
-		"  \"primitiveBoolean\": true,\n" +
-		"  \"wrapperBoolean\": true,\n" +
-		"  \"primitiveCharacter\": \"c\",\n" +
-		"  \"wrapperCharacter\": \"c\",\n" +
-		"  \"primitiveByte\": 1,\n" +
-		"  \"wrapperByte\": 1,\n" +
-		"  \"primitiveShort\": 1,\n" +
-		"  \"wrapperShort\": 1,\n" +
-		"  \"primitiveInteger\": 1,\n" +
-		"  \"wrapperInteger\": 1,\n" +
-		"  \"primitiveLong\": 1,\n" +
-		"  \"wrapperLong\": 1,\n" +
-		"  \"primitiveFloat\": 0.1,\n" +
-		"  \"wrapperFloat\": 0.1,\n" +
-		"  \"primitiveDouble\": 0.1,\n" +
-		"  \"wrapperDouble\": 0.1,\n" +
-		"  \"string\": \"string\",\n" +
-		"  \"nullString\": null,\n" +
-		"  \"bar\": \"foobar\",\n" +
-		"  \"subConfiguration\": {\n" +
-		"    \"primitiveBoolean\": true,\n" +
-		"    \"wrapperBoolean\": true,\n" +
-		"    \"primitiveCharacter\": \"c\",\n" +
-		"    \"wrapperCharacter\": \"c\",\n" +
-		"    \"primitiveByte\": 1,\n" +
-		"    \"wrapperByte\": 1,\n" +
-		"    \"primitiveShort\": 1,\n" +
-		"    \"wrapperShort\": 1,\n" +
-		"    \"primitiveInteger\": 1,\n" +
-		"    \"wrapperInteger\": 1,\n" +
-		"    \"primitiveLong\": 1,\n" +
-		"    \"wrapperLong\": 1,\n" +
-		"    \"primitiveFloat\": 0.1,\n" +
-		"    \"wrapperFloat\": 0.1,\n" +
-		"    \"primitiveDouble\": 0.1,\n" +
-		"    \"wrapperDouble\": 0.1,\n" +
-		"    \"string\": \"string\",\n" +
-		"    \"nullString\": null,\n" +
-		"    \"bar\": \"foobar\",\n" +
-		"    \"testEnum\": \"TWO\",\n" +
-		"    \"testEnum2\": \"not-four\",\n" +
-		"    \"stringList\": [\n" +
-		"      \"1\",\n" +
-		"      \"2\",\n" +
-		"      \"3\"\n" +
-		"    ]\n" +
-		"  },\n" +
-		"  \"testEnum\": \"TWO\",\n" +
-		"  \"testEnum2\": \"not-four\",\n" +
-		"  \"stringList\": [\n" +
-		"    \"1\",\n" +
-		"    \"2\",\n" +
-		"    \"3\"\n" +
-		"  ],\n" +
-		"  \"objectList\": [\n" +
-		"    {\n" +
-		"      \"primitiveBoolean\": true,\n" +
-		"      \"wrapperBoolean\": true,\n" +
-		"      \"primitiveCharacter\": \"c\",\n" +
-		"      \"wrapperCharacter\": \"c\",\n" +
-		"      \"primitiveByte\": 1,\n" +
-		"      \"wrapperByte\": 1,\n" +
-		"      \"primitiveShort\": 1,\n" +
-		"      \"wrapperShort\": 1,\n" +
-		"      \"primitiveInteger\": 1,\n" +
-		"      \"wrapperInteger\": 1,\n" +
-		"      \"primitiveLong\": 1,\n" +
-		"      \"wrapperLong\": 1,\n" +
-		"      \"primitiveFloat\": 0.1,\n" +
-		"      \"wrapperFloat\": 0.1,\n" +
-		"      \"primitiveDouble\": 0.1,\n" +
-		"      \"wrapperDouble\": 0.1,\n" +
-		"      \"string\": \"string\",\n" +
-		"      \"nullString\": null,\n" +
-		"      \"bar\": \"foobar\",\n" +
-		"      \"testEnum\": \"TWO\",\n" +
-		"      \"testEnum2\": \"not-four\",\n" +
-		"      \"stringList\": [\n" +
-		"        \"1\",\n" +
-		"        \"2\",\n" +
-		"        \"3\"\n" +
-		"      ]\n" +
-		"    },\n" +
-		"    {\n" +
-		"      \"primitiveBoolean\": true,\n" +
-		"      \"wrapperBoolean\": true,\n" +
-		"      \"primitiveCharacter\": \"c\",\n" +
-		"      \"wrapperCharacter\": \"c\",\n" +
-		"      \"primitiveByte\": 1,\n" +
-		"      \"wrapperByte\": 1,\n" +
-		"      \"primitiveShort\": 1,\n" +
-		"      \"wrapperShort\": 1,\n" +
-		"      \"primitiveInteger\": 1,\n" +
-		"      \"wrapperInteger\": 1,\n" +
-		"      \"primitiveLong\": 1,\n" +
-		"      \"wrapperLong\": 1,\n" +
-		"      \"primitiveFloat\": 0.1,\n" +
-		"      \"wrapperFloat\": 0.1,\n" +
-		"      \"primitiveDouble\": 0.1,\n" +
-		"      \"wrapperDouble\": 0.1,\n" +
-		"      \"string\": \"string\",\n" +
-		"      \"nullString\": null,\n" +
-		"      \"bar\": \"foobar\",\n" +
-		"      \"testEnum\": \"TWO\",\n" +
-		"      \"testEnum2\": \"not-four\",\n" +
-		"      \"stringList\": [\n" +
-		"        \"1\",\n" +
-		"        \"2\",\n" +
-		"        \"3\"\n" +
-		"      ]\n" +
-		"    },\n" +
-		"    {\n" +
-		"      \"primitiveBoolean\": true,\n" +
-		"      \"wrapperBoolean\": true,\n" +
-		"      \"primitiveCharacter\": \"c\",\n" +
-		"      \"wrapperCharacter\": \"c\",\n" +
-		"      \"primitiveByte\": 1,\n" +
-		"      \"wrapperByte\": 1,\n" +
-		"      \"primitiveShort\": 1,\n" +
-		"      \"wrapperShort\": 1,\n" +
-		"      \"primitiveInteger\": 1,\n" +
-		"      \"wrapperInteger\": 1,\n" +
-		"      \"primitiveLong\": 1,\n" +
-		"      \"wrapperLong\": 1,\n" +
-		"      \"primitiveFloat\": 0.1,\n" +
-		"      \"wrapperFloat\": 0.1,\n" +
-		"      \"primitiveDouble\": 0.1,\n" +
-		"      \"wrapperDouble\": 0.1,\n" +
-		"      \"string\": \"string\",\n" +
-		"      \"nullString\": null,\n" +
-		"      \"bar\": \"foobar\",\n" +
-		"      \"testEnum\": \"TWO\",\n" +
-		"      \"testEnum2\": \"not-four\",\n" +
-		"      \"stringList\": [\n" +
-		"        \"1\",\n" +
-		"        \"2\",\n" +
-		"        \"3\"\n" +
-		"      ]\n" +
-		"    }\n" +
-		"  ]\n" +
-		"}";
-
 	private ModelConverter<JsonObject, JsonArray, JsonElement> converter;
 	private ModelWriter<JsonObject, JsonArray, JsonElement> writer;
 	private ModelReader<JsonObject, JsonArray, JsonElement> reader;
+	private String configuration;
 
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws IOException {
 		GsonModelConverterFactory factory = new GsonModelConverterFactory();
 		this.converter = factory.createModelConverter();
 		this.writer = new GsonModelWriter();
 		this.reader = new GsonModelReader();
+		Path configurationPath = Resources.getResourcePath("configuration.json");
+		this.configuration = Files.readString(configurationPath);
 	}
 
 	@Test
 	public void testFromConfigurationObject() {
 		ModelObject<JsonObject, JsonArray, JsonElement> object = this.converter.fromConfiguration(new TestConfiguration());
 		String written = this.writer.write(object);
-		Assertions.assertEquals(JSON, written);
+		Assertions.assertEquals(this.configuration, written);
 	}
 
 	@Test
 	public void testToConfigurationObject() {
-		ModelObject<JsonObject, JsonArray, JsonElement> object = this.reader.read(JSON);
+		ModelObject<JsonObject, JsonArray, JsonElement> object = this.reader.read(this.configuration);
 		TestConfiguration testConfiguration = this.converter.toConfiguration(object, TestConfiguration.class);
 		Assertions.assertEquals(new TestConfiguration(), testConfiguration);
 	}

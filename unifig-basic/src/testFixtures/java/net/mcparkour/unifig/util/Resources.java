@@ -22,25 +22,20 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.writer;
+package net.mcparkour.unifig.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.mcparkour.unifig.model.object.ModelObject;
+import java.net.URL;
+import java.nio.file.Path;
 
-public class GsonModelWriter implements ModelWriter<JsonObject, JsonArray, JsonElement> {
+public final class Resources {
 
-	private Gson gson = new GsonBuilder()
-		.setPrettyPrinting()
-		.serializeNulls()
-		.create();
+	private Resources() {
+		throw new UnsupportedOperationException("Cannot create an instance of this class");
+	}
 
-	@Override
-	public String write(ModelObject<JsonObject, JsonArray, JsonElement> object) {
-		JsonObject rawObject = object.getObject();
-		return this.gson.toJson(rawObject) + '\n';
+	public static Path getResourcePath(String resourceName) {
+		URL resource = ClassLoader.getSystemResource(resourceName);
+		String path = resource.getPath();
+		return Path.of(path);
 	}
 }
