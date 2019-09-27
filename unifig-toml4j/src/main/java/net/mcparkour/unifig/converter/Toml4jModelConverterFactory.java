@@ -22,35 +22,16 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.section;
+package net.mcparkour.unifig.converter;
 
 import com.moandjiezana.toml.Toml;
-import com.moandjiezana.toml.TomlWriter;
-import net.mcparkour.unifig.model.value.ModelValue;
-import net.mcparkour.unifig.model.value.Toml4jModelValue;
+import net.mcparkour.unifig.model.array.Toml4jModelArrayFactory;
+import net.mcparkour.unifig.model.section.Toml4jModelObjectFactory;
+import net.mcparkour.unifig.model.value.Toml4jModelValueFactory;
 
-public class Toml4jModelSection implements ModelSection<Toml, Object, Object> {
+public class Toml4jModelConverterFactory extends BasicConverterFactory<Toml, Object, Object> {
 
-	private Toml section;
-
-	public Toml4jModelSection(Toml section) {
-		this.section = section;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> getValue(String key) {
-		Object value = this.section.get(key); //TODO: get by reflection
-		return new Toml4jModelValue(value);
-	}
-
-	@Override
-	public void setValue(String key, ModelValue<Toml, Object, Object> value) {
-		Object rawValue = value.getValue();
-		this.section.set(key, rawValue); //TODO: set by reflection
-	}
-
-	@Override
-	public Toml getSection() {
-		return this.section;
+	public Toml4jModelConverterFactory() {
+		super(new Toml4jModelObjectFactory(), new Toml4jModelArrayFactory(), new Toml4jModelValueFactory());
 	}
 }

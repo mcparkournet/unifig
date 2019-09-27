@@ -22,49 +22,16 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.value;
+package net.mcparkour.unifig;
 
 import com.moandjiezana.toml.Toml;
+import net.mcparkour.unifig.converter.Toml4jModelConverterFactory;
+import net.mcparkour.unifig.model.reader.Toml4jModelReader;
+import net.mcparkour.unifig.model.writer.Toml4jModelWriter;
 
-public class Toml4jModelValueFactory implements ModelValueFactory<Toml, Object, Object> {
+public class Toml4jConfiguration<T> extends BasicConfiguration<Toml, Object, Object, T> {
 
-	@Override
-	public ModelValue<Toml, Object, Object> createNullModelValue() {
-		return new Toml4jModelValue(null);
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createBooleanModelValue(boolean value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createCharacterModelValue(char value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createNumberModelValue(Number value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createStringModelValue(String value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createObjectModelValue(Toml object) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createArrayModelValue(Object array) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createModelValue(Object value) {
-		return new Toml4jModelValue(value);
+	public Toml4jConfiguration(Class<T> configurationType) {
+		super(configurationType, "toml", new Toml4jModelReader(), new Toml4jModelWriter(), new Toml4jModelConverterFactory());
 	}
 }

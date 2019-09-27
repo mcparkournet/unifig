@@ -112,16 +112,16 @@ public class Toml4jModelValue implements ModelValue<Toml, Object, Object> {
 	}
 
 	@Override
-	public Toml asSection() {
+	public Toml asObject() {
 		Object value = getNotNullValue();
-		if (!isSection()) {
+		if (!isObject()) {
 			throw new ValueConversionException(Toml.class);
 		}
 		return (Toml) value;
 	}
 
 	@Override
-	public boolean isSection() {
+	public boolean isObject() {
 		return this.value instanceof Toml;
 	}
 

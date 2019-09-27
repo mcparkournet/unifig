@@ -25,12 +25,19 @@
 package net.mcparkour.unifig.model.section;
 
 import com.moandjiezana.toml.Toml;
+import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.unifig.model.object.ModelObjectFactory;
 
-public class Toml4jModelSectionFactory implements ModelSectionFactory<Toml, Object, Object> {
+public class Toml4jModelObjectFactory implements ModelObjectFactory<Toml, Object, Object> {
 
 	@Override
-	public ModelSection<Toml, Object, Object> createModelSection() {
-		Toml section = new Toml();
-		return new Toml4jModelSection(section);
+	public ModelObject<Toml, Object, Object> createEmptyModelObject() {
+		Toml object = new Toml();
+		return new Toml4jModelObject(object);
+	}
+
+	@Override
+	public ModelObject<Toml, Object, Object> createModelObject(Toml object) {
+		return new Toml4jModelObject(object);
 	}
 }

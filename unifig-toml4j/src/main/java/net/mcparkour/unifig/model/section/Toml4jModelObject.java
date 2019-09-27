@@ -22,16 +22,47 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.converter;
+package net.mcparkour.unifig.model.section;
 
+import java.util.Map;
+import java.util.Set;
 import com.moandjiezana.toml.Toml;
-import net.mcparkour.unifig.model.converter.basic.BasicModelConverterFactory;
-import net.mcparkour.unifig.model.section.Toml4jModelSectionFactory;
-import net.mcparkour.unifig.model.value.Toml4jModelValueFactory;
+import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.Toml4jModelValue;
 
-public class Toml4jModelConverterFactory extends BasicModelConverterFactory<Toml, Object, Object> {
+public class Toml4jModelObject implements ModelObject<Toml, Object, Object> {
 
-	public Toml4jModelConverterFactory() {
-		super(new Toml4jModelSectionFactory(), new Toml4jModelValueFactory());
+	private Toml object;
+
+	public Toml4jModelObject(Toml object) {
+		this.object = object;
+	}
+
+	@Override
+	public ModelValue<Toml, Object, Object> getValue(String key) {
+		Object value = this.object.get(key); //TODO: get by reflection
+		return new Toml4jModelValue(value);
+	}
+
+	@Override
+	public void setValue(String key, ModelValue<Toml, Object, Object> value) {
+		Object rawValue = value.getValue();
+		this.object.set(key, rawValue); //TODO: set by reflection
+	}
+
+	@Override
+	public Set<Map.Entry<String, ModelValue<Toml, Object, Object>>> getEntries() {
+		return null;
+	}
+
+	@Override
+	public int getSize() {
+		return 0;
+	}
+
+	@Override
+	public Toml getObject() {
+		return this.object;
 	}
 }

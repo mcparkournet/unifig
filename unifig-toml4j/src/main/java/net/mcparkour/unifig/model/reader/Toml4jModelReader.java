@@ -22,49 +22,15 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.value;
+package net.mcparkour.unifig.model.reader;
 
 import com.moandjiezana.toml.Toml;
+import net.mcparkour.unifig.model.object.ModelObject;
 
-public class Toml4jModelValueFactory implements ModelValueFactory<Toml, Object, Object> {
-
-	@Override
-	public ModelValue<Toml, Object, Object> createNullModelValue() {
-		return new Toml4jModelValue(null);
-	}
+public class Toml4jModelReader implements ModelReader<Toml, Object, Object> {
 
 	@Override
-	public ModelValue<Toml, Object, Object> createBooleanModelValue(boolean value) {
+	public ModelObject<Toml, Object, Object> read(String string) {
 		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createCharacterModelValue(char value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createNumberModelValue(Number value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createStringModelValue(String value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createObjectModelValue(Toml object) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createArrayModelValue(Object array) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createModelValue(Object value) {
-		return new Toml4jModelValue(value);
 	}
 }

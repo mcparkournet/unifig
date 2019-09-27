@@ -22,49 +22,32 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.value;
+package net.mcparkour.unifig.model.array;
 
+import java.util.Iterator;
 import com.moandjiezana.toml.Toml;
+import net.mcparkour.unifig.model.value.ModelValue;
+import org.jetbrains.annotations.NotNull;
 
-public class Toml4jModelValueFactory implements ModelValueFactory<Toml, Object, Object> {
+public class Toml4jModelArray implements ModelArray<Toml, Object, Object> {
 
 	@Override
-	public ModelValue<Toml, Object, Object> createNullModelValue() {
-		return new Toml4jModelValue(null);
+	public void addValue(ModelValue<Toml, Object, Object> value) {
 	}
 
 	@Override
-	public ModelValue<Toml, Object, Object> createBooleanModelValue(boolean value) {
+	public int getSize() {
+		return 0;
+	}
+
+	@Override
+	public Object getArray() {
 		return null;
 	}
 
+	@NotNull
 	@Override
-	public ModelValue<Toml, Object, Object> createCharacterModelValue(char value) {
+	public Iterator<ModelValue<Toml, Object, Object>> iterator() {
 		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createNumberModelValue(Number value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createStringModelValue(String value) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createObjectModelValue(Toml object) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createArrayModelValue(Object array) {
-		return null;
-	}
-
-	@Override
-	public ModelValue<Toml, Object, Object> createModelValue(Object value) {
-		return new Toml4jModelValue(value);
 	}
 }
