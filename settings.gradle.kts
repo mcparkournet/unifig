@@ -4,6 +4,5 @@ include(
 	"unifig-core",
 	"unifig-basic",
 	"unifig-gson",
-	"unifig-paper",
 	"unifig-snakeyaml"
 )
