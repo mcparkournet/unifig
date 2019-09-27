@@ -27,10 +27,10 @@ package net.mcparkour.unifig.codec;
 import net.mcparkour.unifig.model.value.ModelValue;
 import org.jetbrains.annotations.Nullable;
 
-public interface Codec<S, A, V, T> {
+public interface Codec<O, A, V, T> {
 
-	ModelValue<S, A, V> encode(T object);
+	ModelValue<O, A, V> encode(T object);
 
 	@Nullable
-	T decode(ModelValue<S, A, V> value);
+	T decode(ModelValue<O, A, V> value, Class<? extends T> type);
 }

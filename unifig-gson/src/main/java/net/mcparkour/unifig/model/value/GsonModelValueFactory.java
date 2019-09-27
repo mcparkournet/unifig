@@ -34,32 +34,45 @@ public class GsonModelValueFactory implements ModelValueFactory<JsonObject, Json
 
 	@Override
 	public ModelValue<JsonObject, JsonArray, JsonElement> createNullModelValue() {
-		return new GsonModelValue(JsonNull.INSTANCE);
+		return createModelValue(JsonNull.INSTANCE);
 	}
 
 	@Override
-	public ModelValue<JsonObject, JsonArray, JsonElement> createModelValue(Object value) {
-		JsonPrimitive primitive = createJsonPrimitive(value);
-		return new GsonModelValue(primitive);
+	public ModelValue<JsonObject, JsonArray, JsonElement> createBooleanModelValue(boolean value) {
+		JsonPrimitive primitive = new JsonPrimitive(value);
+		return createModelValue(primitive);
 	}
 
-	private JsonPrimitive createJsonPrimitive(Object value) {
-		if (value instanceof Boolean) {
-			Boolean aBoolean = (Boolean) value;
-			return new JsonPrimitive(aBoolean);
-		}
-		if (value instanceof Character) {
-			Character character = (Character) value;
-			return new JsonPrimitive(character);
-		}
-		if (value instanceof Number) {
-			Number number = (Number) value;
-			return new JsonPrimitive(number);
-		}
-		if (value instanceof String) {
-			String string = (String) value;
-			return new JsonPrimitive(string);
-		}
-		throw new RuntimeException("value is not a Boolean, Character, Number or String");
+	@Override
+	public ModelValue<JsonObject, JsonArray, JsonElement> createCharacterModelValue(char value) {
+		JsonPrimitive primitive = new JsonPrimitive(value);
+		return createModelValue(primitive);
+	}
+
+	@Override
+	public ModelValue<JsonObject, JsonArray, JsonElement> createNumberModelValue(Number value) {
+		JsonPrimitive primitive = new JsonPrimitive(value);
+		return createModelValue(primitive);
+	}
+
+	@Override
+	public ModelValue<JsonObject, JsonArray, JsonElement> createStringModelValue(String value) {
+		JsonPrimitive primitive = new JsonPrimitive(value);
+		return createModelValue(primitive);
+	}
+
+	@Override
+	public ModelValue<JsonObject, JsonArray, JsonElement> createObjectModelValue(JsonObject object) {
+		return createModelValue(object);
+	}
+
+	@Override
+	public ModelValue<JsonObject, JsonArray, JsonElement> createArrayModelValue(JsonArray array) {
+		return createModelValue(array);
+	}
+
+	@Override
+	public ModelValue<JsonObject, JsonArray, JsonElement> createModelValue(JsonElement value) {
+		return new GsonModelValue(value);
 	}
 }

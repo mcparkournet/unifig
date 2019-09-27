@@ -24,9 +24,34 @@
 
 package net.mcparkour.unifig.model.value;
 
-public interface ModelValueFactory<S, A, V> {
+import net.mcparkour.unifig.model.array.ModelArray;
+import net.mcparkour.unifig.model.object.ModelObject;
 
-	ModelValue<S, A, V> createNullModelValue();
+public interface ModelValueFactory<O, A, V> {
 
-	ModelValue<S, A, V> createModelValue(Object value);
+	ModelValue<O, A, V> createNullModelValue();
+
+	ModelValue<O, A, V> createBooleanModelValue(boolean value);
+
+	ModelValue<O, A, V> createCharacterModelValue(char value);
+
+	ModelValue<O, A, V> createNumberModelValue(Number value);
+
+	ModelValue<O, A, V> createStringModelValue(String value);
+
+	default ModelValue<O, A, V> createObjectModelValue(ModelObject<O, A, V> object) {
+		O rawObject = object.getObject();
+		return createObjectModelValue(rawObject);
+	}
+
+	ModelValue<O, A, V> createObjectModelValue(O object);
+
+	default ModelValue<O, A, V> createArrayModelValue(ModelArray<O, A, V> array) {
+		A rawArray = array.getArray();
+		return createArrayModelValue(rawArray);
+	}
+
+	ModelValue<O, A, V> createArrayModelValue(A array);
+
+	ModelValue<O, A, V> createModelValue(V value);
 }

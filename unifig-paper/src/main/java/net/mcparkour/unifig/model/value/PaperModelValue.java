@@ -24,10 +24,12 @@
 
 package net.mcparkour.unifig.model.value;
 
+import java.util.List;
+import java.util.Map;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.Nullable;
 
-public class PaperModelValue implements ModelValue<ConfigurationSection, Object, Object> {
+public class PaperModelValue implements ModelValue<Map<String, Object>, List<Object>, Object> {
 
 	@Nullable
 	private Object value;
@@ -98,31 +100,37 @@ public class PaperModelValue implements ModelValue<ConfigurationSection, Object,
 	}
 
 	@Override
-	public Object asArray() {
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> asObject() {
+		Object value = getNotNullValue();
+		if (!isObject()) {
+			throw new ValueConversionException(Map.class);
+		}
+		if (value instanceof ConfigurationSection) {
+			ConfigurationSection section = (ConfigurationSection) value;
+			return section.getValues(false);
+		}
+		return (Map<String, Object>) value;
+	}
+
+	@Override
+	public boolean isObject() {
+		return this.value instanceof Map || this.value instanceof ConfigurationSection;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Object> asArray() {
 		Object value = getNotNullValue();
 		if (!isArray()) {
-			throw new ValueConversionException(Object.class);
+			throw new ValueConversionException(List.class);
 		}
-		return value;
+		return (List<Object>) value;
 	}
 
 	@Override
 	public boolean isArray() {
-		return true;
-	}
-
-	@Override
-	public ConfigurationSection asSection() {
-		Object value = getNotNullValue();
-		if (!isSection()) {
-			throw new ValueConversionException(ConfigurationSection.class);
-		}
-		return (ConfigurationSection) value;
-	}
-
-	@Override
-	public boolean isSection() {
-		return this.value instanceof ConfigurationSection;
+		return this.value instanceof List;
 	}
 
 	private Object getNotNullValue() {

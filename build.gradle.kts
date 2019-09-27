@@ -1,10 +1,18 @@
+import com.jfrog.bintray.gradle.BintrayExtension
+
 plugins {
 	`java-library`
+	`java-test-fixtures`
+	`maven-publish`
+	id("com.jfrog.bintray") version "1.8.4" apply false
 }
 
 subprojects {
 	apply {
 		plugin("java-library")
+		plugin("java-test-fixtures")
+		plugin("maven-publish")
+		plugin("com.jfrog.bintray")
 	}
 
 	repositories {
@@ -13,9 +21,10 @@ subprojects {
 
 	dependencies {
 		compileOnly("org.jetbrains:annotations:17.0.0")
-		testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1")
-		testRuntime("org.junit.jupiter:junit-jupiter-engine:5.5.1")
+		testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+		testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 		testCompileOnly("org.jetbrains:annotations:17.0.0")
+		testFixturesCompileOnly("org.jetbrains:annotations:17.0.0")
 	}
 
 	java {
@@ -25,9 +34,39 @@ subprojects {
 
 	tasks {
 		test {
-			useJUnitPlatform {
-				includeEngines("junit-jupiter")
+			useJUnitPlatform()
+		}
+	}
+
+	task<Jar>("sourcesJar") {
+		from(sourceSets["main"].allSource)
+		archiveClassifier.set("sources")
+	}
+
+	publishing {
+		publications {
+			create<MavenPublication>("maven") {
+				from(components["java"])
+				artifact(tasks["sourcesJar"])
 			}
 		}
+	}
+
+	configure<BintrayExtension> {
+		user = properties["bintray-user"] as String?
+		key = properties["bintray-api-key"] as String?
+		publish = true
+		setPublications("maven")
+		pkg(closureOf<BintrayExtension.PackageConfig> {
+			repo = properties["mcparkour-bintray-repository"] as String?
+			userOrg = properties["mcparkour-bintray-organization"] as String?
+			name = project.name
+			desc = project.description
+			websiteUrl = "https://github.com/mcparkournet/unifig"
+			issueTrackerUrl = "$websiteUrl/issues"
+			vcsUrl = "$websiteUrl.git"
+			setLicenses("MIT")
+			setLabels("configuration", "config", "jvm", "java")
+		})
 	}
 }

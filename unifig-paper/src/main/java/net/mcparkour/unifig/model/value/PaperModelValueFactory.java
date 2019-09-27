@@ -24,17 +24,48 @@
 
 package net.mcparkour.unifig.model.value;
 
-import org.bukkit.configuration.ConfigurationSection;
+import java.util.List;
+import java.util.Map;
 
-public class PaperModelValueFactory implements ModelValueFactory<ConfigurationSection, Object, Object> {
+public class PaperModelValueFactory implements ModelValueFactory<Map<String, Object>, List<Object>, Object> {
 
 	@Override
-	public ModelValue<ConfigurationSection, Object, Object> createNullModelValue() {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createNullModelValue() {
 		return new PaperModelValue(null);
 	}
 
 	@Override
-	public ModelValue<ConfigurationSection, Object, Object> createModelValue(Object value) {
+	public ModelValue<Map<String, Object>, List<Object>, Object> createBooleanModelValue(boolean value) {
+		return createModelValue(value);
+	}
+
+	@Override
+	public ModelValue<Map<String, Object>, List<Object>, Object> createCharacterModelValue(char value) {
+		return createModelValue(value);
+	}
+
+	@Override
+	public ModelValue<Map<String, Object>, List<Object>, Object> createNumberModelValue(Number value) {
+		return createModelValue(value);
+	}
+
+	@Override
+	public ModelValue<Map<String, Object>, List<Object>, Object> createStringModelValue(String value) {
+		return createModelValue(value);
+	}
+
+	@Override
+	public ModelValue<Map<String, Object>, List<Object>, Object> createObjectModelValue(Map<String, Object> object) {
+		return createModelValue(object);
+	}
+
+	@Override
+	public ModelValue<Map<String, Object>, List<Object>, Object> createArrayModelValue(List<Object> array) {
+		return createModelValue(array);
+	}
+
+	@Override
+	public ModelValue<Map<String, Object>, List<Object>, Object> createModelValue(Object value) {
 		return new PaperModelValue(value);
 	}
 }

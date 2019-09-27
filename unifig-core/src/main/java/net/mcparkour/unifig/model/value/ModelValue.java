@@ -26,7 +26,7 @@ package net.mcparkour.unifig.model.value;
 
 import org.jetbrains.annotations.Nullable;
 
-public interface ModelValue<S, A, V> {
+public interface ModelValue<O, A, V> {
 
 	boolean isNull();
 
@@ -46,13 +46,13 @@ public interface ModelValue<S, A, V> {
 
 	boolean isString();
 
+	O asObject();
+
+	boolean isObject();
+
 	A asArray();
 
 	boolean isArray();
-
-	S asSection();
-
-	boolean isSection();
 
 	@Nullable
 	V getValue();
