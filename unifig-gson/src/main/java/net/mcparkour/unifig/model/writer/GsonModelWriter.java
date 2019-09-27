@@ -24,23 +24,35 @@
 
 package net.mcparkour.unifig.model.writer;
 
+import java.io.StringWriter;
+import java.io.Writer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import net.mcparkour.unifig.model.object.ModelObject;
 
 public class GsonModelWriter implements ModelWriter<JsonObject, JsonArray, JsonElement> {
 
 	private Gson gson = new GsonBuilder()
-		.setPrettyPrinting()
 		.serializeNulls()
 		.create();
 
 	@Override
 	public String write(ModelObject<JsonObject, JsonArray, JsonElement> object) {
 		JsonObject rawObject = object.getObject();
-		return this.gson.toJson(rawObject) + '\n';
+		StringWriter writer = new StringWriter();
+		JsonWriter jsonWriter = createJsonWriter(writer, 4);
+		this.gson.toJson(rawObject, jsonWriter);
+		return writer.append('\n').toString();
+	}
+
+	private JsonWriter createJsonWriter(Writer writer, int indent) {
+		JsonWriter jsonWriter = new JsonWriter(writer);
+		String indentString = " ".repeat(indent);
+		jsonWriter.setIndent(indentString);
+		return jsonWriter;
 	}
 }
