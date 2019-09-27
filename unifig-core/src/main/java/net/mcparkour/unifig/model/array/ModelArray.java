@@ -30,14 +30,6 @@ public interface ModelArray<O, A, V> extends Iterable<ModelValue<O, A, V>> {
 
 	void addValue(ModelValue<O, A, V> value);
 
-	void removeValue(ModelValue<O, A, V> value);
-
-	void removeValue(int index);
-
-	ModelValue<O, A, V> getValue(int index);
-
-	void setValue(int index, ModelValue<O, A, V> value);
-
 	int getSize();
 
 	A getArray();

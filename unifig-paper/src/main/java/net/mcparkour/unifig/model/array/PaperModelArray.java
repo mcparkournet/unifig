@@ -45,29 +45,6 @@ public class PaperModelArray implements ModelArray<Map<String, Object>, List<Obj
 	}
 
 	@Override
-	public void removeValue(ModelValue<Map<String, Object>, List<Object>, Object> value) {
-		Object rawValue = value.getValue();
-		this.array.remove(rawValue);
-	}
-
-	@Override
-	public void removeValue(int index) {
-		this.array.remove(index);
-	}
-
-	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> getValue(int index) {
-		Object value = this.array.get(index);
-		return new PaperModelValue(value);
-	}
-
-	@Override
-	public void setValue(int index, ModelValue<Map<String, Object>, List<Object>, Object> value) {
-		Object rawValue = value.getValue();
-		this.array.set(index, rawValue);
-	}
-
-	@Override
 	public int getSize() {
 		return this.array.size();
 	}

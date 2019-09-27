@@ -46,29 +46,6 @@ public class GsonModelArray implements ModelArray<JsonObject, JsonArray, JsonEle
 	}
 
 	@Override
-	public void removeValue(ModelValue<JsonObject, JsonArray, JsonElement> value) {
-		JsonElement rawValue = value.getValue();
-		this.array.remove(rawValue);
-	}
-
-	@Override
-	public void removeValue(int index) {
-		this.array.remove(index);
-	}
-
-	@Override
-	public ModelValue<JsonObject, JsonArray, JsonElement> getValue(int index) {
-		JsonElement value = this.array.get(index);
-		return new GsonModelValue(value);
-	}
-
-	@Override
-	public void setValue(int index, ModelValue<JsonObject, JsonArray, JsonElement> value) {
-		JsonElement rawValue = value.getValue();
-		this.array.set(index, rawValue);
-	}
-
-	@Override
 	public int getSize() {
 		return this.array.size();
 	}
