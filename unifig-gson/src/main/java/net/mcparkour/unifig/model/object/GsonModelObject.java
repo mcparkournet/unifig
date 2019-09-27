@@ -24,6 +24,9 @@
 
 package net.mcparkour.unifig.model.object;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -48,6 +51,19 @@ public class GsonModelObject implements ModelObject<JsonObject, JsonArray, JsonE
 	public void setValue(String key, ModelValue<JsonObject, JsonArray, JsonElement> value) {
 		JsonElement rawValue = value.getValue();
 		this.object.add(key, rawValue);
+	}
+
+	@Override
+	public Set<Map.Entry<String, ModelValue<JsonObject, JsonArray, JsonElement>>> getEntries() {
+		return this.object.entrySet()
+			.stream()
+			.<Map.Entry<String, ModelValue<JsonObject, JsonArray, JsonElement>>>map(entry -> Map.entry(entry.getKey(), new GsonModelValue(entry.getValue())))
+			.collect(Collectors.toUnmodifiableSet());
+	}
+
+	@Override
+	public int getSize() {
+		return this.object.size();
 	}
 
 	@Override

@@ -22,21 +22,23 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.object;
+package net.mcparkour.unifig.util;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
-import net.mcparkour.unifig.model.value.ModelValue;
 
-public interface ModelObject<O, A, V> {
+public final class Maps {
 
-	ModelValue<O, A, V> getValue(String key);
+	private Maps() {
+		throw new UnsupportedOperationException("Cannot create an instance of this class");
+	}
 
-	void setValue(String key, ModelValue<O, A, V> value);
-
-	Set<Map.Entry<String, ModelValue<O, A, V>>> getEntries();
-
-	int getSize();
-
-	O getObject();
+	public static <K, V> Map<K, V> createLinkedMap(K key1, V value1, K key2, V value2, K key3, V value3) {
+		Map<K, V> map = new LinkedHashMap<>(3);
+		map.put(key1, value1);
+		map.put(key2, value2);
+		map.put(key3, value3);
+		return Collections.unmodifiableMap(map);
+	}
 }

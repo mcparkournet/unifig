@@ -26,6 +26,8 @@ package net.mcparkour.unifig.model.object;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.PaperModelValue;
 
@@ -47,6 +49,19 @@ public class PaperModelObject implements ModelObject<Map<String, Object>, List<O
 	public void setValue(String key, ModelValue<Map<String, Object>, List<Object>, Object> value) {
 		Object rawValue = value.getValue();
 		this.object.put(key, rawValue);
+	}
+
+	@Override
+	public Set<Map.Entry<String, ModelValue<Map<String, Object>, List<Object>, Object>>> getEntries() {
+		return this.object.entrySet()
+			.stream()
+			.<Map.Entry<String, ModelValue<Map<String, Object>, List<Object>, Object>>>map(entry -> Map.entry(entry.getKey(), new PaperModelValue(entry.getValue())))
+			.collect(Collectors.toUnmodifiableSet());
+	}
+
+	@Override
+	public int getSize() {
+		return this.object.size();
 	}
 
 	@Override
