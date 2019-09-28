@@ -42,7 +42,9 @@ import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
+import net.mcparkour.unifig.options.LetterCase;
 import net.mcparkour.unifig.options.Options;
+import net.mcparkour.unifig.util.LetterCaseTransformer;
 import org.jetbrains.annotations.Nullable;
 
 public class BasicConverter<O, A, V> implements Converter<O, A, V> {
@@ -144,7 +146,15 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 		if (property != null) {
 			return property.value();
 		}
-		return field.getName();
+		String name = field.getName();
+		LetterCase defaultKeysLetterCase = this.options.getDefaultKeysLetterCase();
+		if (defaultKeysLetterCase == LetterCase.KEBAB) {
+			return LetterCaseTransformer.toKebabCase(name);
+		}
+		if (defaultKeysLetterCase == LetterCase.SNAKE) {
+			return LetterCaseTransformer.toSnakeCase(name);
+		}
+		return name;
 	}
 
 	@Nullable

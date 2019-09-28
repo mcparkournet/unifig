@@ -1,238 +1,238 @@
-primitiveBoolean: true
-wrapperBoolean: true
-primitiveCharacter: c
-wrapperCharacter: c
-primitiveByte: 1
-wrapperByte: 1
-primitiveShort: 1
-wrapperShort: 1
-primitiveInteger: 1
-wrapperInteger: 1
-primitiveLong: 1
-wrapperLong: 1
-primitiveFloat: 0.1
-wrapperFloat: 0.1
-primitiveDouble: 0.1
-wrapperDouble: 0.1
+primitive-boolean: true
+wrapper-boolean: true
+primitive-character: c
+wrapper-character: c
+primitive-byte: 1
+wrapper-byte: 1
+primitive-short: 1
+wrapper-short: 1
+primitive-integer: 1
+wrapper-integer: 1
+primitive-long: 1
+wrapper-long: 1
+primitive-float: 0.1
+wrapper-float: 0.1
+primitive-double: 0.1
+wrapper-double: 0.1
 string: string
-nullString: null
+null-string: null
 bar: foobar
-subConfiguration:
-  primitiveBoolean: true
-  wrapperBoolean: true
-  primitiveCharacter: c
-  wrapperCharacter: c
-  primitiveByte: 1
-  wrapperByte: 1
-  primitiveShort: 1
-  wrapperShort: 1
-  primitiveInteger: 1
-  wrapperInteger: 1
-  primitiveLong: 1
-  wrapperLong: 1
-  primitiveFloat: 0.1
-  wrapperFloat: 0.1
-  primitiveDouble: 0.1
-  wrapperDouble: 0.1
+sub-configuration:
+  primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
   string: string
-  nullString: null
+  null-string: null
   bar: foobar
-  testEnum: TWO
-  testEnum2: not-four
-  stringList:
+  test-enum: TWO
+  test-enum2: not-four
+  string-list:
   - '1'
   - '2'
   - '3'
-  stringMap:
+  string-map:
     foo: '1'
     bar: '2'
     foobar: '3'
-testEnum: TWO
-testEnum2: not-four
-stringList:
+test-enum: TWO
+test-enum2: not-four
+string-list:
 - '1'
 - '2'
 - '3'
-objectList:
-- primitiveBoolean: true
-  wrapperBoolean: true
-  primitiveCharacter: c
-  wrapperCharacter: c
-  primitiveByte: 1
-  wrapperByte: 1
-  primitiveShort: 1
-  wrapperShort: 1
-  primitiveInteger: 1
-  wrapperInteger: 1
-  primitiveLong: 1
-  wrapperLong: 1
-  primitiveFloat: 0.1
-  wrapperFloat: 0.1
-  primitiveDouble: 0.1
-  wrapperDouble: 0.1
+object-list:
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
   string: string
-  nullString: null
+  null-string: null
   bar: foobar
-  testEnum: TWO
-  testEnum2: not-four
-  stringList:
+  test-enum: TWO
+  test-enum2: not-four
+  string-list:
   - '1'
   - '2'
   - '3'
-  stringMap:
+  string-map:
     foo: '1'
     bar: '2'
     foobar: '3'
-- primitiveBoolean: true
-  wrapperBoolean: true
-  primitiveCharacter: c
-  wrapperCharacter: c
-  primitiveByte: 1
-  wrapperByte: 1
-  primitiveShort: 1
-  wrapperShort: 1
-  primitiveInteger: 1
-  wrapperInteger: 1
-  primitiveLong: 1
-  wrapperLong: 1
-  primitiveFloat: 0.1
-  wrapperFloat: 0.1
-  primitiveDouble: 0.1
-  wrapperDouble: 0.1
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
   string: string
-  nullString: null
+  null-string: null
   bar: foobar
-  testEnum: TWO
-  testEnum2: not-four
-  stringList:
+  test-enum: TWO
+  test-enum2: not-four
+  string-list:
   - '1'
   - '2'
   - '3'
-  stringMap:
+  string-map:
     foo: '1'
     bar: '2'
     foobar: '3'
-- primitiveBoolean: true
-  wrapperBoolean: true
-  primitiveCharacter: c
-  wrapperCharacter: c
-  primitiveByte: 1
-  wrapperByte: 1
-  primitiveShort: 1
-  wrapperShort: 1
-  primitiveInteger: 1
-  wrapperInteger: 1
-  primitiveLong: 1
-  wrapperLong: 1
-  primitiveFloat: 0.1
-  wrapperFloat: 0.1
-  primitiveDouble: 0.1
-  wrapperDouble: 0.1
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
   string: string
-  nullString: null
+  null-string: null
   bar: foobar
-  testEnum: TWO
-  testEnum2: not-four
-  stringList:
+  test-enum: TWO
+  test-enum2: not-four
+  string-list:
   - '1'
   - '2'
   - '3'
-  stringMap:
+  string-map:
     foo: '1'
     bar: '2'
     foobar: '3'
-stringMap:
+string-map:
   foo: '1'
   bar: '2'
   foobar: '3'
-objectMap:
+object-map:
   foo:
-    primitiveBoolean: true
-    wrapperBoolean: true
-    primitiveCharacter: c
-    wrapperCharacter: c
-    primitiveByte: 1
-    wrapperByte: 1
-    primitiveShort: 1
-    wrapperShort: 1
-    primitiveInteger: 1
-    wrapperInteger: 1
-    primitiveLong: 1
-    wrapperLong: 1
-    primitiveFloat: 0.1
-    wrapperFloat: 0.1
-    primitiveDouble: 0.1
-    wrapperDouble: 0.1
+    primitive-boolean: true
+    wrapper-boolean: true
+    primitive-character: c
+    wrapper-character: c
+    primitive-byte: 1
+    wrapper-byte: 1
+    primitive-short: 1
+    wrapper-short: 1
+    primitive-integer: 1
+    wrapper-integer: 1
+    primitive-long: 1
+    wrapper-long: 1
+    primitive-float: 0.1
+    wrapper-float: 0.1
+    primitive-double: 0.1
+    wrapper-double: 0.1
     string: string
-    nullString: null
+    null-string: null
     bar: foobar
-    testEnum: TWO
-    testEnum2: not-four
-    stringList:
+    test-enum: TWO
+    test-enum2: not-four
+    string-list:
     - '1'
     - '2'
     - '3'
-    stringMap:
+    string-map:
       foo: '1'
       bar: '2'
       foobar: '3'
   bar:
-    primitiveBoolean: true
-    wrapperBoolean: true
-    primitiveCharacter: c
-    wrapperCharacter: c
-    primitiveByte: 1
-    wrapperByte: 1
-    primitiveShort: 1
-    wrapperShort: 1
-    primitiveInteger: 1
-    wrapperInteger: 1
-    primitiveLong: 1
-    wrapperLong: 1
-    primitiveFloat: 0.1
-    wrapperFloat: 0.1
-    primitiveDouble: 0.1
-    wrapperDouble: 0.1
+    primitive-boolean: true
+    wrapper-boolean: true
+    primitive-character: c
+    wrapper-character: c
+    primitive-byte: 1
+    wrapper-byte: 1
+    primitive-short: 1
+    wrapper-short: 1
+    primitive-integer: 1
+    wrapper-integer: 1
+    primitive-long: 1
+    wrapper-long: 1
+    primitive-float: 0.1
+    wrapper-float: 0.1
+    primitive-double: 0.1
+    wrapper-double: 0.1
     string: string
-    nullString: null
+    null-string: null
     bar: foobar
-    testEnum: TWO
-    testEnum2: not-four
-    stringList:
+    test-enum: TWO
+    test-enum2: not-four
+    string-list:
     - '1'
     - '2'
     - '3'
-    stringMap:
+    string-map:
       foo: '1'
       bar: '2'
       foobar: '3'
   foobar:
-    primitiveBoolean: true
-    wrapperBoolean: true
-    primitiveCharacter: c
-    wrapperCharacter: c
-    primitiveByte: 1
-    wrapperByte: 1
-    primitiveShort: 1
-    wrapperShort: 1
-    primitiveInteger: 1
-    wrapperInteger: 1
-    primitiveLong: 1
-    wrapperLong: 1
-    primitiveFloat: 0.1
-    wrapperFloat: 0.1
-    primitiveDouble: 0.1
-    wrapperDouble: 0.1
+    primitive-boolean: true
+    wrapper-boolean: true
+    primitive-character: c
+    wrapper-character: c
+    primitive-byte: 1
+    wrapper-byte: 1
+    primitive-short: 1
+    wrapper-short: 1
+    primitive-integer: 1
+    wrapper-integer: 1
+    primitive-long: 1
+    wrapper-long: 1
+    primitive-float: 0.1
+    wrapper-float: 0.1
+    primitive-double: 0.1
+    wrapper-double: 0.1
     string: string
-    nullString: null
+    null-string: null
     bar: foobar
-    testEnum: TWO
-    testEnum2: not-four
-    stringList:
+    test-enum: TWO
+    test-enum2: not-four
+    string-list:
     - '1'
     - '2'
     - '3'
-    stringMap:
+    string-map:
       foo: '1'
       bar: '2'
       foobar: '3'

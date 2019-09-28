@@ -39,6 +39,7 @@ import net.mcparkour.unifig.model.reader.SnakeyamlModelReader;
 import net.mcparkour.unifig.model.value.SnakeyamlModelValueFactory;
 import net.mcparkour.unifig.model.writer.SnakeyamlModelWriter;
 import net.mcparkour.unifig.options.BasicOptionsBuilder;
+import net.mcparkour.unifig.options.LetterCase;
 import net.mcparkour.unifig.options.Options;
 
 public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
@@ -47,6 +48,7 @@ public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
 	public <T> Configuration<T> createConfiguration(Class<T> configurationType) {
 		Options options = new BasicOptionsBuilder()
 			.indentSize(2)
+			.defaultKeysLetterCase(LetterCase.KEBAB)
 			.build();
 		return createSnakeyamlConfiguration(configurationType, options);
 	}

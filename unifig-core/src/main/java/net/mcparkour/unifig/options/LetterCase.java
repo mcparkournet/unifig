@@ -26,5 +26,7 @@ package net.mcparkour.unifig.options;
 
 public enum LetterCase {
 
-	INHERITED
+	INHERITED,
+	KEBAB,
+	SNAKE
 }
