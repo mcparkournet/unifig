@@ -22,41 +22,20 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry;
+package net.mcparkour.unifig.options;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import net.mcparkour.unifig.codec.Codec;
-import org.jetbrains.annotations.Nullable;
+public enum IndentCharacter {
 
-public class BasicCodecRegistry<O, A, V> implements CodecRegistry<O, A, V> {
+	SPACE(' '),
+	TAB('\t');
 
-	private List<? extends TypedCodec<O, A, V>> codecs;
+	private char character;
 
-	public static <O, A, V> CodecRegistryBuilder<O, A, V> builder() {
-		return new BasicCodecRegistryBuilder<>();
+	IndentCharacter(char character) {
+		this.character = character;
 	}
 
-	public BasicCodecRegistry(List<? extends TypedCodec<O, A, V>> codecs) {
-		this.codecs = codecs;
-	}
-
-	@Override
-	@Nullable
-	public Codec<O, A, V, ?> get(Class<?> type) {
-		return this.codecs.stream()
-			.filter(codec -> codec.getType().isAssignableFrom(type))
-			.findFirst()
-			.map(TypedCodec::getCodec)
-			.orElse(null);
-	}
-
-	@Override
-	public Set<Map.Entry<Class<?>, Codec<O, A, V, ?>>> getCodecs() {
-		return this.codecs.stream()
-			.map(TypedCodec::toEntry)
-			.collect(Collectors.toUnmodifiableSet());
+	public char getCharacter() {
+		return this.character;
 	}
 }

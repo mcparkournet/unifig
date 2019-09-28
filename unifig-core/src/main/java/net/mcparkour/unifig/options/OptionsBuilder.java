@@ -22,17 +22,15 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.converter;
+package net.mcparkour.unifig.options;
 
-import java.util.List;
-import java.util.Map;
-import net.mcparkour.unifig.model.array.SnakeyamlModelArrayFactory;
-import net.mcparkour.unifig.model.object.SnakeyamlModelObjectFactory;
-import net.mcparkour.unifig.model.value.SnakeyamlModelValueFactory;
+public interface OptionsBuilder {
 
-public class SnakeyamlConverterFactory extends BasicConverterFactory<Map<String, Object>, List<Object>, Object> {
+	OptionsBuilder indentSize(int indentSize);
 
-	public SnakeyamlConverterFactory() {
-		super(new SnakeyamlModelObjectFactory(), new SnakeyamlModelArrayFactory(), new SnakeyamlModelValueFactory());
-	}
+	OptionsBuilder indentCharacter(IndentCharacter indentCharacter);
+
+	OptionsBuilder defaultKeysLetterCase(LetterCase defaultKeysLetterCase);
+
+	Options build();
 }

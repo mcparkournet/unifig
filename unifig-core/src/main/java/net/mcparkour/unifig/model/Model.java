@@ -22,17 +22,11 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.model;
 
-import java.util.List;
-import java.util.Map;
-import net.mcparkour.unifig.converter.SnakeyamlConverterFactory;
-import net.mcparkour.unifig.model.reader.SnakeyamlModelReader;
-import net.mcparkour.unifig.model.writer.SnakeyamlModelWriter;
+public interface Model {
 
-public class SnakeyamlConfiguration<T> extends BasicConfiguration<Map<String, Object>, List<Object>, Object, T> {
+	String getFileExtension();
 
-	public SnakeyamlConfiguration(Class<T> configurationType) {
-		super(configurationType, "yml", new SnakeyamlModelReader(), new SnakeyamlModelWriter(), new SnakeyamlConverterFactory());
-	}
+	String getLineComment();
 }

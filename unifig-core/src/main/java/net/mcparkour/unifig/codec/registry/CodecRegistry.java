@@ -27,7 +27,7 @@ package net.mcparkour.unifig.codec.registry;
 import net.mcparkour.unifig.codec.Codec;
 import org.jetbrains.annotations.Nullable;
 
-public interface CodecRegistry<O, A, V> extends CodecRegistryDataHolder<O, A, V> {
+public interface CodecRegistry<O, A, V> {
 
 	@Nullable
 	Codec<O, A, V, ?> get(Class<?> type);

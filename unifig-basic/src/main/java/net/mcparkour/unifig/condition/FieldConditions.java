@@ -22,24 +22,22 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.converter;
+package net.mcparkour.unifig.condition;
 
 import java.util.List;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.model.array.ModelArrayFactory;
-import net.mcparkour.unifig.model.object.ModelObjectFactory;
-import net.mcparkour.unifig.model.value.ModelValueFactory;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public interface ConverterDataHolder<O, A, V> {
+public final class FieldConditions {
 
-	ModelObjectFactory<O, A, V> getModelObjectFactory();
+	private FieldConditions() {
+		throw new UnsupportedOperationException("Cannot create an instance of this class");
+	}
 
-	ModelArrayFactory<O, A, V> getModelArrayFactory();
-
-	ModelValueFactory<O, A, V> getModelValueFactory();
-
-	CodecRegistry<O, A, V> getCodecRegistry();
-
-	List<FieldCondition> getFieldConditions();
+	public static List<FieldCondition> createBasicFieldConditionList() {
+		return Stream.of(
+			new NonStaticFieldCondition(),
+			new IgnoredAnnotationNotPresentedFieldCondition()
+		).collect(Collectors.toList());
+	}
 }

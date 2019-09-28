@@ -22,49 +22,48 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry;
+package net.mcparkour.unifig.options;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import net.mcparkour.unifig.codec.Codec;
+public class BasicOptionsBuilder implements OptionsBuilder {
 
-public class BasicCodecRegistryBuilder<O, A, V> implements CodecRegistryBuilder<O, A, V> {
+	private int indentSize;
+	private IndentCharacter indentCharacter;
+	private LetterCase defaultKeysLetterCase;
 
-	private List<TypedCodec<O, A, V>> codecs = new ArrayList<>();
+	public BasicOptionsBuilder() {
+		this(4, IndentCharacter.SPACE, LetterCase.INHERITED);
+	}
+
+	public BasicOptionsBuilder(Options options) {
+		this(options.getIndentSize(), options.getIndentCharacter(), options.getDefaultKeysLetterCase());
+	}
+
+	private BasicOptionsBuilder(int indentSize, IndentCharacter indentCharacter, LetterCase defaultKeysLetterCase) {
+		this.indentSize = indentSize;
+		this.indentCharacter = indentCharacter;
+		this.defaultKeysLetterCase = defaultKeysLetterCase;
+	}
 
 	@Override
-	public CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, Class<?> type) {
-		TypedCodec<O, A, V> typedCodec = new TypedCodec<>(type, codec);
-		this.codecs.add(typedCodec);
+	public OptionsBuilder indentSize(int indentSize) {
+		this.indentSize = indentSize;
 		return this;
 	}
 
 	@Override
-	public CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, List<Class<?>> types) {
-		types.forEach(type -> codec(codec, type));
+	public OptionsBuilder indentCharacter(IndentCharacter indentCharacter) {
+		this.indentCharacter = indentCharacter;
 		return this;
 	}
 
 	@Override
-	public CodecRegistryBuilder<O, A, V> codecs(Set<? extends Map.Entry<Class<?>, Codec<O, A, V, ?>>> codecs) {
-		codecs.stream()
-			.map(TypedCodec::new)
-			.forEach(this.codecs::add);
+	public OptionsBuilder defaultKeysLetterCase(LetterCase defaultKeysLetterCase) {
+		this.defaultKeysLetterCase = defaultKeysLetterCase;
 		return this;
 	}
 
 	@Override
-	public CodecRegistry<O, A, V> build() {
-		return new BasicCodecRegistry<>(this.codecs);
-	}
-
-	@Override
-	public Set<Map.Entry<Class<?>, Codec<O, A, V, ?>>> getCodecs() {
-		return this.codecs.stream()
-			.map(TypedCodec::toEntry)
-			.collect(Collectors.toUnmodifiableSet());
+	public Options build() {
+		return new BasicOptions(this.indentSize, this.indentCharacter, this.defaultKeysLetterCase);
 	}
 }

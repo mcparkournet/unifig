@@ -41,8 +41,8 @@ public class TypedCodec<O, A, V> {
 		this.type = type;
 	}
 
-	public Map.Entry<Class<?>, Codec<O, A, V, ?>> toEntry() {
-		return Map.entry(this.type, this.codec);
+	public boolean isAssignableFrom(Class<?> type) {
+		return this.type.isAssignableFrom(type);
 	}
 
 	public Class<?> getType() {

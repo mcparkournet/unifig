@@ -22,11 +22,17 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.converter;
+package net.mcparkour.unifig.model;
 
-public interface ConverterFactory<O, A, V> {
+public class GsonModel implements Model {
 
-	Converter<O, A, V> createConverter();
+	@Override
+	public String getFileExtension() {
+		return "json";
+	}
 
-	Converter<O, A, V> createConverter(ConverterBuilder<O, A, V> builder);
+	@Override
+	public String getLineComment() {
+		throw new UnsupportedOperationException("Comments are unsupported in JSON format");
+	}
 }

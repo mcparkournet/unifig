@@ -22,42 +22,27 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.codec.registry;
 
-import java.io.File;
-import java.nio.file.Path;
+import java.util.List;
+import net.mcparkour.unifig.codec.Codec;
+import org.jetbrains.annotations.Nullable;
 
-public interface Configuration<T> {
+public class TypedCodecRegistry<O, A, V> implements CodecRegistry<O, A, V> {
 
-	default T read() {
-		Path path = getCurrentPath();
-		return read(path);
+	private List<? extends TypedCodec<O, A, V>> codecs;
+
+	public TypedCodecRegistry(List<? extends TypedCodec<O, A, V>> codecs) {
+		this.codecs = codecs;
 	}
 
-	default T read(File directory) {
-		Path path = directory.toPath();
-		return read(path);
-	}
-
-	T read(Path directoryPath);
-
-	T readFromString(String string);
-
-	default void write(T configuration) {
-		Path path = getCurrentPath();
-		write(configuration, path);
-	}
-
-	default void write(T configuration, File directory) {
-		Path path = directory.toPath();
-		write(configuration, path);
-	}
-
-	void write(T configuration, Path directoryPath);
-
-	String writeToString(T configuration);
-
-	private Path getCurrentPath() {
-		return Path.of("");
+	@Override
+	@Nullable
+	public Codec<O, A, V, ?> get(Class<?> type) {
+		return this.codecs.stream()
+			.filter(codec -> codec.isAssignableFrom(type))
+			.findFirst()
+			.map(TypedCodec::getCodec)
+			.orElse(null);
 	}
 }

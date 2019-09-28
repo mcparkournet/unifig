@@ -22,19 +22,9 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model;
+package net.mcparkour.unifig.options;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.mcparkour.unifig.BasicConfiguration;
-import net.mcparkour.unifig.converter.GsonConverterFactory;
-import net.mcparkour.unifig.model.reader.GsonModelReader;
-import net.mcparkour.unifig.model.writer.GsonModelWriter;
+public enum LetterCase {
 
-public class GsonConfiguration<T> extends BasicConfiguration<JsonObject, JsonArray, JsonElement, T> {
-
-	public GsonConfiguration(Class<T> configurationType) {
-		super(configurationType, "json", new GsonModelReader(), new GsonModelWriter(), new GsonConverterFactory());
-	}
+	INHERITED
 }

@@ -22,18 +22,32 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.converter;
+package net.mcparkour.unifig.options;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.mcparkour.unifig.model.array.GsonModelArrayFactory;
-import net.mcparkour.unifig.model.object.GsonModelObjectFactory;
-import net.mcparkour.unifig.model.value.GsonModelValueFactory;
+public class BasicOptions implements Options {
 
-public class GsonConverterFactory extends BasicConverterFactory<JsonObject, JsonArray, JsonElement> {
+	private int indentSize;
+	private IndentCharacter indentCharacter;
+	private LetterCase defaultKeysLetterCase;
 
-	public GsonConverterFactory() {
-		super(new GsonModelObjectFactory(), new GsonModelArrayFactory(), new GsonModelValueFactory());
+	public BasicOptions(int indentSize, IndentCharacter indentCharacter, LetterCase defaultKeysLetterCase) {
+		this.indentSize = indentSize;
+		this.indentCharacter = indentCharacter;
+		this.defaultKeysLetterCase = defaultKeysLetterCase;
+	}
+
+	@Override
+	public int getIndentSize() {
+		return this.indentSize;
+	}
+
+	@Override
+	public IndentCharacter getIndentCharacter() {
+		return this.indentCharacter;
+	}
+
+	@Override
+	public LetterCase getDefaultKeysLetterCase() {
+		return this.defaultKeysLetterCase;
 	}
 }

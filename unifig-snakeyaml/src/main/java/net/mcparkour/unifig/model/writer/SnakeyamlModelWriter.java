@@ -27,22 +27,30 @@ package net.mcparkour.unifig.model.writer;
 import java.util.List;
 import java.util.Map;
 import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.unifig.options.Options;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class SnakeyamlModelWriter implements ModelWriter<Map<String, Object>, List<Object>, Object> {
 
-	private Yaml yaml = new Yaml(createDumperOptions());
+	private Yaml yaml;
+
+	public SnakeyamlModelWriter(Options options) {
+		DumperOptions dumperOptions = createDumperOptions(options);
+		this.yaml = new Yaml(dumperOptions);
+	}
+
+	private DumperOptions createDumperOptions(Options options) {
+		DumperOptions dumperOptions = new DumperOptions();
+		int indentSize = options.getIndentSize();
+		dumperOptions.setIndent(indentSize);
+		dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+		return dumperOptions;
+	}
 
 	@Override
 	public String write(ModelObject<Map<String, Object>, List<Object>, Object> object) {
 		Map<String, Object> rawObject = object.getObject();
 		return this.yaml.dump(rawObject);
-	}
-
-	private DumperOptions createDumperOptions() {
-		DumperOptions options = new DumperOptions();
-		options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-		return options;
 	}
 }

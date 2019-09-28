@@ -25,7 +25,6 @@
 package net.mcparkour.unifig.model.writer;
 
 import java.io.StringWriter;
-import java.io.Writer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -33,26 +32,36 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.unifig.options.IndentCharacter;
+import net.mcparkour.unifig.options.Options;
 
 public class GsonModelWriter implements ModelWriter<JsonObject, JsonArray, JsonElement> {
 
-	private Gson gson = new GsonBuilder()
-		.serializeNulls()
-		.create();
+	private String indent;
+	private Gson gson;
+
+	public GsonModelWriter(Options options) {
+		this.indent = createIndent(options);
+		this.gson = new GsonBuilder()
+			.serializeNulls()
+			.create();
+	}
+
+	private String createIndent(Options options) {
+		IndentCharacter indentCharacter = options.getIndentCharacter();
+		char character = indentCharacter.getCharacter();
+		String characterString = String.valueOf(character);
+		int indentSize = options.getIndentSize();
+		return characterString.repeat(indentSize);
+	}
 
 	@Override
 	public String write(ModelObject<JsonObject, JsonArray, JsonElement> object) {
 		JsonObject rawObject = object.getObject();
 		StringWriter writer = new StringWriter();
-		JsonWriter jsonWriter = createJsonWriter(writer, 4);
+		JsonWriter jsonWriter = new JsonWriter(writer);
+		jsonWriter.setIndent(this.indent);
 		this.gson.toJson(rawObject, jsonWriter);
 		return writer.append('\n').toString();
-	}
-
-	private JsonWriter createJsonWriter(Writer writer, int indent) {
-		JsonWriter jsonWriter = new JsonWriter(writer);
-		String indentString = " ".repeat(indent);
-		jsonWriter.setIndent(indentString);
-		return jsonWriter;
 	}
 }

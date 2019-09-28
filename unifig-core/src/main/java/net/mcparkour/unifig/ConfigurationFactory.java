@@ -24,40 +24,11 @@
 
 package net.mcparkour.unifig;
 
-import java.io.File;
-import java.nio.file.Path;
+import net.mcparkour.unifig.options.Options;
 
-public interface Configuration<T> {
+public interface ConfigurationFactory {
 
-	default T read() {
-		Path path = getCurrentPath();
-		return read(path);
-	}
+	<T> Configuration<T> createConfiguration(Class<T> configurationType);
 
-	default T read(File directory) {
-		Path path = directory.toPath();
-		return read(path);
-	}
-
-	T read(Path directoryPath);
-
-	T readFromString(String string);
-
-	default void write(T configuration) {
-		Path path = getCurrentPath();
-		write(configuration, path);
-	}
-
-	default void write(T configuration, File directory) {
-		Path path = directory.toPath();
-		write(configuration, path);
-	}
-
-	void write(T configuration, Path directoryPath);
-
-	String writeToString(T configuration);
-
-	private Path getCurrentPath() {
-		return Path.of("");
-	}
+	<T> Configuration<T> createConfiguration(Class<T> configurationType, Options options);
 }

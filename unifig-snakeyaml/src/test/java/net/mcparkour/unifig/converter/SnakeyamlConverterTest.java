@@ -27,14 +27,10 @@ package net.mcparkour.unifig.converter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
+import net.mcparkour.unifig.Configuration;
+import net.mcparkour.unifig.ConfigurationFactory;
+import net.mcparkour.unifig.SnakeyamlConfigurationFactory;
 import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.model.object.ModelObject;
-import net.mcparkour.unifig.model.reader.ModelReader;
-import net.mcparkour.unifig.model.reader.SnakeyamlModelReader;
-import net.mcparkour.unifig.model.writer.ModelWriter;
-import net.mcparkour.unifig.model.writer.SnakeyamlModelWriter;
 import net.mcparkour.unifig.util.Resources;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,32 +38,26 @@ import org.junit.jupiter.api.Test;
 
 public class SnakeyamlConverterTest {
 
-	private Converter<Map<String, Object>, List<Object>, Object> converter;
-	private ModelWriter<Map<String, Object>, List<Object>, Object> writer;
-	private ModelReader<Map<String, Object>, List<Object>, Object> reader;
-	private String configuration;
+	private Configuration<TestConfiguration> configuration;
+	private String configurationString;
 
 	@BeforeEach
 	public void setUp() throws IOException {
-		SnakeyamlConverterFactory factory = new SnakeyamlConverterFactory();
-		this.converter = factory.createConverter();
-		this.writer = new SnakeyamlModelWriter();
-		this.reader = new SnakeyamlModelReader();
+		ConfigurationFactory configurationFactory = new SnakeyamlConfigurationFactory();
+		this.configuration = configurationFactory.createConfiguration(TestConfiguration.class);
 		Path configurationPath = Resources.getResourcePath("configuration.yml");
-		this.configuration = Files.readString(configurationPath);
+		this.configurationString = Files.readString(configurationPath);
 	}
 
 	@Test
 	public void testFromConfiguration() {
-		ModelObject<Map<String, Object>, List<Object>, Object> object = this.converter.fromConfiguration(new TestConfiguration());
-		String written = this.writer.write(object);
-		Assertions.assertEquals(this.configuration, written);
+		String written = this.configuration.writeToString(new TestConfiguration());
+		Assertions.assertEquals(this.configurationString, written);
 	}
 
 	@Test
 	public void testToConfiguration() {
-		ModelObject<Map<String, Object>, List<Object>, Object> object = this.reader.read(this.configuration);
-		TestConfiguration testConfiguration = this.converter.toConfiguration(object, TestConfiguration.class);
+		TestConfiguration testConfiguration = this.configuration.readFromString(this.configurationString);
 		Assertions.assertEquals(new TestConfiguration(), testConfiguration);
 	}
 }

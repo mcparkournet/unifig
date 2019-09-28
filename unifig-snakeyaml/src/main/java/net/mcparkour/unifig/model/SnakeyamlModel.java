@@ -22,13 +22,17 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.registry;
+package net.mcparkour.unifig.model;
 
-import java.util.Map;
-import java.util.Set;
-import net.mcparkour.unifig.codec.Codec;
+public class SnakeyamlModel implements Model {
 
-public interface CodecRegistryDataHolder<O, A, V> {
+	@Override
+	public String getFileExtension() {
+		return "yml";
+	}
 
-	Set<Map.Entry<Class<?>, Codec<O, A, V, ?>>> getCodecs();
+	@Override
+	public String getLineComment() {
+		return "#";
+	}
 }

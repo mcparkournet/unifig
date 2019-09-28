@@ -26,7 +26,7 @@ package net.mcparkour.unifig.converter;
 
 import net.mcparkour.unifig.model.object.ModelObject;
 
-public interface Converter<O, A, V> extends ConverterDataHolder<O, A, V> {
+public interface Converter<O, A, V> {
 
 	ModelObject<O, A, V> fromConfiguration(Object configuration);
 

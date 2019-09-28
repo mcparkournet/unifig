@@ -42,6 +42,7 @@ import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
+import net.mcparkour.unifig.options.Options;
 import org.jetbrains.annotations.Nullable;
 
 public class BasicConverter<O, A, V> implements Converter<O, A, V> {
@@ -49,17 +50,15 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 	private ModelObjectFactory<O, A, V> modelObjectFactory;
 	private ModelArrayFactory<O, A, V> modelArrayFactory;
 	private ModelValueFactory<O, A, V> modelValueFactory;
+	private Options options;
 	private CodecRegistry<O, A, V> codecRegistry;
-	private List<? extends FieldCondition> fieldConditions;
+	private List<FieldCondition> fieldConditions;
 
-	public static <O, A, V> ConverterBuilder<O, A, V> builder() {
-		return new BasicConverterBuilder<>();
-	}
-
-	public BasicConverter(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory, CodecRegistry<O, A, V> codecRegistry, List<? extends FieldCondition> fieldConditions) {
+	public BasicConverter(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory, Options options, CodecRegistry<O, A, V> codecRegistry, List<FieldCondition> fieldConditions) {
 		this.modelObjectFactory = modelObjectFactory;
 		this.modelArrayFactory = modelArrayFactory;
 		this.modelValueFactory = modelValueFactory;
+		this.options = options;
 		this.codecRegistry = codecRegistry;
 		this.fieldConditions = fieldConditions;
 	}
@@ -201,30 +200,5 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			return null;
 		}
 		return (Codec<O, A, V, Object>) codec;
-	}
-
-	@Override
-	public ModelObjectFactory<O, A, V> getModelObjectFactory() {
-		return this.modelObjectFactory;
-	}
-
-	@Override
-	public ModelArrayFactory<O, A, V> getModelArrayFactory() {
-		return this.modelArrayFactory;
-	}
-
-	@Override
-	public ModelValueFactory<O, A, V> getModelValueFactory() {
-		return this.modelValueFactory;
-	}
-
-	@Override
-	public CodecRegistry<O, A, V> getCodecRegistry() {
-		return this.codecRegistry;
-	}
-
-	@Override
-	public List<FieldCondition> getFieldConditions() {
-		return List.copyOf(this.fieldConditions);
 	}
 }

@@ -24,23 +24,47 @@
 
 package net.mcparkour.unifig.codec.registry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import net.mcparkour.unifig.codec.Codec;
 
-public interface CodecRegistryBuilder<O, A, V> {
+public class TypedCodecRegistryBuilder<O, A, V> implements CodecRegistryBuilder<O, A, V> {
 
-	CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, Class<?> type);
+	private List<TypedCodec<O, A, V>> codecs;
 
-	default CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, Class<?>... types) {
-		List<Class<?>> typesList = List.of(types);
-		return codec(codec, typesList);
+	public TypedCodecRegistryBuilder() {
+		this(new ArrayList<>());
 	}
 
-	CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, List<Class<?>> types);
+	private TypedCodecRegistryBuilder(List<TypedCodec<O, A, V>> codecs) {
+		this.codecs = codecs;
+	}
 
-	CodecRegistryBuilder<O, A, V> codecs(Set<? extends Map.Entry<Class<?>, Codec<O, A, V, ?>>> codecs);
+	@Override
+	public CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, Class<?> type) {
+		TypedCodec<O, A, V> typedCodec = new TypedCodec<>(type, codec);
+		this.codecs.add(typedCodec);
+		return this;
+	}
 
-	CodecRegistry<O, A, V> build();
+	@Override
+	public CodecRegistryBuilder<O, A, V> codec(Codec<O, A, V, ?> codec, List<Class<?>> types) {
+		types.forEach(type -> codec(codec, type));
+		return this;
+	}
+
+	@Override
+	public CodecRegistryBuilder<O, A, V> codecs(Set<? extends Map.Entry<Class<?>, Codec<O, A, V, ?>>> codecs) {
+		codecs.stream()
+			.map(TypedCodec::new)
+			.forEach(this.codecs::add);
+		return this;
+	}
+
+	@Override
+	public CodecRegistry<O, A, V> build() {
+		return new TypedCodecRegistry<>(this.codecs);
+	}
 }

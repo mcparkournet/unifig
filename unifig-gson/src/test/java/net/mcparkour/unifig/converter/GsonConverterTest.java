@@ -27,15 +27,10 @@ package net.mcparkour.unifig.converter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import net.mcparkour.unifig.Configuration;
+import net.mcparkour.unifig.ConfigurationFactory;
+import net.mcparkour.unifig.GsonConfigurationFactory;
 import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.model.object.ModelObject;
-import net.mcparkour.unifig.model.reader.GsonModelReader;
-import net.mcparkour.unifig.model.reader.ModelReader;
-import net.mcparkour.unifig.model.writer.GsonModelWriter;
-import net.mcparkour.unifig.model.writer.ModelWriter;
 import net.mcparkour.unifig.util.Resources;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,32 +38,26 @@ import org.junit.jupiter.api.Test;
 
 public class GsonConverterTest {
 
-	private Converter<JsonObject, JsonArray, JsonElement> converter;
-	private ModelWriter<JsonObject, JsonArray, JsonElement> writer;
-	private ModelReader<JsonObject, JsonArray, JsonElement> reader;
-	private String configuration;
+	private Configuration<TestConfiguration> configuration;
+	private String configurationString;
 
 	@BeforeEach
 	public void setUp() throws IOException {
-		GsonConverterFactory factory = new GsonConverterFactory();
-		this.converter = factory.createConverter();
-		this.writer = new GsonModelWriter();
-		this.reader = new GsonModelReader();
+		ConfigurationFactory configurationFactory = new GsonConfigurationFactory();
+		this.configuration = configurationFactory.createConfiguration(TestConfiguration.class);
 		Path configurationPath = Resources.getResourcePath("configuration.json");
-		this.configuration = Files.readString(configurationPath);
+		this.configurationString = Files.readString(configurationPath);
 	}
 
 	@Test
 	public void testFromConfigurationObject() {
-		ModelObject<JsonObject, JsonArray, JsonElement> object = this.converter.fromConfiguration(new TestConfiguration());
-		String written = this.writer.write(object);
-		Assertions.assertEquals(this.configuration, written);
+		String written = this.configuration.writeToString(new TestConfiguration());
+		Assertions.assertEquals(this.configurationString, written);
 	}
 
 	@Test
 	public void testToConfigurationObject() {
-		ModelObject<JsonObject, JsonArray, JsonElement> object = this.reader.read(this.configuration);
-		TestConfiguration testConfiguration = this.converter.toConfiguration(object, TestConfiguration.class);
+		TestConfiguration testConfiguration = this.configuration.readFromString(this.configurationString);
 		Assertions.assertEquals(new TestConfiguration(), testConfiguration);
 	}
 }
