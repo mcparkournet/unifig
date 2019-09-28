@@ -13,6 +13,6 @@ repositories {
 }
 
 dependencies {
-    implementation("net.mcparkour:unifig-gson:1.0.0")
+    implementation("net.mcparkour:unifig-gson:1.1.2")
 }
 ```

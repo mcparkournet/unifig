@@ -57,14 +57,14 @@ public class SnakeyamlModelArray implements ModelArray<Map<String, Object>, List
 	@Override
 	public Iterator<ModelValue<Map<String, Object>, List<Object>, Object>> iterator() {
 		Iterator<Object> iterator = this.array.iterator();
-		return new PaperModelArrayIterator(iterator);
+		return new SnakeyamlModelArrayIterator(iterator);
 	}
 
-	private static final class PaperModelArrayIterator implements Iterator<ModelValue<Map<String, Object>, List<Object>, Object>> {
+	private static final class SnakeyamlModelArrayIterator implements Iterator<ModelValue<Map<String, Object>, List<Object>, Object>> {
 
 		private Iterator<Object> iterator;
 
-		private PaperModelArrayIterator(Iterator<Object> iterator) {
+		private SnakeyamlModelArrayIterator(Iterator<Object> iterator) {
 			this.iterator = iterator;
 		}
 
