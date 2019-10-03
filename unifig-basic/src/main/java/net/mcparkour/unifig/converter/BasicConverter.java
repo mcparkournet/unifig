@@ -72,14 +72,15 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 				String fieldName = getFieldName(field);
 				Class<?> fieldType = field.getType();
 				Object fieldValue = Reflections.getFieldValue(field, configuration);
-				ModelValue<O, A, V> value = toModelValue(fieldValue, fieldType);
+				ModelValue<O, A, V> value = toModelValue(fieldValue, fieldType, field);
 				object.setValue(fieldName, value);
 			}
 		}
 		return object;
 	}
 
-	private ModelValue<O, A, V> toModelValue(@Nullable Object object, Class<?> type) {
+	@Override
+	public ModelValue<O, A, V> toModelValue(@Nullable Object object, Class<?> type, Field field) {
 		if (object == null) {
 			return this.modelValueFactory.createNullModelValue();
 		}
@@ -88,7 +89,7 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			ModelArray<O, A, V> array = this.modelArrayFactory.createEmptyModelArray();
 			for (Object element : list) {
 				Class<?> elementType = element.getClass();
-				ModelValue<O, A, V> elementValue = toModelValue(element, elementType);
+				ModelValue<O, A, V> elementValue = toModelValue(element, elementType, field);
 				array.addValue(elementValue);
 			}
 			return this.modelValueFactory.createArrayModelValue(array);
@@ -101,7 +102,7 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 				String keyString = key.toString();
 				Object value = entry.getValue();
 				Class<?> valueType = value.getClass();
-				ModelValue<O, A, V> valueValue = toModelValue(value, valueType);
+				ModelValue<O, A, V> valueValue = toModelValue(value, valueType, field);
 				modelObject.setValue(keyString, valueValue);
 			}
 			return this.modelValueFactory.createObjectModelValue(modelObject);
@@ -111,7 +112,7 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			ModelObject<O, A, V> modelObject = fromConfiguration(object);
 			return this.modelValueFactory.createObjectModelValue(modelObject);
 		}
-		return codec.encode(object);
+		return codec.encode(object, field, this);
 	}
 
 	@Override
@@ -132,30 +133,9 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 		return instance;
 	}
 
-	private boolean isFieldValid(Field field) {
-		List<FieldCondition> fieldConditions = this.options.getFieldConditions();
-		return fieldConditions.stream()
-			.allMatch(condition -> condition.check(field));
-	}
-
-	private String getFieldName(Field field) {
-		Property property = field.getAnnotation(Property.class);
-		if (property != null) {
-			return property.value();
-		}
-		String name = field.getName();
-		LetterCase defaultKeysLetterCase = this.options.getDefaultKeysLetterCase();
-		if (defaultKeysLetterCase == LetterCase.KEBAB) {
-			return LetterCaseTransformer.toKebabCase(name);
-		}
-		if (defaultKeysLetterCase == LetterCase.SNAKE) {
-			return LetterCaseTransformer.toSnakeCase(name);
-		}
-		return name;
-	}
-
+	@Override
 	@Nullable
-	private Object toObject(ModelValue<O, A, V> value, Class<?> type, Field field) {
+	public Object toObject(ModelValue<O, A, V> value, Class<?> type, Field field) {
 		if (value.isNull()) {
 			return null;
 		}
@@ -196,7 +176,31 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			ModelObject<O, A, V> object = this.modelObjectFactory.createModelObject(rawObject);
 			return toConfiguration(object, type);
 		}
-		return codec.decode(value, type);
+		return codec.decode(value, field, this);
+	}
+
+	@Override
+	public boolean isFieldValid(Field field) {
+		List<FieldCondition> fieldConditions = this.options.getFieldConditions();
+		return fieldConditions.stream()
+			.allMatch(condition -> condition.check(field));
+	}
+
+	@Override
+	public String getFieldName(Field field) {
+		Property property = field.getAnnotation(Property.class);
+		if (property != null) {
+			return property.value();
+		}
+		String name = field.getName();
+		LetterCase defaultKeysLetterCase = this.options.getDefaultKeysLetterCase();
+		if (defaultKeysLetterCase == LetterCase.KEBAB) {
+			return LetterCaseTransformer.toKebabCase(name);
+		}
+		if (defaultKeysLetterCase == LetterCase.SNAKE) {
+			return LetterCaseTransformer.toSnakeCase(name);
+		}
+		return name;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -208,5 +212,25 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			return null;
 		}
 		return (Codec<O, A, V, Object>) codec;
+	}
+
+	@Override
+	public ModelObjectFactory<O, A, V> getModelObjectFactory() {
+		return this.modelObjectFactory;
+	}
+
+	@Override
+	public ModelArrayFactory<O, A, V> getModelArrayFactory() {
+		return this.modelArrayFactory;
+	}
+
+	@Override
+	public ModelValueFactory<O, A, V> getModelValueFactory() {
+		return this.modelValueFactory;
+	}
+
+	@Override
+	public Options getOptions() {
+		return this.options;
 	}
 }

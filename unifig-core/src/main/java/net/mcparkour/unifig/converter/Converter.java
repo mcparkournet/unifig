@@ -24,11 +24,34 @@
 
 package net.mcparkour.unifig.converter;
 
+import java.lang.reflect.Field;
+import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.unifig.model.object.ModelObjectFactory;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
+import net.mcparkour.unifig.options.Options;
+import org.jetbrains.annotations.Nullable;
 
 public interface Converter<O, A, V> {
 
 	ModelObject<O, A, V> fromConfiguration(Object configuration);
 
+	ModelValue<O, A, V> toModelValue(@Nullable Object object, Class<?> type, Field field);
+
 	<T> T toConfiguration(ModelObject<O, A, V> object, Class<T> configurationType);
+
+	Object toObject(ModelValue<O, A, V> value, Class<?> type, Field field);
+
+	boolean isFieldValid(Field field);
+
+	String getFieldName(Field field);
+
+	ModelObjectFactory<O, A, V> getModelObjectFactory();
+
+	ModelArrayFactory<O, A, V> getModelArrayFactory();
+
+	ModelValueFactory<O, A, V> getModelValueFactory();
+
+	Options getOptions();
 }

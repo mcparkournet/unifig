@@ -24,26 +24,23 @@
 
 package net.mcparkour.unifig.codec;
 
+import java.lang.reflect.Field;
+import net.mcparkour.unifig.converter.Converter;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractNumberCodec<O, A, V, T extends Number> implements Codec<O, A, V, T> {
 
-	private ModelValueFactory<O, A, V> modelValueFactory;
-
-	public AbstractNumberCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		this.modelValueFactory = modelValueFactory;
-	}
-
 	@Override
-	public ModelValue<O, A, V> encode(Number object) {
-		return this.modelValueFactory.createNumberModelValue(object);
+	public ModelValue<O, A, V> encode(T object, Field field, Converter<O, A, V> converter) {
+		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
+		return valueFactory.createNumberModelValue(object);
 	}
 
 	@Nullable
 	@Override
-	public T decode(ModelValue<O, A, V> value, Class<? extends T> type) {
+	public T decode(ModelValue<O, A, V> value, Field field, Converter<O, A, V> converter) {
 		if (!value.isNumber()) {
 			throw new CodecDecodeException("value is not a number");
 		}

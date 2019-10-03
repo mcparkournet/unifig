@@ -35,7 +35,7 @@ public class TypedCodecRegistryBuilder<O, A, V> implements CodecRegistryBuilder<
 	private List<TypedCodec<O, A, V>> codecs;
 
 	public TypedCodecRegistryBuilder() {
-		this(new ArrayList<>());
+		this(new ArrayList<>(0));
 	}
 
 	private TypedCodecRegistryBuilder(List<TypedCodec<O, A, V>> codecs) {

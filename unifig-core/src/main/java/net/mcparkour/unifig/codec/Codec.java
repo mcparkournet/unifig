@@ -24,13 +24,15 @@
 
 package net.mcparkour.unifig.codec;
 
+import java.lang.reflect.Field;
+import net.mcparkour.unifig.converter.Converter;
 import net.mcparkour.unifig.model.value.ModelValue;
 import org.jetbrains.annotations.Nullable;
 
 public interface Codec<O, A, V, T> {
 
-	ModelValue<O, A, V> encode(T object);
+	ModelValue<O, A, V> encode(T object, Field field, Converter<O, A, V> converter);
 
 	@Nullable
-	T decode(ModelValue<O, A, V> value, Class<? extends T> type);
+	T decode(ModelValue<O, A, V> value, Field field, Converter<O, A, V> converter);
 }

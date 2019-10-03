@@ -60,8 +60,7 @@ public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
 
 	@Override
 	public OptionsBuilder createOptionsBuilder() {
-		SnakeyamlModelValueFactory valueFactory = new SnakeyamlModelValueFactory();
-		CodecRegistryBuilder<Map<String, Object>, List<Object>, Object> codecRegistryBuilder = Codecs.createBasicCodecRegistryBuilder(valueFactory);
+		CodecRegistryBuilder<Map<String, Object>, List<Object>, Object> codecRegistryBuilder = Codecs.createBasicCodecRegistryBuilder();
 		CodecRegistry<Map<String, Object>, List<Object>, Object> codecRegistry = codecRegistryBuilder.build();
 		List<FieldCondition> fieldConditions = FieldConditions.createBasicFieldConditionList();
 		return new BasicOptionsBuilder()

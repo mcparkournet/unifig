@@ -24,13 +24,7 @@
 
 package net.mcparkour.unifig.codec;
 
-import net.mcparkour.unifig.model.value.ModelValueFactory;
-
 public class ByteCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Byte> {
-
-	public ByteCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		super(modelValueFactory);
-	}
 
 	@Override
 	public Byte decode(Number number) {

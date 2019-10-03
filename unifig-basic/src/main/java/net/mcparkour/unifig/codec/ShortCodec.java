@@ -24,13 +24,7 @@
 
 package net.mcparkour.unifig.codec;
 
-import net.mcparkour.unifig.model.value.ModelValueFactory;
-
 public class ShortCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Short> {
-
-	public ShortCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		super(modelValueFactory);
-	}
 
 	@Override
 	public Short decode(Number number) {

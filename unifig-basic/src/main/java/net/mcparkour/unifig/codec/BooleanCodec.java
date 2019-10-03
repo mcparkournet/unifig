@@ -24,28 +24,23 @@
 
 package net.mcparkour.unifig.codec;
 
-import net.mcparkour.unifig.codec.Codec;
-import net.mcparkour.unifig.codec.CodecDecodeException;
+import java.lang.reflect.Field;
+import net.mcparkour.unifig.converter.Converter;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
 public class BooleanCodec<O, A, V> implements Codec<O, A, V, Boolean> {
 
-	private ModelValueFactory<O, A, V> modelValueFactory;
-
-	public BooleanCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		this.modelValueFactory = modelValueFactory;
-	}
-
 	@Override
-	public ModelValue<O, A, V> encode(Boolean object) {
-		return this.modelValueFactory.createBooleanModelValue(object);
+	public ModelValue<O, A, V> encode(Boolean object, Field field, Converter<O, A, V> converter) {
+		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
+		return valueFactory.createBooleanModelValue(object);
 	}
 
 	@Nullable
 	@Override
-	public Boolean decode(ModelValue<O, A, V> value, Class<? extends Boolean> type) {
+	public Boolean decode(ModelValue<O, A, V> value, Field field, Converter<O, A, V> converter) {
 		if (!value.isBoolean()) {
 			throw new CodecDecodeException("Value is not a boolean");
 		}

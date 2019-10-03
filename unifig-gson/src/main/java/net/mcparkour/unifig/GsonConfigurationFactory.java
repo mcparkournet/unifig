@@ -61,8 +61,7 @@ public class GsonConfigurationFactory implements ConfigurationFactory {
 
 	@Override
 	public OptionsBuilder createOptionsBuilder() {
-		GsonModelValueFactory valueFactory = new GsonModelValueFactory();
-		CodecRegistryBuilder<JsonObject, JsonArray, JsonElement> codecRegistryBuilder = Codecs.createBasicCodecRegistryBuilder(valueFactory);
+		CodecRegistryBuilder<JsonObject, JsonArray, JsonElement> codecRegistryBuilder = Codecs.createBasicCodecRegistryBuilder();
 		CodecRegistry<JsonObject, JsonArray, JsonElement> codecRegistry = codecRegistryBuilder.build();
 		List<FieldCondition> fieldConditions = FieldConditions.createBasicFieldConditionList();
 		return new BasicOptionsBuilder()

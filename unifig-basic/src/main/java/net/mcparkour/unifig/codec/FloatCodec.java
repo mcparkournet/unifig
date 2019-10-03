@@ -24,13 +24,7 @@
 
 package net.mcparkour.unifig.codec;
 
-import net.mcparkour.unifig.model.value.ModelValueFactory;
-
 public class FloatCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Float> {
-
-	public FloatCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		super(modelValueFactory);
-	}
 
 	@Override
 	public Float decode(Number number) {

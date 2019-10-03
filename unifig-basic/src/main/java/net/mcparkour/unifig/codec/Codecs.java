@@ -26,7 +26,6 @@ package net.mcparkour.unifig.codec;
 
 import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
 import net.mcparkour.unifig.codec.registry.TypedCodecRegistryBuilder;
-import net.mcparkour.unifig.model.value.ModelValueFactory;
 
 public final class Codecs {
 
@@ -34,17 +33,17 @@ public final class Codecs {
 		throw new UnsupportedOperationException("Cannot create an instance of this class");
 	}
 
-	public static <O, A, V> CodecRegistryBuilder<O, A, V> createBasicCodecRegistryBuilder(ModelValueFactory<O, A, V> valueFactory) {
+	public static <O, A, V> CodecRegistryBuilder<O, A, V> createBasicCodecRegistryBuilder() {
 		return new TypedCodecRegistryBuilder<O, A, V>()
-			.codec(new BooleanCodec<>(valueFactory), boolean.class, Boolean.class)
-			.codec(new CharacterCodec<>(valueFactory), char.class, Character.class)
-			.codec(new ByteCodec<>(valueFactory), byte.class, Byte.class)
-			.codec(new ShortCodec<>(valueFactory), short.class, Short.class)
-			.codec(new IntegerCodec<>(valueFactory), int.class, Integer.class)
-			.codec(new LongCodec<>(valueFactory), long.class, Long.class)
-			.codec(new FloatCodec<>(valueFactory), float.class, Float.class)
-			.codec(new DoubleCodec<>(valueFactory), double.class, Double.class)
-			.codec(new StringCodec<>(valueFactory), String.class)
-			.codec(new EnumCodec<>(valueFactory), Enum.class);
+			.codec(new BooleanCodec<>(), boolean.class, Boolean.class)
+			.codec(new CharacterCodec<>(), char.class, Character.class)
+			.codec(new ByteCodec<>(), byte.class, Byte.class)
+			.codec(new ShortCodec<>(), short.class, Short.class)
+			.codec(new IntegerCodec<>(), int.class, Integer.class)
+			.codec(new LongCodec<>(), long.class, Long.class)
+			.codec(new FloatCodec<>(), float.class, Float.class)
+			.codec(new DoubleCodec<>(), double.class, Double.class)
+			.codec(new StringCodec<>(), String.class)
+			.codec(new EnumCodec<>(), Enum.class);
 	}
 }

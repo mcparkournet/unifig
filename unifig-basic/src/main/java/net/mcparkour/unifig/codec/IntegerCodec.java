@@ -24,13 +24,7 @@
 
 package net.mcparkour.unifig.codec;
 
-import net.mcparkour.unifig.model.value.ModelValueFactory;
-
 public class IntegerCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Integer> {
-
-	public IntegerCodec(ModelValueFactory<O, A, V> modelValueFactory) {
-		super(modelValueFactory);
-	}
 
 	@Override
 	public Integer decode(Number number) {
