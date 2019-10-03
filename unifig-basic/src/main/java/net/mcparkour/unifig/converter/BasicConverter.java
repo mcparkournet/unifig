@@ -26,17 +26,13 @@ package net.mcparkour.unifig.converter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import net.mcparkour.common.reflection.Reflections;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecNotFoundException;
 import net.mcparkour.unifig.codec.registry.CodecRegistry;
 import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.model.array.ModelArray;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
@@ -84,29 +80,6 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 		if (object == null) {
 			return this.modelValueFactory.createNullModelValue();
 		}
-		if (List.class.isAssignableFrom(type)) {
-			List<?> list = (List<?>) object;
-			ModelArray<O, A, V> array = this.modelArrayFactory.createEmptyModelArray();
-			for (Object element : list) {
-				Class<?> elementType = element.getClass();
-				ModelValue<O, A, V> elementValue = toModelValue(element, elementType, field);
-				array.addValue(elementValue);
-			}
-			return this.modelValueFactory.createArrayModelValue(array);
-		}
-		if (Map.class.isAssignableFrom(type)) {
-			Map<?, ?> map = (Map<?, ?>) object;
-			ModelObject<O, A, V> modelObject = this.modelObjectFactory.createEmptyModelObject();
-			for (Map.Entry<?, ?> entry : map.entrySet()) {
-				Object key = entry.getKey();
-				String keyString = key.toString();
-				Object value = entry.getValue();
-				Class<?> valueType = value.getClass();
-				ModelValue<O, A, V> valueValue = toModelValue(value, valueType, field);
-				modelObject.setValue(keyString, valueValue);
-			}
-			return this.modelValueFactory.createObjectModelValue(modelObject);
-		}
 		Codec<O, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
 			ModelObject<O, A, V> modelObject = fromConfiguration(object);
@@ -138,34 +111,6 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 	public Object toObject(ModelValue<O, A, V> value, Class<?> type, Field field) {
 		if (value.isNull()) {
 			return null;
-		}
-		if (value.isArray()) {
-			A rawArray = value.asArray();
-			ModelArray<O, A, V> array = this.modelArrayFactory.createModelArray(rawArray);
-			int size = array.getSize();
-			List<Object> list = new ArrayList<>(size);
-			List<Class<?>> genericTypes = Reflections.getGenericTypes(field);
-			Class<?> genericType = genericTypes.get(0);
-			for (ModelValue<O, A, V> elementValue : array) {
-				Object object = toObject(elementValue, genericType, field);
-				list.add(object);
-			}
-			return list;
-		}
-		if (value.isObject() && Map.class.isAssignableFrom(type)) {
-			O rawObject = value.asObject();
-			ModelObject<O, A, V> object = this.modelObjectFactory.createModelObject(rawObject);
-			int size = object.getSize();
-			Map<Object, Object> map = new LinkedHashMap<>(size);
-			List<Class<?>> genericTypes = Reflections.getGenericTypes(field);
-			Class<?> genericType = genericTypes.get(1);
-			for (Map.Entry<String, ModelValue<O, A, V>> entry : object.getEntries()) {
-				String key = entry.getKey();
-				ModelValue<O, A, V> entryValue = entry.getValue();
-				Object mapValue = toObject(entryValue, genericType, field);
-				map.put(key, mapValue);
-			}
-			return map;
 		}
 		Codec<O, A, V, Object> codec = getObjectCodec(type);
 		if (codec == null) {
