@@ -27,9 +27,10 @@ package net.mcparkour.unifig;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import net.mcparkour.unifig.annotation.Ignored;
 import net.mcparkour.unifig.annotation.Property;
-import net.mcparkour.unifig.util.Maps;
+import net.mcparkour.unifig.util.Collections;
 import org.jetbrains.annotations.Nullable;
 
 public class TestSubConfiguration {
@@ -72,15 +73,17 @@ public class TestSubConfiguration {
 	private TestEnum testEnum;
 	private TestEnum testEnum2;
 
+	private Set<String> stringSet;
+
 	private List<String> stringList;
 
 	private Map<String, String> stringMap;
 
 	public TestSubConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", TestEnum.TWO, TestEnum.THREE, List.of("1", "2", "3"), Maps.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"));
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", TestEnum.TWO, TestEnum.THREE, Collections.createLinkedSet("1", "2", "3"), List.of("1", "2", "3"), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"));
 	}
 
-	public TestSubConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestEnum testEnum, TestEnum testEnum2, List<String> stringList, Map<String, String> stringMap) {
+	public TestSubConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestEnum testEnum, TestEnum testEnum2, Set<String> stringSet, List<String> stringList, Map<String, String> stringMap) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -101,6 +104,7 @@ public class TestSubConfiguration {
 		this.foo = foo;
 		this.testEnum = testEnum;
 		this.testEnum2 = testEnum2;
+		this.stringSet = stringSet;
 		this.stringList = stringList;
 		this.stringMap = stringMap;
 	}
@@ -135,13 +139,14 @@ public class TestSubConfiguration {
 			Objects.equals(this.foo, that.foo) &&
 			this.testEnum == that.testEnum &&
 			this.testEnum2 == that.testEnum2 &&
+			Objects.equals(this.stringSet, that.stringSet) &&
 			Objects.equals(this.stringList, that.stringList) &&
 			Objects.equals(this.stringMap, that.stringMap);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.testEnum, this.testEnum2, this.stringList, this.stringMap);
+		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.testEnum, this.testEnum2, this.stringSet, this.stringList, this.stringMap);
 	}
 
 	@Override
@@ -168,6 +173,7 @@ public class TestSubConfiguration {
 			", foo='" + this.foo + "'" +
 			", testEnum=" + this.testEnum +
 			", testEnum2=" + this.testEnum2 +
+			", stringSet=" + this.stringSet +
 			", stringList=" + this.stringList +
 			", stringMap=" + this.stringMap +
 			"}";
@@ -262,7 +268,15 @@ public class TestSubConfiguration {
 		return this.testEnum2;
 	}
 
+	public Set<String> getStringSet() {
+		return this.stringSet;
+	}
+
 	public List<String> getStringList() {
 		return this.stringList;
+	}
+
+	public Map<String, String> getStringMap() {
+		return this.stringMap;
 	}
 }

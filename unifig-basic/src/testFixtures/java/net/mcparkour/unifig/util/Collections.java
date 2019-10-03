@@ -24,13 +24,15 @@
 
 package net.mcparkour.unifig.util;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
-public final class Maps {
+public final class Collections {
 
-	private Maps() {
+	private Collections() {
 		throw new UnsupportedOperationException("Cannot create an instance of this class");
 	}
 
@@ -39,6 +41,13 @@ public final class Maps {
 		map.put(key1, value1);
 		map.put(key2, value2);
 		map.put(key3, value3);
-		return Collections.unmodifiableMap(map);
+		return java.util.Collections.unmodifiableMap(map);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <E> Set<E> createLinkedSet(E... elements) {
+		Set<E> set = new LinkedHashSet<>(elements.length);
+		set.addAll(Arrays.asList(elements));
+		return set;
 	}
 }

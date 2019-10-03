@@ -26,6 +26,7 @@ package net.mcparkour.unifig.codec;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
 import net.mcparkour.unifig.codec.registry.TypedCodecRegistryBuilder;
 
@@ -47,6 +48,7 @@ public final class Codecs {
 			.codec(new DoubleCodec<>(), double.class, Double.class)
 			.codec(new StringCodec<>(), String.class)
 			.codec(new EnumCodec<>(), Enum.class)
+			.codec(new SetCodec<>(), Set.class)
 			.codec(new ListCodec<>(), List.class)
 			.codec(new MapCodec<>(), Map.class);
 	}
