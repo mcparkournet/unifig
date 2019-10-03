@@ -24,16 +24,27 @@
 
 package net.mcparkour.unifig.options;
 
+import java.nio.file.Path;
+import java.util.List;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.condition.FieldCondition;
+
 public class BasicOptions implements Options {
 
 	private int indentSize;
 	private IndentCharacter indentCharacter;
 	private LetterCase defaultKeysLetterCase;
+	private Path directoryPath;
+	private CodecRegistry<?, ?, ?> codecRegistry;
+	private List<FieldCondition> fieldConditions;
 
-	public BasicOptions(int indentSize, IndentCharacter indentCharacter, LetterCase defaultKeysLetterCase) {
+	public BasicOptions(int indentSize, IndentCharacter indentCharacter, LetterCase defaultKeysLetterCase, Path directoryPath, CodecRegistry<?, ?, ?> codecRegistry, List<FieldCondition> fieldConditions) {
 		this.indentSize = indentSize;
 		this.indentCharacter = indentCharacter;
 		this.defaultKeysLetterCase = defaultKeysLetterCase;
+		this.directoryPath = directoryPath;
+		this.codecRegistry = codecRegistry;
+		this.fieldConditions = fieldConditions;
 	}
 
 	@Override
@@ -49,5 +60,21 @@ public class BasicOptions implements Options {
 	@Override
 	public LetterCase getDefaultKeysLetterCase() {
 		return this.defaultKeysLetterCase;
+	}
+
+	@Override
+	public Path getDirectoryPath() {
+		return this.directoryPath;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <O, A, V> CodecRegistry<O, A, V> getCodecRegistry() {
+		return (CodecRegistry<O, A, V>) this.codecRegistry;
+	}
+
+	@Override
+	public List<FieldCondition> getFieldConditions() {
+		return this.fieldConditions;
 	}
 }

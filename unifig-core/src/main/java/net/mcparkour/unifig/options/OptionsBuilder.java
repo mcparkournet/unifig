@@ -24,6 +24,11 @@
 
 package net.mcparkour.unifig.options;
 
+import java.nio.file.Path;
+import java.util.List;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.condition.FieldCondition;
+
 public interface OptionsBuilder {
 
 	OptionsBuilder indentSize(int indentSize);
@@ -31,6 +36,12 @@ public interface OptionsBuilder {
 	OptionsBuilder indentCharacter(IndentCharacter indentCharacter);
 
 	OptionsBuilder defaultKeysLetterCase(LetterCase defaultKeysLetterCase);
+
+	OptionsBuilder directoryPath(Path directoryPath);
+
+	<O, A, V> OptionsBuilder codecRegistry(CodecRegistry<O, A, V> codecRegistry);
+
+	OptionsBuilder fieldConditions(List<FieldCondition> fieldConditions);
 
 	Options build();
 }

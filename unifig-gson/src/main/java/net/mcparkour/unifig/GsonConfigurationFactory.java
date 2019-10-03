@@ -42,31 +42,31 @@ import net.mcparkour.unifig.model.value.GsonModelValueFactory;
 import net.mcparkour.unifig.model.writer.GsonModelWriter;
 import net.mcparkour.unifig.options.BasicOptionsBuilder;
 import net.mcparkour.unifig.options.Options;
+import net.mcparkour.unifig.options.OptionsBuilder;
+import org.jetbrains.annotations.Nullable;
 
 public class GsonConfigurationFactory implements ConfigurationFactory {
 
 	@Override
-	public <T> Configuration<T> createConfiguration(Class<T> configurationType) {
-		Options options = new BasicOptionsBuilder().build();
-		return createGsonConfiguration(configurationType, options);
-	}
-
-	@Override
-	public <T> Configuration<T> createConfiguration(Class<T> configurationType, Options options) {
-		return createGsonConfiguration(configurationType, options);
-	}
-
-	private <T> Configuration<T> createGsonConfiguration(Class<T> configurationType, Options options) {
+	public <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options) {
 		GsonModel model = new GsonModel();
 		GsonModelObjectFactory objectFactory = new GsonModelObjectFactory();
 		GsonModelArrayFactory arrayFactory = new GsonModelArrayFactory();
 		GsonModelValueFactory valueFactory = new GsonModelValueFactory();
+		BasicConverter<JsonObject, JsonArray, JsonElement> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options);
+		GsonModelReader reader = new GsonModelReader();
+		GsonModelWriter writer = new GsonModelWriter(options);
+		return new BasicConfiguration<>(configurationType, defaultConfiguration, options, model, converter, reader, writer);
+	}
+
+	@Override
+	public OptionsBuilder createOptionsBuilder() {
+		GsonModelValueFactory valueFactory = new GsonModelValueFactory();
 		CodecRegistryBuilder<JsonObject, JsonArray, JsonElement> codecRegistryBuilder = Codecs.createBasicCodecRegistryBuilder(valueFactory);
 		CodecRegistry<JsonObject, JsonArray, JsonElement> codecRegistry = codecRegistryBuilder.build();
 		List<FieldCondition> fieldConditions = FieldConditions.createBasicFieldConditionList();
-		BasicConverter<JsonObject, JsonArray, JsonElement> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options, codecRegistry, fieldConditions);
-		GsonModelReader reader = new GsonModelReader();
-		GsonModelWriter gsonModelWriter = new GsonModelWriter(options);
-		return new BasicConfiguration<>(configurationType, model, converter, reader, gsonModelWriter);
+		return new BasicOptionsBuilder()
+			.codecRegistry(codecRegistry)
+			.fieldConditions(fieldConditions);
 	}
 }

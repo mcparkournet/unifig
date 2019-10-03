@@ -24,6 +24,11 @@
 
 package net.mcparkour.unifig.options;
 
+import java.nio.file.Path;
+import java.util.List;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.condition.FieldCondition;
+
 public interface Options {
 
 	int getIndentSize();
@@ -31,4 +36,10 @@ public interface Options {
 	IndentCharacter getIndentCharacter();
 
 	LetterCase getDefaultKeysLetterCase();
+
+	Path getDirectoryPath();
+
+	<O, A, V> CodecRegistry<O, A, V> getCodecRegistry();
+
+	List<FieldCondition> getFieldConditions();
 }

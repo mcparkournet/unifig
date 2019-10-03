@@ -25,10 +25,30 @@
 package net.mcparkour.unifig;
 
 import net.mcparkour.unifig.options.Options;
+import net.mcparkour.unifig.options.OptionsBuilder;
+import org.jetbrains.annotations.Nullable;
 
 public interface ConfigurationFactory {
 
-	<T> Configuration<T> createConfiguration(Class<T> configurationType);
+	default <T> Configuration<T> createConfiguration(Class<T> configurationType) {
+		Options options = createOptions();
+		return createConfiguration(configurationType, null, options);
+	}
 
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, Options options);
+	default <T> Configuration<T> createConfiguration(Class<T> configurationType, Options options) {
+		return createConfiguration(configurationType, null, options);
+	}
+
+	default <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration) {
+		Options options = createOptions();
+		return createConfiguration(configurationType, defaultConfiguration, options);
+	}
+
+	<T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options);
+
+	private Options createOptions() {
+		return createOptionsBuilder().build();
+	}
+
+	OptionsBuilder createOptionsBuilder();
 }

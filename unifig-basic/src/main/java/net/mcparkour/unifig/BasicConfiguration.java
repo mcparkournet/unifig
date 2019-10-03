@@ -24,6 +24,7 @@
 
 package net.mcparkour.unifig;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,28 +33,35 @@ import net.mcparkour.unifig.model.Model;
 import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.reader.ModelReader;
 import net.mcparkour.unifig.model.writer.ModelWriter;
+import net.mcparkour.unifig.options.Options;
+import org.jetbrains.annotations.Nullable;
 
 public class BasicConfiguration<O, A, V, T> implements Configuration<T> {
 
 	private Class<T> configurationType;
+	@Nullable
+	private T defaultConfiguration;
+	private Options options;
 	private Model model;
 	private Converter<O, A, V> converter;
 	private ModelReader<O, A, V> reader;
 	private ModelWriter<O, A, V> writer;
 	private String configurationFileName;
 
-	public BasicConfiguration(Class<T> configurationType, Model model, Converter<O, A, V> converter, ModelReader<O, A, V> reader, ModelWriter<O, A, V> writer) {
+	public BasicConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options, Model model, Converter<O, A, V> converter, ModelReader<O, A, V> reader, ModelWriter<O, A, V> writer) {
 		this.configurationType = configurationType;
+		this.defaultConfiguration = defaultConfiguration;
+		this.options = options;
 		this.model = model;
 		this.converter = converter;
 		this.reader = reader;
 		this.writer = writer;
-		String fileExtension = model.getFileExtension();
-		this.configurationFileName = getConfigurationFileName(configurationType, fileExtension);
+		this.configurationFileName = getConfigurationFileName(configurationType, model);
 	}
 
-	private static String getConfigurationFileName(Class<?> configurationType, String configurationExtension) {
+	private static String getConfigurationFileName(Class<?> configurationType, Model model) {
 		net.mcparkour.unifig.annotation.Configuration annotation = configurationType.getAnnotation(net.mcparkour.unifig.annotation.Configuration.class);
+		String configurationExtension = model.getFileExtension();
 		if (annotation == null) {
 			return "configuration." + configurationExtension;
 		}
@@ -61,9 +69,23 @@ public class BasicConfiguration<O, A, V, T> implements Configuration<T> {
 	}
 
 	@Override
+	public T read() {
+		Path directoryPath = this.options.getDirectoryPath();
+		return read(directoryPath);
+	}
+
+	@Override
 	public T read(Path directoryPath) {
 		try {
 			Path path = directoryPath.resolve(this.configurationFileName);
+			File file = path.toFile();
+			if (this.defaultConfiguration != null && !file.exists()) {
+				File directory = directoryPath.toFile();
+				directory.mkdirs();
+				file.createNewFile();
+				write(this.defaultConfiguration, directoryPath);
+				return this.defaultConfiguration;
+			}
 			String string = Files.readString(path);
 			return readFromString(string);
 		} catch (IOException exception) {
@@ -75,6 +97,12 @@ public class BasicConfiguration<O, A, V, T> implements Configuration<T> {
 	public T readFromString(String string) {
 		ModelObject<O, A, V> object = this.reader.read(string);
 		return this.converter.toConfiguration(object, this.configurationType);
+	}
+
+	@Override
+	public void write(T configuration) {
+		Path directoryPath = this.options.getDirectoryPath();
+		write(configuration, directoryPath);
 	}
 
 	@Override

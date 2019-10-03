@@ -29,10 +29,7 @@ import java.nio.file.Path;
 
 public interface Configuration<T> {
 
-	default T read() {
-		Path path = getCurrentPath();
-		return read(path);
-	}
+	T read();
 
 	default T read(File directory) {
 		Path path = directory.toPath();
@@ -43,10 +40,7 @@ public interface Configuration<T> {
 
 	T readFromString(String string);
 
-	default void write(T configuration) {
-		Path path = getCurrentPath();
-		write(configuration, path);
-	}
+	void write(T configuration);
 
 	default void write(T configuration, File directory) {
 		Path path = directory.toPath();
@@ -56,8 +50,4 @@ public interface Configuration<T> {
 	void write(T configuration, Path directoryPath);
 
 	String writeToString(T configuration);
-
-	private Path getCurrentPath() {
-		return Path.of("");
-	}
 }

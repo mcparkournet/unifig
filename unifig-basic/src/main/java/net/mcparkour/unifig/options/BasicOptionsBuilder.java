@@ -24,24 +24,37 @@
 
 package net.mcparkour.unifig.options;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import net.mcparkour.unifig.codec.registry.CodecRegistry;
+import net.mcparkour.unifig.codec.registry.TypedCodecRegistryBuilder;
+import net.mcparkour.unifig.condition.FieldCondition;
+
 public class BasicOptionsBuilder implements OptionsBuilder {
 
 	private int indentSize;
 	private IndentCharacter indentCharacter;
 	private LetterCase defaultKeysLetterCase;
+	private Path directoryPath;
+	private CodecRegistry<?, ?, ?> codecRegistry;
+	private List<FieldCondition> fieldConditions;
 
 	public BasicOptionsBuilder() {
-		this(4, IndentCharacter.SPACE, LetterCase.INHERITED);
+		this(4, IndentCharacter.SPACE, LetterCase.INHERITED, Path.of(""), new TypedCodecRegistryBuilder<>().build(), new ArrayList<>(0));
 	}
 
 	public BasicOptionsBuilder(Options options) {
-		this(options.getIndentSize(), options.getIndentCharacter(), options.getDefaultKeysLetterCase());
+		this(options.getIndentSize(), options.getIndentCharacter(), options.getDefaultKeysLetterCase(), options.getDirectoryPath(), options.getCodecRegistry(), new ArrayList<>(options.getFieldConditions()));
 	}
 
-	private BasicOptionsBuilder(int indentSize, IndentCharacter indentCharacter, LetterCase defaultKeysLetterCase) {
+	private BasicOptionsBuilder(int indentSize, IndentCharacter indentCharacter, LetterCase defaultKeysLetterCase, Path directoryPath, CodecRegistry<?, ?, ?> codecRegistry, List<FieldCondition> fieldConditions) {
 		this.indentSize = indentSize;
 		this.indentCharacter = indentCharacter;
 		this.defaultKeysLetterCase = defaultKeysLetterCase;
+		this.directoryPath = directoryPath;
+		this.codecRegistry = codecRegistry;
+		this.fieldConditions = fieldConditions;
 	}
 
 	@Override
@@ -63,7 +76,25 @@ public class BasicOptionsBuilder implements OptionsBuilder {
 	}
 
 	@Override
+	public OptionsBuilder directoryPath(Path directoryPath) {
+		this.directoryPath = directoryPath;
+		return this;
+	}
+
+	@Override
+	public <O, A, V> OptionsBuilder codecRegistry(CodecRegistry<O, A, V> codecRegistry) {
+		this.codecRegistry = codecRegistry;
+		return this;
+	}
+
+	@Override
+	public OptionsBuilder fieldConditions(List<FieldCondition> fieldConditions) {
+		this.fieldConditions = fieldConditions;
+		return this;
+	}
+
+	@Override
 	public Options build() {
-		return new BasicOptions(this.indentSize, this.indentCharacter, this.defaultKeysLetterCase);
+		return new BasicOptions(this.indentSize, this.indentCharacter, this.defaultKeysLetterCase, this.directoryPath, this.codecRegistry, this.fieldConditions);
 	}
 }

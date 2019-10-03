@@ -53,16 +53,12 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 	private ModelArrayFactory<O, A, V> modelArrayFactory;
 	private ModelValueFactory<O, A, V> modelValueFactory;
 	private Options options;
-	private CodecRegistry<O, A, V> codecRegistry;
-	private List<FieldCondition> fieldConditions;
 
-	public BasicConverter(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory, Options options, CodecRegistry<O, A, V> codecRegistry, List<FieldCondition> fieldConditions) {
+	public BasicConverter(ModelObjectFactory<O, A, V> modelObjectFactory, ModelArrayFactory<O, A, V> modelArrayFactory, ModelValueFactory<O, A, V> modelValueFactory, Options options) {
 		this.modelObjectFactory = modelObjectFactory;
 		this.modelArrayFactory = modelArrayFactory;
 		this.modelValueFactory = modelValueFactory;
 		this.options = options;
-		this.codecRegistry = codecRegistry;
-		this.fieldConditions = fieldConditions;
 	}
 
 	@Override
@@ -137,7 +133,8 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 	}
 
 	private boolean isFieldValid(Field field) {
-		return this.fieldConditions.stream()
+		List<FieldCondition> fieldConditions = this.options.getFieldConditions();
+		return fieldConditions.stream()
 			.allMatch(condition -> condition.check(field));
 	}
 
@@ -205,7 +202,8 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 	@SuppressWarnings("unchecked")
 	@Nullable
 	private Codec<O, A, V, Object> getObjectCodec(Class<?> type) {
-		Codec<O, A, V, ?> codec = this.codecRegistry.get(type);
+		CodecRegistry<?, ?, ?> codecRegistry = this.options.getCodecRegistry();
+		Codec<?, ?, ?, ?> codec = codecRegistry.get(type);
 		if (codec == null) {
 			return null;
 		}
