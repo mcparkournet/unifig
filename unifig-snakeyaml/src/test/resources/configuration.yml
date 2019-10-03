@@ -37,7 +37,7 @@ sub-configuration:
   string: string
   null-string: null
   bar: foobar
-  test-enum: TWO
+  test-enum: two
   test-enum2: not-four
   string-list:
   - '1'
@@ -47,7 +47,7 @@ sub-configuration:
     foo: '1'
     bar: '2'
     foobar: '3'
-test-enum: TWO
+test-enum: two
 test-enum2: not-four
 string-list:
 - '1'
@@ -73,7 +73,7 @@ object-list:
   string: string
   null-string: null
   bar: foobar
-  test-enum: TWO
+  test-enum: two
   test-enum2: not-four
   string-list:
   - '1'
@@ -102,7 +102,7 @@ object-list:
   string: string
   null-string: null
   bar: foobar
-  test-enum: TWO
+  test-enum: two
   test-enum2: not-four
   string-list:
   - '1'
@@ -131,7 +131,7 @@ object-list:
   string: string
   null-string: null
   bar: foobar
-  test-enum: TWO
+  test-enum: two
   test-enum2: not-four
   string-list:
   - '1'
@@ -166,7 +166,7 @@ object-map:
     string: string
     null-string: null
     bar: foobar
-    test-enum: TWO
+    test-enum: two
     test-enum2: not-four
     string-list:
     - '1'
@@ -196,7 +196,7 @@ object-map:
     string: string
     null-string: null
     bar: foobar
-    test-enum: TWO
+    test-enum: two
     test-enum2: not-four
     string-list:
     - '1'
@@ -226,7 +226,7 @@ object-map:
     string: string
     null-string: null
     bar: foobar
-    test-enum: TWO
+    test-enum: two
     test-enum2: not-four
     string-list:
     - '1'
