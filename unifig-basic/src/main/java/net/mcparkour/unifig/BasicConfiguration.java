@@ -26,6 +26,7 @@ package net.mcparkour.unifig;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import net.mcparkour.unifig.converter.Converter;
@@ -89,7 +90,7 @@ public class BasicConfiguration<O, A, V, T> implements Configuration<T> {
 			String string = Files.readString(path);
 			return readFromString(string);
 		} catch (IOException exception) {
-			throw new RuntimeException(exception);
+			throw new UncheckedIOException(exception);
 		}
 	}
 
@@ -112,7 +113,7 @@ public class BasicConfiguration<O, A, V, T> implements Configuration<T> {
 			Path path = directoryPath.resolve(this.configurationFileName);
 			Files.writeString(path, string);
 		} catch (IOException exception) {
-			throw new RuntimeException(exception);
+			throw new UncheckedIOException(exception);
 		}
 	}
 
