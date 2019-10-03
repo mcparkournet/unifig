@@ -24,14 +24,14 @@
 
 package net.mcparkour.unifig.model.object;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.SnakeyamlModelValue;
 
-public class SnakeyamlModelObject implements ModelObject<Map<String, Object>, List<Object>, Object> {
+public class SnakeyamlModelObject implements ModelObject<Map<String, Object>, Collection<Object>, Object> {
 
 	private Map<String, Object> object;
 
@@ -40,22 +40,22 @@ public class SnakeyamlModelObject implements ModelObject<Map<String, Object>, Li
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> getValue(String key) {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> getValue(String key) {
 		Object value = this.object.get(key);
 		return new SnakeyamlModelValue(value);
 	}
 
 	@Override
-	public void setValue(String key, ModelValue<Map<String, Object>, List<Object>, Object> value) {
+	public void setValue(String key, ModelValue<Map<String, Object>, Collection<Object>, Object> value) {
 		Object rawValue = value.getValue();
 		this.object.put(key, rawValue);
 	}
 
 	@Override
-	public Set<Map.Entry<String, ModelValue<Map<String, Object>, List<Object>, Object>>> getEntries() {
+	public Set<Map.Entry<String, ModelValue<Map<String, Object>, Collection<Object>, Object>>> getEntries() {
 		return this.object.entrySet()
 			.stream()
-			.<Map.Entry<String, ModelValue<Map<String, Object>, List<Object>, Object>>>map(entry -> Map.entry(entry.getKey(), new SnakeyamlModelValue(entry.getValue())))
+			.<Map.Entry<String, ModelValue<Map<String, Object>, Collection<Object>, Object>>>map(entry -> Map.entry(entry.getKey(), new SnakeyamlModelValue(entry.getValue())))
 			.collect(Collectors.toUnmodifiableSet());
 	}
 

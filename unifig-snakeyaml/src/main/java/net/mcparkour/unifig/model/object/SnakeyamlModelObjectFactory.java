@@ -24,20 +24,20 @@
 
 package net.mcparkour.unifig.model.object;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SnakeyamlModelObjectFactory implements ModelObjectFactory<Map<String, Object>, List<Object>, Object> {
+public class SnakeyamlModelObjectFactory implements ModelObjectFactory<Map<String, Object>, Collection<Object>, Object> {
 
 	@Override
-	public ModelObject<Map<String, Object>, List<Object>, Object> createEmptyModelObject() {
+	public ModelObject<Map<String, Object>, Collection<Object>, Object> createEmptyModelObject() {
 		Map<String, Object> object = new LinkedHashMap<>();
 		return new SnakeyamlModelObject(object);
 	}
 
 	@Override
-	public ModelObject<Map<String, Object>, List<Object>, Object> createModelObject(Map<String, Object> object) {
+	public ModelObject<Map<String, Object>, Collection<Object>, Object> createModelObject(Map<String, Object> object) {
 		return new SnakeyamlModelObject(object);
 	}
 }

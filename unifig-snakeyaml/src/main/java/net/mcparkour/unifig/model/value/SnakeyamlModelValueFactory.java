@@ -24,48 +24,48 @@
 
 package net.mcparkour.unifig.model.value;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
-public class SnakeyamlModelValueFactory implements ModelValueFactory<Map<String, Object>, List<Object>, Object> {
+public class SnakeyamlModelValueFactory implements ModelValueFactory<Map<String, Object>, Collection<Object>, Object> {
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createNullModelValue() {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> createNullModelValue() {
 		return new SnakeyamlModelValue(null);
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createBooleanModelValue(boolean value) {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> createBooleanModelValue(boolean value) {
 		return createModelValue(value);
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createCharacterModelValue(char value) {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> createCharacterModelValue(char value) {
 		return createModelValue(value);
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createNumberModelValue(Number value) {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> createNumberModelValue(Number value) {
 		return createModelValue(value);
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createStringModelValue(String value) {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> createStringModelValue(String value) {
 		return createModelValue(value);
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createObjectModelValue(Map<String, Object> object) {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> createObjectModelValue(Map<String, Object> object) {
 		return createModelValue(object);
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createArrayModelValue(List<Object> array) {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> createArrayModelValue(Collection<Object> array) {
 		return createModelValue(array);
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, List<Object>, Object> createModelValue(Object value) {
+	public ModelValue<Map<String, Object>, Collection<Object>, Object> createModelValue(Object value) {
 		return new SnakeyamlModelValue(value);
 	}
 }

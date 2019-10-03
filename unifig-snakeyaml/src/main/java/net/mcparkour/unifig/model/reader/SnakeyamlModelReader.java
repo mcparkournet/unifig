@@ -24,18 +24,18 @@
 
 package net.mcparkour.unifig.model.reader;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.SnakeyamlModelObject;
 import org.yaml.snakeyaml.Yaml;
 
-public class SnakeyamlModelReader implements ModelReader<Map<String, Object>, List<Object>, Object> {
+public class SnakeyamlModelReader implements ModelReader<Map<String, Object>, Collection<Object>, Object> {
 
 	private Yaml yaml = new Yaml();
 
 	@Override
-	public ModelObject<Map<String, Object>, List<Object>, Object> read(String string) {
+	public ModelObject<Map<String, Object>, Collection<Object>, Object> read(String string) {
 		Map<String, Object> map = this.yaml.load(string);
 		return new SnakeyamlModelObject(map);
 	}

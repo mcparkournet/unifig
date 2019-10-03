@@ -24,14 +24,14 @@
 
 package net.mcparkour.unifig.model.writer;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.options.Options;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-public class SnakeyamlModelWriter implements ModelWriter<Map<String, Object>, List<Object>, Object> {
+public class SnakeyamlModelWriter implements ModelWriter<Map<String, Object>, Collection<Object>, Object> {
 
 	private Yaml yaml;
 
@@ -49,7 +49,7 @@ public class SnakeyamlModelWriter implements ModelWriter<Map<String, Object>, Li
 	}
 
 	@Override
-	public String write(ModelObject<Map<String, Object>, List<Object>, Object> object) {
+	public String write(ModelObject<Map<String, Object>, Collection<Object>, Object> object) {
 		Map<String, Object> rawObject = object.getObject();
 		return this.yaml.dump(rawObject);
 	}

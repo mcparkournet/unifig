@@ -24,11 +24,11 @@
 
 package net.mcparkour.unifig.model.value;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 
-public class SnakeyamlModelValue implements ModelValue<Map<String, Object>, List<Object>, Object> {
+public class SnakeyamlModelValue implements ModelValue<Map<String, Object>, Collection<Object>, Object> {
 
 	@Nullable
 	private Object value;
@@ -115,17 +115,17 @@ public class SnakeyamlModelValue implements ModelValue<Map<String, Object>, List
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Object> asArray() {
+	public Collection<Object> asArray() {
 		Object value = getNotNullValue();
 		if (!isArray()) {
-			throw new ValueConversionException(List.class);
+			throw new ValueConversionException(Collection.class);
 		}
-		return (List<Object>) value;
+		return (Collection<Object>) value;
 	}
 
 	@Override
 	public boolean isArray() {
-		return this.value instanceof List;
+		return this.value instanceof Collection;
 	}
 
 	private Object getNotNullValue() {

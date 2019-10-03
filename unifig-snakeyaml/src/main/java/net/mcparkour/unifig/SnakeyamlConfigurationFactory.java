@@ -24,6 +24,7 @@
 
 package net.mcparkour.unifig;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import net.mcparkour.unifig.codec.Codecs;
@@ -52,7 +53,7 @@ public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
 		SnakeyamlModelObjectFactory objectFactory = new SnakeyamlModelObjectFactory();
 		SnakeyamlModelArrayFactory arrayFactory = new SnakeyamlModelArrayFactory();
 		SnakeyamlModelValueFactory valueFactory = new SnakeyamlModelValueFactory();
-		BasicConverter<Map<String, Object>, List<Object>, Object> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options);
+		BasicConverter<Map<String, Object>, Collection<Object>, Object> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options);
 		SnakeyamlModelReader reader = new SnakeyamlModelReader();
 		SnakeyamlModelWriter writer = new SnakeyamlModelWriter(options);
 		return new BasicConfiguration<>(configurationType, defaultConfiguration, options, model, converter, reader, writer);

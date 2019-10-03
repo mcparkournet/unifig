@@ -25,19 +25,20 @@
 package net.mcparkour.unifig.model.array;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class SnakeyamlModelArrayFactory implements ModelArrayFactory<Map<String, Object>, List<Object>, Object> {
+public class SnakeyamlModelArrayFactory implements ModelArrayFactory<Map<String, Object>, Collection<Object>, Object> {
 
 	@Override
-	public ModelArray<Map<String, Object>, List<Object>, Object> createEmptyModelArray() {
+	public ModelArray<Map<String, Object>, Collection<Object>, Object> createEmptyModelArray() {
 		List<Object> array = new ArrayList<>();
 		return new SnakeyamlModelArray(array);
 	}
 
 	@Override
-	public ModelArray<Map<String, Object>, List<Object>, Object> createModelArray(List<Object> array) {
+	public ModelArray<Map<String, Object>, Collection<Object>, Object> createModelArray(Collection<Object> array) {
 		return new SnakeyamlModelArray(array);
 	}
 }
