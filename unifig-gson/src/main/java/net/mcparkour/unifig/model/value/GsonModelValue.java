@@ -54,16 +54,6 @@ public class GsonModelValue implements ModelValue<JsonObject, JsonArray, JsonEle
 	}
 
 	@Override
-	public char asCharacter() {
-		return this.value.getAsCharacter();
-	}
-
-	@Override
-	public boolean isCharacter() {
-		return isPrimitive() && asPrimitive().isString() && asString().length() == 1;
-	}
-
-	@Override
 	public Number asNumber() {
 		return this.value.getAsNumber();
 	}

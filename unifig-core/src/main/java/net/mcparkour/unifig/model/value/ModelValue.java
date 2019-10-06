@@ -34,10 +34,6 @@ public interface ModelValue<O, A, V> {
 
 	boolean isBoolean();
 
-	char asCharacter();
-
-	boolean isCharacter();
-
 	Number asNumber();
 
 	boolean isNumber();

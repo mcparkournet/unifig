@@ -44,12 +44,6 @@ public class GsonModelValueFactory implements ModelValueFactory<JsonObject, Json
 	}
 
 	@Override
-	public ModelValue<JsonObject, JsonArray, JsonElement> createCharacterModelValue(char value) {
-		JsonPrimitive primitive = new JsonPrimitive(value);
-		return createModelValue(primitive);
-	}
-
-	@Override
 	public ModelValue<JsonObject, JsonArray, JsonElement> createNumberModelValue(Number value) {
 		JsonPrimitive primitive = new JsonPrimitive(value);
 		return createModelValue(primitive);

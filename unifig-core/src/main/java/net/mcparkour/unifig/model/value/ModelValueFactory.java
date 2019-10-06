@@ -33,8 +33,6 @@ public interface ModelValueFactory<O, A, V> {
 
 	ModelValue<O, A, V> createBooleanModelValue(boolean value);
 
-	ModelValue<O, A, V> createCharacterModelValue(char value);
-
 	ModelValue<O, A, V> createNumberModelValue(Number value);
 
 	ModelValue<O, A, V> createStringModelValue(String value);

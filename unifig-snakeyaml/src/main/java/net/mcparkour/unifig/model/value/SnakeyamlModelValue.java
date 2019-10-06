@@ -57,20 +57,6 @@ public class SnakeyamlModelValue implements ModelValue<Map<String, Object>, Coll
 	}
 
 	@Override
-	public char asCharacter() {
-		if (!isCharacter()) {
-			throw new ValueConversionException(Character.class);
-		}
-		String string = asString();
-		return string.charAt(0);
-	}
-
-	@Override
-	public boolean isCharacter() {
-		return isString() && asString().length() == 1;
-	}
-
-	@Override
 	public Number asNumber() {
 		Object value = getNotNullValue();
 		if (!isNumber()) {

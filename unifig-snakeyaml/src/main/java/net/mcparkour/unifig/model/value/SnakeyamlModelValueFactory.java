@@ -40,11 +40,6 @@ public class SnakeyamlModelValueFactory implements ModelValueFactory<Map<String,
 	}
 
 	@Override
-	public ModelValue<Map<String, Object>, Collection<Object>, Object> createCharacterModelValue(char value) {
-		return createModelValue(value);
-	}
-
-	@Override
 	public ModelValue<Map<String, Object>, Collection<Object>, Object> createNumberModelValue(Number value) {
 		return createModelValue(value);
 	}

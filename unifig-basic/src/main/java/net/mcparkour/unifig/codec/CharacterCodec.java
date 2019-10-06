@@ -35,15 +35,20 @@ public class CharacterCodec<O, A, V> implements Codec<O, A, V, Character> {
 	@Override
 	public ModelValue<O, A, V> encode(Character object, Type type, Converter<O, A, V> converter) {
 		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
-		return valueFactory.createCharacterModelValue(object);
+		String string = String.valueOf(object);
+		return valueFactory.createStringModelValue(string);
 	}
 
 	@Nullable
 	@Override
 	public Character decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
-		if (!value.isCharacter()) {
-			throw new CodecDecodeException("value is not a character");
+		if (!value.isString()) {
+			throw new CodecDecodeException("value is not a String");
 		}
-		return value.asCharacter();
+		String string = value.asString();
+		if (string.length() != 1) {
+			throw new CodecDecodeException("value length is not 1");
+		}
+		return string.charAt(0);
 	}
 }
