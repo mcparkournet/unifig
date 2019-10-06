@@ -25,8 +25,10 @@
 package net.mcparkour.unifig.codec;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import net.mcparkour.common.reflection.Reflections;
+import net.mcparkour.common.reflection.type.Types;
 import net.mcparkour.unifig.converter.Converter;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
@@ -35,28 +37,29 @@ import org.jetbrains.annotations.Nullable;
 public class EnumCodec<O, A, V> implements Codec<O, A, V, Enum<?>> {
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public ModelValue<O, A, V> encode(Enum<?> object, Field field, Converter<O, A, V> converter) {
-		Class<? extends Enum<?>> type = (Class<? extends Enum<?>>) field.getType();
-		String name = getEnumName(object, type, converter);
+	public ModelValue<O, A, V> encode(Enum<?> object, Type type, Converter<O, A, V> converter) {
 		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
+		String name = getEnumName(object, converter);
 		return valueFactory.createStringModelValue(name);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	@Nullable
-	public Enum<?> decode(ModelValue<O, A, V> value, Field field, Converter<O, A, V> converter) {
-		Class<? extends Enum<?>> type = (Class<? extends Enum<?>>) field.getType();
-		Enum<?>[] enumConstants = type.getEnumConstants();
+	public Enum<?> decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
+		Type rawType = Types.getRawType(type);
+		Class<?> classType = Types.asClassType(rawType);
+		Class<? extends Enum<?>> enumType = (Class<? extends Enum<?>>) classType;
+		Enum<?>[] enumConstants = enumType.getEnumConstants();
 		String valueString = value.asString();
 		return Arrays.stream(enumConstants)
-			.filter(enumConstant -> valueString.equals(getEnumName(enumConstant, type, converter)))
+			.filter(enumConstant -> valueString.equals(getEnumName(enumConstant, converter)))
 			.findFirst()
 			.orElse(null);
 	}
 
-	private String getEnumName(Enum<?> object, Class<? extends Enum<?>> type, Converter<O, A, V> converter) {
+	private String getEnumName(Enum<?> object, Converter<O, A, V> converter) {
+		Class<? extends Enum<?>> type = object.getDeclaringClass();
 		String name = object.name();
 		Field field = Reflections.getField(type, name);
 		return converter.getFieldName(field);

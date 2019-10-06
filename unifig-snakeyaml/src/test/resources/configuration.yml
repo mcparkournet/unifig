@@ -39,6 +39,10 @@ sub-configuration:
   bar: foobar
   test-enum: two
   test-enum2: not-four
+  enum-set:
+  - one
+  - two
+  - not-four
   string-set:
   - '1'
   - '2'
@@ -53,6 +57,10 @@ sub-configuration:
     foobar: '3'
 test-enum: two
 test-enum2: not-four
+enum-set:
+- one
+- two
+- not-four
 string-set:
 - '1'
 - '2'
@@ -79,6 +87,10 @@ object-set:
   bar: foobar
   test-enum: two
   test-enum2: not-four
+  enum-set:
+  - one
+  - two
+  - not-four
   string-set:
   - '1'
   - '2'
@@ -117,6 +129,10 @@ object-list:
   bar: foobar
   test-enum: two
   test-enum2: not-four
+  enum-set:
+  - one
+  - two
+  - not-four
   string-set:
   - '1'
   - '2'
@@ -150,6 +166,10 @@ object-list:
   bar: foobar
   test-enum: two
   test-enum2: not-four
+  enum-set:
+  - one
+  - two
+  - not-four
   string-set:
   - '1'
   - '2'
@@ -183,6 +203,10 @@ object-list:
   bar: foobar
   test-enum: two
   test-enum2: not-four
+  enum-set:
+  - one
+  - two
+  - not-four
   string-set:
   - '1'
   - '2'
@@ -222,6 +246,10 @@ object-map:
     bar: foobar
     test-enum: two
     test-enum2: not-four
+    enum-set:
+    - one
+    - two
+    - not-four
     string-set:
     - '1'
     - '2'
@@ -256,6 +284,10 @@ object-map:
     bar: foobar
     test-enum: two
     test-enum2: not-four
+    enum-set:
+    - one
+    - two
+    - not-four
     string-set:
     - '1'
     - '2'
@@ -290,6 +322,10 @@ object-map:
     bar: foobar
     test-enum: two
     test-enum2: not-four
+    enum-set:
+    - one
+    - two
+    - not-four
     string-set:
     - '1'
     - '2'

@@ -24,11 +24,13 @@
 
 package net.mcparkour.unifig.codec;
 
+import java.lang.reflect.Type;
+
 public class CodecNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 4086425613102979399L;
 
-	public CodecNotFoundException(Class<?> type) {
-		super("Cannot find codec for type " + type.getName());
+	public CodecNotFoundException(Type type) {
+		super("Cannot find codec for type " + type.getTypeName());
 	}
 }

@@ -25,6 +25,7 @@
 package net.mcparkour.unifig.converter;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
 import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
@@ -37,11 +38,11 @@ public interface Converter<O, A, V> {
 
 	ModelObject<O, A, V> fromConfiguration(Object configuration);
 
-	ModelValue<O, A, V> toModelValue(@Nullable Object object, Class<?> type, Field field);
+	ModelValue<O, A, V> toModelValue(@Nullable Object object, Type type);
 
 	<T> T toConfiguration(ModelObject<O, A, V> object, Class<T> configurationType);
 
-	Object toObject(ModelValue<O, A, V> value, Class<?> type, Field field);
+	Object toObject(ModelValue<O, A, V> value, Type type);
 
 	boolean isFieldValid(Field field);
 

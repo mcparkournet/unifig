@@ -24,6 +24,7 @@
 
 package net.mcparkour.unifig.model.object;
 
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -57,8 +58,13 @@ public class GsonModelObject implements ModelObject<JsonObject, JsonArray, JsonE
 	public Set<Map.Entry<String, ModelValue<JsonObject, JsonArray, JsonElement>>> getEntries() {
 		return this.object.entrySet()
 			.stream()
-			.<Map.Entry<String, ModelValue<JsonObject, JsonArray, JsonElement>>>map(entry -> Map.entry(entry.getKey(), new GsonModelValue(entry.getValue())))
-			.collect(Collectors.toUnmodifiableSet());
+			.<Map.Entry<String, ModelValue<JsonObject, JsonArray, JsonElement>>>map(entry -> {
+				String key = entry.getKey();
+				JsonElement value = entry.getValue();
+				GsonModelValue modelValue = new GsonModelValue(value);
+				return Map.entry(key, modelValue);
+			})
+			.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	@Override

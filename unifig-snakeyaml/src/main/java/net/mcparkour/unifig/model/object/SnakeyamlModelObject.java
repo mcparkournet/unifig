@@ -25,6 +25,7 @@
 package net.mcparkour.unifig.model.object;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,8 +56,13 @@ public class SnakeyamlModelObject implements ModelObject<Map<String, Object>, Co
 	public Set<Map.Entry<String, ModelValue<Map<String, Object>, Collection<Object>, Object>>> getEntries() {
 		return this.object.entrySet()
 			.stream()
-			.<Map.Entry<String, ModelValue<Map<String, Object>, Collection<Object>, Object>>>map(entry -> Map.entry(entry.getKey(), new SnakeyamlModelValue(entry.getValue())))
-			.collect(Collectors.toUnmodifiableSet());
+			.<Map.Entry<String, ModelValue<Map<String, Object>, Collection<Object>, Object>>>map(entry -> {
+				String key = entry.getKey();
+				Object value = entry.getValue();
+				SnakeyamlModelValue modelValue = new SnakeyamlModelValue(value);
+				return Map.entry(key, modelValue);
+			})
+			.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	@Override

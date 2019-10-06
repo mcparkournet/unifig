@@ -26,8 +26,10 @@ package net.mcparkour.unifig.converter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.List;
 import net.mcparkour.common.reflection.Reflections;
+import net.mcparkour.common.reflection.type.Types;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.codec.Codec;
 import net.mcparkour.unifig.codec.CodecNotFoundException;
@@ -66,9 +68,9 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			if (isFieldValid(field)) {
 				field.trySetAccessible();
 				String fieldName = getFieldName(field);
-				Class<?> fieldType = field.getType();
 				Object fieldValue = Reflections.getFieldValue(field, configuration);
-				ModelValue<O, A, V> value = toModelValue(fieldValue, fieldType, field);
+				Type fieldType = field.getGenericType();
+				ModelValue<O, A, V> value = toModelValue(fieldValue, fieldType);
 				object.setValue(fieldName, value);
 			}
 		}
@@ -76,7 +78,7 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 	}
 
 	@Override
-	public ModelValue<O, A, V> toModelValue(@Nullable Object object, Class<?> type, Field field) {
+	public ModelValue<O, A, V> toModelValue(@Nullable Object object, Type type) {
 		if (object == null) {
 			return this.modelValueFactory.createNullModelValue();
 		}
@@ -85,7 +87,7 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			ModelObject<O, A, V> modelObject = fromConfiguration(object);
 			return this.modelValueFactory.createObjectModelValue(modelObject);
 		}
-		return codec.encode(object, field, this);
+		return codec.encode(object, type, this);
 	}
 
 	@Override
@@ -97,9 +99,9 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			if (isFieldValid(field)) {
 				field.trySetAccessible();
 				String fieldName = getFieldName(field);
-				Class<?> fieldType = field.getType();
 				ModelValue<O, A, V> value = object.getValue(fieldName);
-				Object rawObject = toObject(value, fieldType, field);
+				Type fieldType = field.getGenericType();
+				Object rawObject = toObject(value, fieldType);
 				Reflections.setFieldValue(field, instance, rawObject);
 			}
 		}
@@ -108,7 +110,7 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 
 	@Override
 	@Nullable
-	public Object toObject(ModelValue<O, A, V> value, Class<?> type, Field field) {
+	public Object toObject(ModelValue<O, A, V> value, Type type) {
 		if (value.isNull()) {
 			return null;
 		}
@@ -119,9 +121,11 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 			}
 			O rawObject = value.asObject();
 			ModelObject<O, A, V> object = this.modelObjectFactory.createModelObject(rawObject);
-			return toConfiguration(object, type);
+			Type rawType = Types.getRawType(type);
+			Class<?> classType = Types.asClassType(rawType);
+			return toConfiguration(object, classType);
 		}
-		return codec.decode(value, field, this);
+		return codec.decode(value, type, this);
 	}
 
 	@Override
@@ -150,9 +154,11 @@ public class BasicConverter<O, A, V> implements Converter<O, A, V> {
 
 	@SuppressWarnings("unchecked")
 	@Nullable
-	private Codec<O, A, V, Object> getObjectCodec(Class<?> type) {
+	private Codec<O, A, V, Object> getObjectCodec(Type type) {
 		CodecRegistry<?, ?, ?> codecRegistry = this.options.getCodecRegistry();
-		Codec<?, ?, ?, ?> codec = codecRegistry.get(type);
+		Type rawType = Types.getRawType(type);
+		Class<?> classType = Types.asClassType(rawType);
+		Codec<?, ?, ?, ?> codec = codecRegistry.get(classType);
 		if (codec == null) {
 			return null;
 		}

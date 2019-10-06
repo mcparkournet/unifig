@@ -68,12 +68,14 @@ public class TestConfiguration {
 	private String foo;
 
 	@Ignored
-	private String ignored = "ignored";
+	private String ignored;
 
 	private TestSubConfiguration subConfiguration;
 
 	private TestEnum testEnum;
 	private TestEnum testEnum2;
+
+	private Set<TestEnum> enumSet;
 
 	private Set<String> stringSet;
 	private Set<TestSubConfiguration> objectSet;
@@ -85,10 +87,10 @@ public class TestConfiguration {
 	private Map<String, TestSubConfiguration> objectMap;
 
 	public TestConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", "foobar", new TestSubConfiguration(), TestEnum.TWO, TestEnum.THREE, Collections.createLinkedSet("1", "2", "3"), Collections.createLinkedSet(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), List.of("1", "2", "3"), List.of(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"), Collections.createLinkedMap("foo", new TestSubConfiguration(), "bar", new TestSubConfiguration(), "foobar", new TestSubConfiguration()));
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", null, "foobar", new TestSubConfiguration(), TestEnum.TWO, TestEnum.THREE, Collections.createLinkedSet(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE), Collections.createLinkedSet("1", "2", "3"), Collections.createLinkedSet(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), List.of("1", "2", "3"), List.of(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"), Collections.createLinkedMap("foo", new TestSubConfiguration(), "bar", new TestSubConfiguration(), "foobar", new TestSubConfiguration()));
 	}
 
-	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, String foo, TestSubConfiguration subConfiguration, TestEnum testEnum, TestEnum testEnum2, Set<String> stringSet, Set<TestSubConfiguration> objectSet, List<String> stringList, List<TestSubConfiguration> objectList, Map<String, String> stringMap, Map<String, TestSubConfiguration> objectMap) {
+	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, @Nullable String nullString, String foo, TestSubConfiguration subConfiguration, TestEnum testEnum, TestEnum testEnum2, Set<TestEnum> enumSet, Set<String> stringSet, Set<TestSubConfiguration> objectSet, List<String> stringList, List<TestSubConfiguration> objectList, Map<String, String> stringMap, Map<String, TestSubConfiguration> objectMap) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -106,10 +108,12 @@ public class TestConfiguration {
 		this.primitiveDouble = primitiveDouble;
 		this.wrapperDouble = wrapperDouble;
 		this.string = string;
+		this.nullString = nullString;
 		this.foo = foo;
 		this.subConfiguration = subConfiguration;
 		this.testEnum = testEnum;
 		this.testEnum2 = testEnum2;
+		this.enumSet = enumSet;
 		this.stringSet = stringSet;
 		this.objectSet = objectSet;
 		this.stringList = stringList;
@@ -146,9 +150,11 @@ public class TestConfiguration {
 			Objects.equals(this.string, that.string) &&
 			Objects.equals(this.nullString, that.nullString) &&
 			Objects.equals(this.foo, that.foo) &&
+			Objects.equals(this.ignored, that.ignored) &&
 			Objects.equals(this.subConfiguration, that.subConfiguration) &&
 			this.testEnum == that.testEnum &&
 			this.testEnum2 == that.testEnum2 &&
+			Objects.equals(this.enumSet, that.enumSet) &&
 			Objects.equals(this.stringSet, that.stringSet) &&
 			Objects.equals(this.objectSet, that.objectSet) &&
 			Objects.equals(this.stringList, that.stringList) &&
@@ -159,7 +165,7 @@ public class TestConfiguration {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.subConfiguration, this.testEnum, this.testEnum2, this.stringSet, this.objectSet, this.stringList, this.objectList, this.stringMap, this.objectMap);
+		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.ignored, this.subConfiguration, this.testEnum, this.testEnum2, this.enumSet, this.stringSet, this.objectSet, this.stringList, this.objectList, this.stringMap, this.objectMap);
 	}
 
 	@Override
@@ -184,9 +190,11 @@ public class TestConfiguration {
 			", string='" + this.string + "'" +
 			", nullString='" + this.nullString + "'" +
 			", foo='" + this.foo + "'" +
+			", ignored='" + this.ignored + "'" +
 			", subConfiguration=" + this.subConfiguration +
 			", testEnum=" + this.testEnum +
 			", testEnum2=" + this.testEnum2 +
+			", enumSet=" + this.enumSet +
 			", stringSet=" + this.stringSet +
 			", objectSet=" + this.objectSet +
 			", stringList=" + this.stringList +

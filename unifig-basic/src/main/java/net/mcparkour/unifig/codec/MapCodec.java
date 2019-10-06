@@ -24,11 +24,11 @@
 
 package net.mcparkour.unifig.codec;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import net.mcparkour.common.reflection.Reflections;
+import net.mcparkour.common.reflection.type.Types;
 import net.mcparkour.unifig.converter.Converter;
 import net.mcparkour.unifig.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.ModelObjectFactory;
@@ -39,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 public class MapCodec<O, A, V> implements Codec<O, A, V, Map<?, ?>> {
 
 	@Override
-	public ModelValue<O, A, V> encode(Map<?, ?> object, Field field, Converter<O, A, V> converter) {
+	public ModelValue<O, A, V> encode(Map<?, ?> object, Type type, Converter<O, A, V> converter) {
 		ModelObjectFactory<O, A, V> objectFactory = converter.getModelObjectFactory();
 		ModelObject<O, A, V> modelObject = objectFactory.createEmptyModelObject();
 		for (Map.Entry<?, ?> entry : object.entrySet()) {
@@ -47,8 +47,8 @@ public class MapCodec<O, A, V> implements Codec<O, A, V, Map<?, ?>> {
 			String keyString = key.toString();
 			Object value = entry.getValue();
 			Class<?> valueType = value.getClass();
-			ModelValue<O, A, V> valueValue = converter.toModelValue(value, valueType, field);
-			modelObject.setValue(keyString, valueValue);
+			ModelValue<O, A, V> modelValue = converter.toModelValue(value, valueType);
+			modelObject.setValue(keyString, modelValue);
 		}
 		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
 		return valueFactory.createObjectModelValue(modelObject);
@@ -56,20 +56,25 @@ public class MapCodec<O, A, V> implements Codec<O, A, V, Map<?, ?>> {
 
 	@Nullable
 	@Override
-	public Map<?, ?> decode(ModelValue<O, A, V> value, Field field, Converter<O, A, V> converter) {
+	public Map<?, ?> decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
 		ModelObjectFactory<O, A, V> objectFactory = converter.getModelObjectFactory();
 		O rawObject = value.asObject();
 		ModelObject<O, A, V> object = objectFactory.createModelObject(rawObject);
+		Type genericType = getGenericType(type);
 		int size = object.getSize();
 		Map<Object, Object> map = new LinkedHashMap<>(size);
-		List<Class<?>> genericTypes = Reflections.getGenericTypes(field);
-		Class<?> genericType = genericTypes.get(1);
 		for (Map.Entry<String, ModelValue<O, A, V>> entry : object.getEntries()) {
 			String key = entry.getKey();
 			ModelValue<O, A, V> entryValue = entry.getValue();
-			Object mapValue = converter.toObject(entryValue, genericType, field);
+			Object mapValue = converter.toObject(entryValue, genericType);
 			map.put(key, mapValue);
 		}
 		return map;
+	}
+
+	private Type getGenericType(Type type) {
+		ParameterizedType parameterizedType = Types.asParametrizedType(type);
+		Type[] typeArguments = parameterizedType.getActualTypeArguments();
+		return typeArguments[1];
 	}
 }

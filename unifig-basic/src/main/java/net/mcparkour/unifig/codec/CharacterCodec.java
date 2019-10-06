@@ -24,7 +24,7 @@
 
 package net.mcparkour.unifig.codec;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import net.mcparkour.unifig.converter.Converter;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
@@ -33,14 +33,14 @@ import org.jetbrains.annotations.Nullable;
 public class CharacterCodec<O, A, V> implements Codec<O, A, V, Character> {
 
 	@Override
-	public ModelValue<O, A, V> encode(Character object, Field field, Converter<O, A, V> converter) {
+	public ModelValue<O, A, V> encode(Character object, Type type, Converter<O, A, V> converter) {
 		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
 		return valueFactory.createCharacterModelValue(object);
 	}
 
 	@Nullable
 	@Override
-	public Character decode(ModelValue<O, A, V> value, Field field, Converter<O, A, V> converter) {
+	public Character decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
 		if (!value.isCharacter()) {
 			throw new CodecDecodeException("value is not a character");
 		}

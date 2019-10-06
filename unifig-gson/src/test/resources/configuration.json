@@ -40,6 +40,11 @@
         "bar": "foobar",
         "testEnum": "TWO",
         "testEnum2": "not-four",
+        "enumSet": [
+            "ONE",
+            "TWO",
+            "not-four"
+        ],
         "stringSet": [
             "1",
             "2",
@@ -58,6 +63,11 @@
     },
     "testEnum": "TWO",
     "testEnum2": "not-four",
+    "enumSet": [
+        "ONE",
+        "TWO",
+        "not-four"
+    ],
     "stringSet": [
         "1",
         "2",
@@ -86,6 +96,11 @@
             "bar": "foobar",
             "testEnum": "TWO",
             "testEnum2": "not-four",
+            "enumSet": [
+                "ONE",
+                "TWO",
+                "not-four"
+            ],
             "stringSet": [
                 "1",
                 "2",
@@ -131,6 +146,11 @@
             "bar": "foobar",
             "testEnum": "TWO",
             "testEnum2": "not-four",
+            "enumSet": [
+                "ONE",
+                "TWO",
+                "not-four"
+            ],
             "stringSet": [
                 "1",
                 "2",
@@ -169,6 +189,11 @@
             "bar": "foobar",
             "testEnum": "TWO",
             "testEnum2": "not-four",
+            "enumSet": [
+                "ONE",
+                "TWO",
+                "not-four"
+            ],
             "stringSet": [
                 "1",
                 "2",
@@ -207,6 +232,11 @@
             "bar": "foobar",
             "testEnum": "TWO",
             "testEnum2": "not-four",
+            "enumSet": [
+                "ONE",
+                "TWO",
+                "not-four"
+            ],
             "stringSet": [
                 "1",
                 "2",
@@ -252,6 +282,11 @@
             "bar": "foobar",
             "testEnum": "TWO",
             "testEnum2": "not-four",
+            "enumSet": [
+                "ONE",
+                "TWO",
+                "not-four"
+            ],
             "stringSet": [
                 "1",
                 "2",
@@ -290,6 +325,11 @@
             "bar": "foobar",
             "testEnum": "TWO",
             "testEnum2": "not-four",
+            "enumSet": [
+                "ONE",
+                "TWO",
+                "not-four"
+            ],
             "stringSet": [
                 "1",
                 "2",
@@ -328,6 +368,11 @@
             "bar": "foobar",
             "testEnum": "TWO",
             "testEnum2": "not-four",
+            "enumSet": [
+                "ONE",
+                "TWO",
+                "not-four"
+            ],
             "stringSet": [
                 "1",
                 "2",

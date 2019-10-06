@@ -24,11 +24,11 @@
 
 package net.mcparkour.unifig.codec;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
-import net.mcparkour.common.reflection.Reflections;
+import net.mcparkour.common.reflection.type.Types;
 import net.mcparkour.unifig.converter.Converter;
 import net.mcparkour.unifig.model.array.ModelArray;
 import net.mcparkour.unifig.model.array.ModelArrayFactory;
@@ -39,12 +39,12 @@ import org.jetbrains.annotations.Nullable;
 public class SetCodec<O, A, V> implements Codec<O, A, V, Set<?>> {
 
 	@Override
-	public ModelValue<O, A, V> encode(Set<?> object, Field field, Converter<O, A, V> converter) {
+	public ModelValue<O, A, V> encode(Set<?> object, Type type, Converter<O, A, V> converter) {
 		ModelArrayFactory<O, A, V> arrayFactory = converter.getModelArrayFactory();
 		ModelArray<O, A, V> array = arrayFactory.createEmptyModelArray();
 		for (Object element : object) {
 			Class<?> elementType = element.getClass();
-			ModelValue<O, A, V> elementValue = converter.toModelValue(element, elementType, field);
+			ModelValue<O, A, V> elementValue = converter.toModelValue(element, elementType);
 			array.addValue(elementValue);
 		}
 		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
@@ -53,18 +53,23 @@ public class SetCodec<O, A, V> implements Codec<O, A, V, Set<?>> {
 
 	@Nullable
 	@Override
-	public Set<?> decode(ModelValue<O, A, V> value, Field field, Converter<O, A, V> converter) {
+	public Set<?> decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
 		ModelArrayFactory<O, A, V> arrayFactory = converter.getModelArrayFactory();
 		A rawArray = value.asArray();
 		ModelArray<O, A, V> array = arrayFactory.createModelArray(rawArray);
+		Type genericType = getGenericType(type);
 		int size = array.getSize();
 		Set<Object> set = new LinkedHashSet<>(size);
-		List<Class<?>> genericTypes = Reflections.getGenericTypes(field);
-		Class<?> genericType = genericTypes.get(0);
 		for (ModelValue<O, A, V> elementValue : array) {
-			Object object = converter.toObject(elementValue, genericType, field);
+			Object object = converter.toObject(elementValue, genericType);
 			set.add(object);
 		}
 		return set;
+	}
+
+	private Type getGenericType(Type type) {
+		ParameterizedType parameterizedType = Types.asParametrizedType(type);
+		Type[] typeArguments = parameterizedType.getActualTypeArguments();
+		return typeArguments[0];
 	}
 }
