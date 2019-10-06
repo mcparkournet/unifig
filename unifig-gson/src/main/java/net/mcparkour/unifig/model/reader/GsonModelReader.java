@@ -33,11 +33,9 @@ import net.mcparkour.unifig.model.object.ModelObject;
 
 public class GsonModelReader implements ModelReader<JsonObject, JsonArray, JsonElement> {
 
-	private JsonParser parser = new JsonParser();
-
 	@Override
 	public ModelObject<JsonObject, JsonArray, JsonElement> read(String string) {
-		JsonElement element = this.parser.parse(string);
+		JsonElement element = JsonParser.parseString(string);
 		JsonObject object = (JsonObject) element;
 		return new GsonModelObject(object);
 	}
