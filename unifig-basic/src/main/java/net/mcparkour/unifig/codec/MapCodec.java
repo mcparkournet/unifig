@@ -43,15 +43,25 @@ public class MapCodec<O, A, V> implements Codec<O, A, V, Map<?, ?>> {
 		ModelObjectFactory<O, A, V> objectFactory = converter.getModelObjectFactory();
 		ModelObject<O, A, V> modelObject = objectFactory.createEmptyModelObject();
 		for (Map.Entry<?, ?> entry : object.entrySet()) {
-			Object key = entry.getKey();
-			String keyString = key.toString();
-			Object value = entry.getValue();
-			Class<?> valueType = value.getClass();
-			ModelValue<O, A, V> modelValue = converter.toModelValue(value, valueType);
-			modelObject.setValue(keyString, modelValue);
+			ModelValue<O, A, V> modelKey = getModelKey(entry, converter);
+			String key = modelKey.asString();
+			ModelValue<O, A, V> modelValue = getModelValue(entry, converter);
+			modelObject.setValue(key, modelValue);
 		}
 		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
 		return valueFactory.createObjectModelValue(modelObject);
+	}
+
+	private ModelValue<O, A, V> getModelKey(Map.Entry<?, ?> entry, Converter<O, A, V> converter) {
+		Object key = entry.getKey();
+		Class<?> keyType = key.getClass();
+		return converter.toModelValue(key, keyType);
+	}
+
+	private ModelValue<O, A, V> getModelValue(Map.Entry<?, ?> entry, Converter<O, A, V> converter) {
+		Object value = entry.getValue();
+		Class<?> valueType = value.getClass();
+		return converter.toModelValue(value, valueType);
 	}
 
 	@Nullable
@@ -60,21 +70,25 @@ public class MapCodec<O, A, V> implements Codec<O, A, V, Map<?, ?>> {
 		ModelObjectFactory<O, A, V> objectFactory = converter.getModelObjectFactory();
 		O rawObject = value.asObject();
 		ModelObject<O, A, V> object = objectFactory.createModelObject(rawObject);
-		Type genericType = getGenericType(type);
+		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
+		Type[] genericTypes = getGenericTypes(type);
+		Type keyType = genericTypes[0];
+		Type valueType = genericTypes[1];
 		int size = object.getSize();
 		Map<Object, Object> map = new LinkedHashMap<>(size);
 		for (Map.Entry<String, ModelValue<O, A, V>> entry : object.getEntries()) {
 			String key = entry.getKey();
+			ModelValue<O, A, V> keyModelValue = valueFactory.createStringModelValue(key);
+			Object mapKey = converter.toObject(keyModelValue, keyType);
 			ModelValue<O, A, V> entryValue = entry.getValue();
-			Object mapValue = converter.toObject(entryValue, genericType);
-			map.put(key, mapValue);
+			Object mapValue = converter.toObject(entryValue, valueType);
+			map.put(mapKey, mapValue);
 		}
 		return map;
 	}
 
-	private Type getGenericType(Type type) {
+	private Type[] getGenericTypes(Type type) {
 		ParameterizedType parameterizedType = Types.asParametrizedType(type);
-		Type[] typeArguments = parameterizedType.getActualTypeArguments();
-		return typeArguments[1];
+		return parameterizedType.getActualTypeArguments();
 	}
 }
