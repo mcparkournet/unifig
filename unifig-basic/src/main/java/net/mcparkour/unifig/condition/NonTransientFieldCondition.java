@@ -27,10 +27,10 @@ package net.mcparkour.unifig.condition;
 import java.lang.reflect.Field;
 import net.mcparkour.common.reflection.Modifiers;
 
-public class NonStaticFieldCondition implements FieldCondition {
+public class NonTransientFieldCondition implements FieldCondition {
 
 	@Override
 	public boolean check(Field field) {
-		return !Modifiers.isStatic(field);
+		return !Modifiers.isTransient(field);
 	}
 }

@@ -37,6 +37,7 @@ public final class FieldConditions {
 	public static List<FieldCondition> createBasicFieldConditionList() {
 		return Stream.of(
 			new NonStaticFieldCondition(),
+			new NonTransientFieldCondition(),
 			new IgnoredAnnotationNotPresentedFieldCondition()
 		).collect(Collectors.toList());
 	}
