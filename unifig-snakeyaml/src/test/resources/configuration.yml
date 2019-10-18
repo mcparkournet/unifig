@@ -338,3 +338,5 @@ object-map:
       foo: '1'
       bar: '2'
       foobar: '3'
+uuid: 00000000-1000-0100-0010-000000000001
+locale: en-US

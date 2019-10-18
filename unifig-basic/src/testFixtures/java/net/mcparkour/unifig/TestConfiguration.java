@@ -25,9 +25,11 @@
 package net.mcparkour.unifig;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import net.mcparkour.unifig.annotation.Ignored;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.util.Collections;
@@ -86,11 +88,14 @@ public class TestConfiguration {
 	private Map<String, String> stringMap;
 	private Map<String, TestSubConfiguration> objectMap;
 
+	private UUID uuid;
+	private Locale locale;
+
 	public TestConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", null, "foobar", new TestSubConfiguration(), TestEnum.TWO, TestEnum.THREE, Collections.createLinkedSet(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE), Collections.createLinkedSet("1", "2", "3"), Collections.createLinkedSet(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), List.of("1", "2", "3"), List.of(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"), Collections.createLinkedMap("foo", new TestSubConfiguration(), "bar", new TestSubConfiguration(), "foobar", new TestSubConfiguration()));
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", null, "foobar", new TestSubConfiguration(), TestEnum.TWO, TestEnum.THREE, Collections.createLinkedSet(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE), Collections.createLinkedSet("1", "2", "3"), Collections.createLinkedSet(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), List.of("1", "2", "3"), List.of(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"), Collections.createLinkedMap("foo", new TestSubConfiguration(), "bar", new TestSubConfiguration(), "foobar", new TestSubConfiguration()), UUID.fromString("00000000-1000-0100-0010-000000000001"), Locale.US);
 	}
 
-	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, @Nullable String nullString, String foo, TestSubConfiguration subConfiguration, TestEnum testEnum, TestEnum testEnum2, Set<TestEnum> enumSet, Set<String> stringSet, Set<TestSubConfiguration> objectSet, List<String> stringList, List<TestSubConfiguration> objectList, Map<String, String> stringMap, Map<String, TestSubConfiguration> objectMap) {
+	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, @Nullable String nullString, String foo, TestSubConfiguration subConfiguration, TestEnum testEnum, TestEnum testEnum2, Set<TestEnum> enumSet, Set<String> stringSet, Set<TestSubConfiguration> objectSet, List<String> stringList, List<TestSubConfiguration> objectList, Map<String, String> stringMap, Map<String, TestSubConfiguration> objectMap, UUID uuid, Locale locale) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -120,6 +125,8 @@ public class TestConfiguration {
 		this.objectList = objectList;
 		this.stringMap = stringMap;
 		this.objectMap = objectMap;
+		this.uuid = uuid;
+		this.locale = locale;
 	}
 
 	@Override

@@ -25,8 +25,10 @@
 package net.mcparkour.unifig.codec;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import net.mcparkour.unifig.codec.primitive.BooleanCodec;
 import net.mcparkour.unifig.codec.primitive.number.ByteCodec;
 import net.mcparkour.unifig.codec.primitive.CharacterCodec;
@@ -58,6 +60,8 @@ public final class Codecs {
 			.codec(new EnumCodec<>(), Enum.class)
 			.codec(new SetCodec<>(), Set.class)
 			.codec(new ListCodec<>(), List.class)
-			.codec(new MapCodec<>(), Map.class);
+			.codec(new MapCodec<>(), Map.class)
+			.codec(new UUIDCodec<>(), UUID.class)
+			.codec(new LocaleCodec<>(), Locale.class);
 	}
 }
