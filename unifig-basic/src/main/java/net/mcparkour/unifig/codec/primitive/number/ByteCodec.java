@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.primitive.number;
 
-public class LongCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Long> {
+public class ByteCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Byte> {
 
 	@Override
-	public Long decode(Number number) {
-		return number.longValue();
+	public Byte decode(Number number) {
+		return number.byteValue();
 	}
 }

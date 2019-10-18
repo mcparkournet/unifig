@@ -27,6 +27,14 @@ package net.mcparkour.unifig.codec;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import net.mcparkour.unifig.codec.primitive.BooleanCodec;
+import net.mcparkour.unifig.codec.primitive.number.ByteCodec;
+import net.mcparkour.unifig.codec.primitive.CharacterCodec;
+import net.mcparkour.unifig.codec.primitive.number.DoubleCodec;
+import net.mcparkour.unifig.codec.primitive.number.FloatCodec;
+import net.mcparkour.unifig.codec.primitive.number.IntegerCodec;
+import net.mcparkour.unifig.codec.primitive.number.LongCodec;
+import net.mcparkour.unifig.codec.primitive.number.ShortCodec;
 import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
 import net.mcparkour.unifig.codec.registry.TypedCodecRegistryBuilder;
 

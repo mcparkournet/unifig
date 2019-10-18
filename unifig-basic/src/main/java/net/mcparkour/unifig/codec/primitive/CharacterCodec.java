@@ -22,12 +22,35 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.primitive;
 
-public class ShortCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Short> {
+import java.lang.reflect.Type;
+import net.mcparkour.unifig.codec.Codec;
+import net.mcparkour.unifig.codec.CodecDecodeException;
+import net.mcparkour.unifig.converter.Converter;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
+import org.jetbrains.annotations.Nullable;
+
+public class CharacterCodec<O, A, V> implements Codec<O, A, V, Character> {
 
 	@Override
-	public Short decode(Number number) {
-		return number.shortValue();
+	public ModelValue<O, A, V> encode(Character object, Type type, Converter<O, A, V> converter) {
+		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
+		String string = String.valueOf(object);
+		return valueFactory.createStringModelValue(string);
+	}
+
+	@Nullable
+	@Override
+	public Character decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
+		if (!value.isString()) {
+			throw new CodecDecodeException("value is not a String");
+		}
+		String string = value.asString();
+		if (string.length() != 1) {
+			throw new CodecDecodeException("value length is not 1");
+		}
+		return string.charAt(0);
 	}
 }

@@ -22,31 +22,12 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.primitive.number;
 
-import java.lang.reflect.Type;
-import net.mcparkour.unifig.converter.Converter;
-import net.mcparkour.unifig.model.value.ModelValue;
-import net.mcparkour.unifig.model.value.ModelValueFactory;
-import org.jetbrains.annotations.Nullable;
-
-public abstract class AbstractNumberCodec<O, A, V, T extends Number> implements Codec<O, A, V, T> {
+public class ShortCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Short> {
 
 	@Override
-	public ModelValue<O, A, V> encode(T object, Type type, Converter<O, A, V> converter) {
-		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
-		return valueFactory.createNumberModelValue(object);
+	public Short decode(Number number) {
+		return number.shortValue();
 	}
-
-	@Nullable
-	@Override
-	public T decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
-		if (!value.isNumber()) {
-			throw new CodecDecodeException("value is not a number");
-		}
-		Number number = value.asNumber();
-		return decode(number);
-	}
-
-	public abstract T decode(Number number);
 }

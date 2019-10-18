@@ -22,28 +22,33 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.primitive.number;
 
 import java.lang.reflect.Type;
+import net.mcparkour.unifig.codec.Codec;
+import net.mcparkour.unifig.codec.CodecDecodeException;
 import net.mcparkour.unifig.converter.Converter;
 import net.mcparkour.unifig.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.ModelValueFactory;
 import org.jetbrains.annotations.Nullable;
 
-public class BooleanCodec<O, A, V> implements Codec<O, A, V, Boolean> {
+public abstract class AbstractNumberCodec<O, A, V, T extends Number> implements Codec<O, A, V, T> {
 
 	@Override
-	public ModelValue<O, A, V> encode(Boolean object, Type type, Converter<O, A, V> converter) {
+	public ModelValue<O, A, V> encode(T object, Type type, Converter<O, A, V> converter) {
 		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
-		return valueFactory.createBooleanModelValue(object);
+		return valueFactory.createNumberModelValue(object);
 	}
 
 	@Nullable
 	@Override
-	public Boolean decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
-		if (!value.isBoolean()) {
-			throw new CodecDecodeException("Value is not a boolean");
+	public T decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
+		if (!value.isNumber()) {
+			throw new CodecDecodeException("value is not a number");
 		}
-		return value.asBoolean();
+		Number number = value.asNumber();
+		return decode(number);
 	}
+
+	public abstract T decode(Number number);
 }

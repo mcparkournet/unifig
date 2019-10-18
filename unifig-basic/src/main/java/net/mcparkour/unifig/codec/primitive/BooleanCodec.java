@@ -22,12 +22,30 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec;
+package net.mcparkour.unifig.codec.primitive;
 
-public class IntegerCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Integer> {
+import java.lang.reflect.Type;
+import net.mcparkour.unifig.codec.Codec;
+import net.mcparkour.unifig.codec.CodecDecodeException;
+import net.mcparkour.unifig.converter.Converter;
+import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.unifig.model.value.ModelValueFactory;
+import org.jetbrains.annotations.Nullable;
+
+public class BooleanCodec<O, A, V> implements Codec<O, A, V, Boolean> {
 
 	@Override
-	public Integer decode(Number number) {
-		return number.intValue();
+	public ModelValue<O, A, V> encode(Boolean object, Type type, Converter<O, A, V> converter) {
+		ModelValueFactory<O, A, V> valueFactory = converter.getModelValueFactory();
+		return valueFactory.createBooleanModelValue(object);
+	}
+
+	@Nullable
+	@Override
+	public Boolean decode(ModelValue<O, A, V> value, Type type, Converter<O, A, V> converter) {
+		if (!value.isBoolean()) {
+			throw new CodecDecodeException("Value is not a boolean");
+		}
+		return value.asBoolean();
 	}
 }
