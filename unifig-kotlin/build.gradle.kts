@@ -1,10 +1,10 @@
 plugins {
-	kotlin("jvm") version "1.3.70"
+	kotlin("jvm") version "1.3.71"
 }
 
 dependencies {
 	api(project(":unifig-core"))
-	implementation(kotlin("stdlib-jdk8", "1.3.70"))
+	implementation(kotlin("stdlib-jdk8", "1.3.71"))
 }
 
 tasks {
