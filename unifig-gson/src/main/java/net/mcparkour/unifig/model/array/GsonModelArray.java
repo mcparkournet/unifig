@@ -28,8 +28,9 @@ import java.util.Iterator;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.mcparkour.octenace.model.array.ModelArray;
 import net.mcparkour.unifig.model.value.GsonModelValue;
-import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.octenace.model.value.ModelValue;
 
 public class GsonModelArray implements ModelArray<JsonObject, JsonArray, JsonElement> {
 
@@ -43,6 +44,12 @@ public class GsonModelArray implements ModelArray<JsonObject, JsonArray, JsonEle
 	public void addValue(ModelValue<JsonObject, JsonArray, JsonElement> value) {
 		JsonElement rawValue = value.getValue();
 		this.array.add(rawValue);
+	}
+
+	@Override
+	public ModelValue<JsonObject, JsonArray, JsonElement> get(int index) {
+		JsonElement rawValue = this.array.get(index);
+		return new GsonModelValue(rawValue);
 	}
 
 	@Override

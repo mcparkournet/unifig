@@ -29,6 +29,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import net.mcparkour.octenace.model.value.ModelValueFactory;
+import net.mcparkour.octenace.model.value.ModelValue;
 
 public class GsonModelValueFactory implements ModelValueFactory<JsonObject, JsonArray, JsonElement> {
 

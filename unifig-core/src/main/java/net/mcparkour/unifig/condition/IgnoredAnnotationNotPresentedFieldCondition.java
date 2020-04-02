@@ -22,34 +22,16 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.model.value;
+package net.mcparkour.unifig.condition;
 
-import org.jetbrains.annotations.Nullable;
+import java.lang.reflect.Field;
+import net.mcparkour.octenace.condition.FieldCondition;
+import net.mcparkour.unifig.annotation.Ignored;
 
-public interface ModelValue<O, A, V> {
+public class IgnoredAnnotationNotPresentedFieldCondition implements FieldCondition {
 
-	boolean isNull();
-
-	boolean asBoolean();
-
-	boolean isBoolean();
-
-	Number asNumber();
-
-	boolean isNumber();
-
-	String asString();
-
-	boolean isString();
-
-	O asObject();
-
-	boolean isObject();
-
-	A asArray();
-
-	boolean isArray();
-
-	@Nullable
-	V getValue();
+	@Override
+	public boolean check(Field field) {
+		return !field.isAnnotationPresent(Ignored.class);
+	}
 }

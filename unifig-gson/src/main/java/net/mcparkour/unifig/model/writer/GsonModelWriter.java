@@ -31,7 +31,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.octenace.model.object.ModelObject;
 import net.mcparkour.unifig.options.IndentCharacter;
 import net.mcparkour.unifig.options.Options;
 

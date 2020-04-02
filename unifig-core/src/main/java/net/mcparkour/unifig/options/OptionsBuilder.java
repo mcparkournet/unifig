@@ -25,23 +25,80 @@
 package net.mcparkour.unifig.options;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.octenace.codec.basic.Codecs;
+import net.mcparkour.octenace.codec.registry.CodecRegistry;
+import net.mcparkour.octenace.condition.FieldCondition;
+import net.mcparkour.octenace.condition.FieldConditions;
+import net.mcparkour.octenace.converter.LetterCase;
+import net.mcparkour.unifig.condition.IgnoredAnnotationNotPresentedFieldCondition;
 
-public interface OptionsBuilder {
+public class OptionsBuilder {
 
-	OptionsBuilder indentSize(int indentSize);
+	private int indentSize;
+	private IndentCharacter indentCharacter;
+	private LetterCase defaultKeysLetterCase;
+	private Path directoryPath;
+	private CodecRegistry codecRegistry;
+	private List<FieldCondition> fieldConditions;
 
-	OptionsBuilder indentCharacter(IndentCharacter indentCharacter);
+	public OptionsBuilder() {
+		this.indentSize = 4;
+		this.indentCharacter = IndentCharacter.SPACE;
+		this.defaultKeysLetterCase = LetterCase.INHERITED;
+		this.directoryPath = Path.of("");
+		this.codecRegistry = Codecs.BASIC_CODEC_REGISTRY;
+		this.fieldConditions = createDefaultFieldConditions();
+	}
 
-	OptionsBuilder defaultKeysLetterCase(LetterCase defaultKeysLetterCase);
+	private static List<FieldCondition> createDefaultFieldConditions() {
+		List<FieldCondition> list = new ArrayList<>(3);
+		list.addAll(FieldConditions.BASIC_FIELD_CONDITIONS);
+		list.add(new IgnoredAnnotationNotPresentedFieldCondition());
+		return list;
+	}
 
-	OptionsBuilder directoryPath(Path directoryPath);
+	public OptionsBuilder options(Options options) {
+		return indentSize(options.getIndentSize())
+			.indentCharacter(options.getIndentCharacter())
+			.defaultKeysLetterCase(options.getDefaultKeysLetterCase())
+			.directoryPath(options.getDirectoryPath())
+			.codecRegistry(options.getCodecRegistry())
+			.fieldConditions(options.getFieldConditions());
+	}
 
-	<O, A, V> OptionsBuilder codecRegistry(CodecRegistry<O, A, V> codecRegistry);
+	public OptionsBuilder indentSize(int indentSize) {
+		this.indentSize = indentSize;
+		return this;
+	}
 
-	OptionsBuilder fieldConditions(List<FieldCondition> fieldConditions);
+	public OptionsBuilder indentCharacter(IndentCharacter indentCharacter) {
+		this.indentCharacter = indentCharacter;
+		return this;
+	}
 
-	Options build();
+	public OptionsBuilder defaultKeysLetterCase(LetterCase defaultKeysLetterCase) {
+		this.defaultKeysLetterCase = defaultKeysLetterCase;
+		return this;
+	}
+
+	public OptionsBuilder directoryPath(Path directoryPath) {
+		this.directoryPath = directoryPath;
+		return this;
+	}
+
+	public OptionsBuilder codecRegistry(CodecRegistry codecRegistry) {
+		this.codecRegistry = codecRegistry;
+		return this;
+	}
+
+	public OptionsBuilder fieldConditions(List<FieldCondition> fieldConditions) {
+		this.fieldConditions = fieldConditions;
+		return this;
+	}
+
+	public Options build() {
+		return new Options(this.indentSize, this.indentCharacter, this.defaultKeysLetterCase, this.directoryPath, this.codecRegistry, this.fieldConditions);
+	}
 }

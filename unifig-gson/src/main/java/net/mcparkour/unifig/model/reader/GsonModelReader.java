@@ -28,8 +28,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.mcparkour.octenace.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.GsonModelObject;
-import net.mcparkour.unifig.model.object.ModelObject;
 
 public class GsonModelReader implements ModelReader<JsonObject, JsonArray, JsonElement> {
 

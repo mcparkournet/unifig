@@ -24,24 +24,31 @@
 
 package net.mcparkour.unifig.model.array;
 
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.octenace.model.array.ModelArray;
+import net.mcparkour.octenace.model.value.ModelValue;
 import net.mcparkour.unifig.model.value.SnakeyamlModelValue;
 
-public class SnakeyamlModelArray implements ModelArray<Map<String, Object>, Collection<Object>, Object> {
+public class SnakeyamlModelArray implements ModelArray<Map<String, Object>, List<Object>, Object> {
 
-	private Collection<Object> array;
+	private List<Object> array;
 
-	public SnakeyamlModelArray(Collection<Object> array) {
+	public SnakeyamlModelArray(List<Object> array) {
 		this.array = array;
 	}
 
 	@Override
-	public void addValue(ModelValue<Map<String, Object>, Collection<Object>, Object> value) {
+	public void addValue(ModelValue<Map<String, Object>, List<Object>, Object> value) {
 		Object rawValue = value.getValue();
 		this.array.add(rawValue);
+	}
+
+	@Override
+	public ModelValue<Map<String, Object>, List<Object>, Object> get(int index) {
+		Object rawValue = this.array.get(index);
+		return new SnakeyamlModelValue(rawValue);
 	}
 
 	@Override
@@ -50,17 +57,17 @@ public class SnakeyamlModelArray implements ModelArray<Map<String, Object>, Coll
 	}
 
 	@Override
-	public Collection<Object> getArray() {
+	public List<Object> getArray() {
 		return this.array;
 	}
 
 	@Override
-	public Iterator<ModelValue<Map<String, Object>, Collection<Object>, Object>> iterator() {
+	public Iterator<ModelValue<Map<String, Object>, List<Object>, Object>> iterator() {
 		Iterator<Object> iterator = this.array.iterator();
 		return new SnakeyamlModelArrayIterator(iterator);
 	}
 
-	private static final class SnakeyamlModelArrayIterator implements Iterator<ModelValue<Map<String, Object>, Collection<Object>, Object>> {
+	private static final class SnakeyamlModelArrayIterator implements Iterator<ModelValue<Map<String, Object>, List<Object>, Object>> {
 
 		private Iterator<Object> iterator;
 
@@ -74,7 +81,7 @@ public class SnakeyamlModelArray implements ModelArray<Map<String, Object>, Coll
 		}
 
 		@Override
-		public ModelValue<Map<String, Object>, Collection<Object>, Object> next() {
+		public ModelValue<Map<String, Object>, List<Object>, Object> next() {
 			Object next = this.iterator.next();
 			return new SnakeyamlModelValue(next);
 		}

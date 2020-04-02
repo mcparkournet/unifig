@@ -24,23 +24,16 @@
 
 package net.mcparkour.unifig;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import net.mcparkour.unifig.codec.Codecs;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
-import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.condition.FieldConditions;
-import net.mcparkour.unifig.converter.BasicConverter;
+import net.mcparkour.octenace.converter.BasicConverter;
+import net.mcparkour.octenace.converter.LetterCase;
 import net.mcparkour.unifig.model.SnakeyamlModel;
 import net.mcparkour.unifig.model.array.SnakeyamlModelArrayFactory;
 import net.mcparkour.unifig.model.object.SnakeyamlModelObjectFactory;
 import net.mcparkour.unifig.model.reader.SnakeyamlModelReader;
 import net.mcparkour.unifig.model.value.SnakeyamlModelValueFactory;
 import net.mcparkour.unifig.model.writer.SnakeyamlModelWriter;
-import net.mcparkour.unifig.options.BasicOptionsBuilder;
-import net.mcparkour.unifig.options.LetterCase;
 import net.mcparkour.unifig.options.Options;
 import net.mcparkour.unifig.options.OptionsBuilder;
 import org.jetbrains.annotations.Nullable;
@@ -53,21 +46,17 @@ public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
 		SnakeyamlModelObjectFactory objectFactory = new SnakeyamlModelObjectFactory();
 		SnakeyamlModelArrayFactory arrayFactory = new SnakeyamlModelArrayFactory();
 		SnakeyamlModelValueFactory valueFactory = new SnakeyamlModelValueFactory();
-		BasicConverter<Map<String, Object>, Collection<Object>, Object> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options);
+		BasicConverter<Map<String, Object>, List<Object>, Object> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options.getDefaultKeysLetterCase(), options.getFieldConditions(), options.getCodecRegistry(), new PropertyAnnotationSupplier());
 		SnakeyamlModelReader reader = new SnakeyamlModelReader();
 		SnakeyamlModelWriter writer = new SnakeyamlModelWriter(options);
 		return new BasicConfiguration<>(configurationType, defaultConfiguration, options, model, converter, reader, writer);
 	}
 
 	@Override
-	public OptionsBuilder createOptionsBuilder() {
-		CodecRegistryBuilder<Map<String, Object>, List<Object>, Object> codecRegistryBuilder = Codecs.createBasicCodecRegistryBuilder();
-		CodecRegistry<Map<String, Object>, List<Object>, Object> codecRegistry = codecRegistryBuilder.build();
-		List<FieldCondition> fieldConditions = FieldConditions.createBasicFieldConditionList();
-		return new BasicOptionsBuilder()
+	public Options createOptions() {
+		return new OptionsBuilder()
 			.indentSize(2)
 			.defaultKeysLetterCase(LetterCase.KEBAB)
-			.codecRegistry(codecRegistry)
-			.fieldConditions(fieldConditions);
+			.build();
 	}
 }

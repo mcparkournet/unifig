@@ -22,12 +22,14 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.codec.primitive.number;
+package net.mcparkour.unifig;
 
-public class LongCodec<O, A, V> extends AbstractNumberCodec<O, A, V, Long> {
+import net.mcparkour.octenace.converter.NameAnnotationSupplier;
+import net.mcparkour.unifig.annotation.Property;
 
-	@Override
-	public Long decode(Number number) {
-		return number.longValue();
+public class PropertyAnnotationSupplier extends NameAnnotationSupplier<Property> {
+
+	public PropertyAnnotationSupplier() {
+		super(Property.class, Property::value);
 	}
 }

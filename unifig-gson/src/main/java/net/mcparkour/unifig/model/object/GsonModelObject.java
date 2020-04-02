@@ -31,8 +31,9 @@ import java.util.stream.Collectors;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.mcparkour.octenace.model.object.ModelObject;
 import net.mcparkour.unifig.model.value.GsonModelValue;
-import net.mcparkour.unifig.model.value.ModelValue;
+import net.mcparkour.octenace.model.value.ModelValue;
 
 public class GsonModelObject implements ModelObject<JsonObject, JsonArray, JsonElement> {
 

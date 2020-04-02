@@ -28,7 +28,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import org.jetbrains.annotations.Nullable;
+import net.mcparkour.octenace.model.value.ModelValue;
 
 public class GsonModelValue implements ModelValue<JsonObject, JsonArray, JsonElement> {
 
@@ -101,7 +101,6 @@ public class GsonModelValue implements ModelValue<JsonObject, JsonArray, JsonEle
 		return this.value.isJsonArray();
 	}
 
-	@Nullable
 	@Override
 	public JsonElement getValue() {
 		return this.value;

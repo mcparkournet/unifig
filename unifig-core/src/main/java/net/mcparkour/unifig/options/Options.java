@@ -26,20 +26,49 @@ package net.mcparkour.unifig.options;
 
 import java.nio.file.Path;
 import java.util.List;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.condition.FieldCondition;
+import net.mcparkour.octenace.codec.registry.CodecRegistry;
+import net.mcparkour.octenace.condition.FieldCondition;
+import net.mcparkour.octenace.converter.LetterCase;
 
-public interface Options {
+public class Options {
 
-	int getIndentSize();
+	private int indentSize;
+	private IndentCharacter indentCharacter;
+	private LetterCase defaultKeysLetterCase;
+	private Path directoryPath;
+	private CodecRegistry codecRegistry;
+	private List<FieldCondition> fieldConditions;
 
-	IndentCharacter getIndentCharacter();
+	public Options(int indentSize, IndentCharacter indentCharacter, LetterCase defaultKeysLetterCase, Path directoryPath, CodecRegistry codecRegistry, List<FieldCondition> fieldConditions) {
+		this.indentSize = indentSize;
+		this.indentCharacter = indentCharacter;
+		this.defaultKeysLetterCase = defaultKeysLetterCase;
+		this.directoryPath = directoryPath;
+		this.codecRegistry = codecRegistry;
+		this.fieldConditions = fieldConditions;
+	}
 
-	LetterCase getDefaultKeysLetterCase();
+	public int getIndentSize() {
+		return this.indentSize;
+	}
 
-	Path getDirectoryPath();
+	public IndentCharacter getIndentCharacter() {
+		return this.indentCharacter;
+	}
 
-	<O, A, V> CodecRegistry<O, A, V> getCodecRegistry();
+	public LetterCase getDefaultKeysLetterCase() {
+		return this.defaultKeysLetterCase;
+	}
 
-	List<FieldCondition> getFieldConditions();
+	public Path getDirectoryPath() {
+		return this.directoryPath;
+	}
+
+	public CodecRegistry getCodecRegistry() {
+		return this.codecRegistry;
+	}
+
+	public List<FieldCondition> getFieldConditions() {
+		return List.copyOf(this.fieldConditions);
+	}
 }

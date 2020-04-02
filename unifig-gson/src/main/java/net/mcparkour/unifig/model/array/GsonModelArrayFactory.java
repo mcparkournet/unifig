@@ -27,6 +27,8 @@ package net.mcparkour.unifig.model.array;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.mcparkour.octenace.model.array.ModelArray;
+import net.mcparkour.octenace.model.array.ModelArrayFactory;
 
 public class GsonModelArrayFactory implements ModelArrayFactory<JsonObject, JsonArray, JsonElement> {
 

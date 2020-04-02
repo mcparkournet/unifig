@@ -24,23 +24,16 @@
 
 package net.mcparkour.unifig;
 
-import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.mcparkour.unifig.codec.Codecs;
-import net.mcparkour.unifig.codec.registry.CodecRegistry;
-import net.mcparkour.unifig.codec.registry.CodecRegistryBuilder;
-import net.mcparkour.unifig.condition.FieldCondition;
-import net.mcparkour.unifig.condition.FieldConditions;
-import net.mcparkour.unifig.converter.BasicConverter;
+import net.mcparkour.octenace.converter.BasicConverter;
 import net.mcparkour.unifig.model.GsonModel;
 import net.mcparkour.unifig.model.array.GsonModelArrayFactory;
 import net.mcparkour.unifig.model.object.GsonModelObjectFactory;
 import net.mcparkour.unifig.model.reader.GsonModelReader;
 import net.mcparkour.unifig.model.value.GsonModelValueFactory;
 import net.mcparkour.unifig.model.writer.GsonModelWriter;
-import net.mcparkour.unifig.options.BasicOptionsBuilder;
 import net.mcparkour.unifig.options.Options;
 import net.mcparkour.unifig.options.OptionsBuilder;
 import org.jetbrains.annotations.Nullable;
@@ -53,19 +46,15 @@ public class GsonConfigurationFactory implements ConfigurationFactory {
 		GsonModelObjectFactory objectFactory = new GsonModelObjectFactory();
 		GsonModelArrayFactory arrayFactory = new GsonModelArrayFactory();
 		GsonModelValueFactory valueFactory = new GsonModelValueFactory();
-		BasicConverter<JsonObject, JsonArray, JsonElement> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options);
+		BasicConverter<JsonObject, JsonArray, JsonElement> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options.getDefaultKeysLetterCase(), options.getFieldConditions(), options.getCodecRegistry(), new PropertyAnnotationSupplier());
 		GsonModelReader reader = new GsonModelReader();
 		GsonModelWriter writer = new GsonModelWriter(options);
 		return new BasicConfiguration<>(configurationType, defaultConfiguration, options, model, converter, reader, writer);
 	}
 
 	@Override
-	public OptionsBuilder createOptionsBuilder() {
-		CodecRegistryBuilder<JsonObject, JsonArray, JsonElement> codecRegistryBuilder = Codecs.createBasicCodecRegistryBuilder();
-		CodecRegistry<JsonObject, JsonArray, JsonElement> codecRegistry = codecRegistryBuilder.build();
-		List<FieldCondition> fieldConditions = FieldConditions.createBasicFieldConditionList();
-		return new BasicOptionsBuilder()
-			.codecRegistry(codecRegistry)
-			.fieldConditions(fieldConditions);
+	public Options createOptions() {
+		return new OptionsBuilder()
+			.build();
 	}
 }

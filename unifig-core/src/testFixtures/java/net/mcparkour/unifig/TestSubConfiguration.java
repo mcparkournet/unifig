@@ -25,17 +25,15 @@
 package net.mcparkour.unifig;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import net.mcparkour.unifig.annotation.Ignored;
 import net.mcparkour.unifig.annotation.Property;
 import net.mcparkour.unifig.util.Collections;
 import org.jetbrains.annotations.Nullable;
 
-public class TestConfiguration {
+public class TestSubConfiguration {
 
 	private boolean primitiveBoolean;
 	private Boolean wrapperBoolean;
@@ -72,30 +70,24 @@ public class TestConfiguration {
 	@Ignored
 	private String ignored;
 
-	private TestSubConfiguration subConfiguration;
-
 	private TestEnum testEnum;
 	private TestEnum testEnum2;
+
+	private String[] stringArray;
 
 	private Set<TestEnum> enumSet;
 
 	private Set<String> stringSet;
-	private Set<TestSubConfiguration> objectSet;
 
 	private List<String> stringList;
-	private List<TestSubConfiguration> objectList;
 
 	private Map<String, String> stringMap;
-	private Map<String, TestSubConfiguration> objectMap;
 
-	private UUID uuid;
-	private Locale locale;
-
-	public TestConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", null, "foobar", new TestSubConfiguration(), TestEnum.TWO, TestEnum.THREE, Collections.createLinkedSet(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE), Collections.createLinkedSet("1", "2", "3"), Collections.createLinkedSet(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), List.of("1", "2", "3"), List.of(new TestSubConfiguration(), new TestSubConfiguration(), new TestSubConfiguration()), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"), Collections.createLinkedMap("foo", new TestSubConfiguration(), "bar", new TestSubConfiguration(), "foobar", new TestSubConfiguration()), UUID.fromString("00000000-1000-0100-0010-000000000001"), Locale.US);
+	public TestSubConfiguration() {
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", null, "foobar", TestEnum.TWO, TestEnum.THREE, new String[]{"1", "2", "3"}, Collections.createLinkedSet(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE), Collections.createLinkedSet("1", "2", "3"), List.of("1", "2", "3"), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"));
 	}
 
-	public TestConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, @Nullable String nullString, String foo, TestSubConfiguration subConfiguration, TestEnum testEnum, TestEnum testEnum2, Set<TestEnum> enumSet, Set<String> stringSet, Set<TestSubConfiguration> objectSet, List<String> stringList, List<TestSubConfiguration> objectList, Map<String, String> stringMap, Map<String, TestSubConfiguration> objectMap, UUID uuid, Locale locale) {
+	public TestSubConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, @Nullable String nullString, String foo, TestEnum testEnum, TestEnum testEnum2, String[] stringArray, Set<TestEnum> enumSet, Set<String> stringSet, List<String> stringList, Map<String, String> stringMap) {
 		this.primitiveBoolean = primitiveBoolean;
 		this.wrapperBoolean = wrapperBoolean;
 		this.primitiveCharacter = primitiveCharacter;
@@ -115,18 +107,13 @@ public class TestConfiguration {
 		this.string = string;
 		this.nullString = nullString;
 		this.foo = foo;
-		this.subConfiguration = subConfiguration;
 		this.testEnum = testEnum;
 		this.testEnum2 = testEnum2;
+		this.stringArray = stringArray;
 		this.enumSet = enumSet;
 		this.stringSet = stringSet;
-		this.objectSet = objectSet;
 		this.stringList = stringList;
-		this.objectList = objectList;
 		this.stringMap = stringMap;
-		this.objectMap = objectMap;
-		this.uuid = uuid;
-		this.locale = locale;
 	}
 
 	@Override
@@ -137,7 +124,7 @@ public class TestConfiguration {
 		if (object == null || getClass() != object.getClass()) {
 			return false;
 		}
-		TestConfiguration that = (TestConfiguration) object;
+		TestSubConfiguration that = (TestSubConfiguration) object;
 		return this.primitiveBoolean == that.primitiveBoolean &&
 			this.primitiveCharacter == that.primitiveCharacter &&
 			this.primitiveByte == that.primitiveByte &&
@@ -158,26 +145,22 @@ public class TestConfiguration {
 			Objects.equals(this.nullString, that.nullString) &&
 			Objects.equals(this.foo, that.foo) &&
 			Objects.equals(this.ignored, that.ignored) &&
-			Objects.equals(this.subConfiguration, that.subConfiguration) &&
 			this.testEnum == that.testEnum &&
 			this.testEnum2 == that.testEnum2 &&
 			Objects.equals(this.enumSet, that.enumSet) &&
 			Objects.equals(this.stringSet, that.stringSet) &&
-			Objects.equals(this.objectSet, that.objectSet) &&
 			Objects.equals(this.stringList, that.stringList) &&
-			Objects.equals(this.objectList, that.objectList) &&
-			Objects.equals(this.stringMap, that.stringMap) &&
-			Objects.equals(this.objectMap, that.objectMap);
+			Objects.equals(this.stringMap, that.stringMap);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.ignored, this.subConfiguration, this.testEnum, this.testEnum2, this.enumSet, this.stringSet, this.objectSet, this.stringList, this.objectList, this.stringMap, this.objectMap);
+		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.ignored, this.testEnum, this.testEnum2, this.enumSet, this.stringSet, this.stringList, this.stringMap);
 	}
 
 	@Override
 	public String toString() {
-		return "TestConfiguration{" +
+		return "TestSubConfiguration{" +
 			"primitiveBoolean=" + this.primitiveBoolean +
 			", wrapperBoolean=" + this.wrapperBoolean +
 			", primitiveCharacter=" + this.primitiveCharacter +
@@ -198,16 +181,12 @@ public class TestConfiguration {
 			", nullString='" + this.nullString + "'" +
 			", foo='" + this.foo + "'" +
 			", ignored='" + this.ignored + "'" +
-			", subConfiguration=" + this.subConfiguration +
 			", testEnum=" + this.testEnum +
 			", testEnum2=" + this.testEnum2 +
 			", enumSet=" + this.enumSet +
 			", stringSet=" + this.stringSet +
-			", objectSet=" + this.objectSet +
 			", stringList=" + this.stringList +
-			", objectList=" + this.objectList +
 			", stringMap=" + this.stringMap +
-			", objectMap=" + this.objectMap +
 			"}";
 	}
 
@@ -292,10 +271,6 @@ public class TestConfiguration {
 		return this.ignored;
 	}
 
-	public TestSubConfiguration getSubConfiguration() {
-		return this.subConfiguration;
-	}
-
 	public TestEnum getTestEnum() {
 		return this.testEnum;
 	}
@@ -308,23 +283,11 @@ public class TestConfiguration {
 		return this.stringSet;
 	}
 
-	public Set<TestSubConfiguration> getObjectSet() {
-		return this.objectSet;
-	}
-
 	public List<String> getStringList() {
 		return this.stringList;
 	}
 
-	public List<TestSubConfiguration> getObjectList() {
-		return this.objectList;
-	}
-
 	public Map<String, String> getStringMap() {
 		return this.stringMap;
-	}
-
-	public Map<String, TestSubConfiguration> getObjectMap() {
-		return this.objectMap;
 	}
 }

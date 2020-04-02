@@ -25,7 +25,6 @@
 package net.mcparkour.unifig;
 
 import net.mcparkour.unifig.options.Options;
-import net.mcparkour.unifig.options.OptionsBuilder;
 import org.jetbrains.annotations.Nullable;
 
 public interface ConfigurationFactory {
@@ -46,9 +45,5 @@ public interface ConfigurationFactory {
 
 	<T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options);
 
-	private Options createOptions() {
-		return createOptionsBuilder().build();
-	}
-
-	OptionsBuilder createOptionsBuilder();
+	Options createOptions();
 }

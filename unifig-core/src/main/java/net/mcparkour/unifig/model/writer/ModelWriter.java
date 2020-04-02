@@ -24,7 +24,7 @@
 
 package net.mcparkour.unifig.model.writer;
 
-import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.octenace.model.object.ModelObject;
 
 public interface ModelWriter<O, A, V> {
 

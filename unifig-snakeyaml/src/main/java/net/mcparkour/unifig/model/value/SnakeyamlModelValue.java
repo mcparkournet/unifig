@@ -24,11 +24,13 @@
 
 package net.mcparkour.unifig.model.value;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import net.mcparkour.octenace.model.value.ModelValue;
+import net.mcparkour.octenace.model.value.ValueConversionException;
 import org.jetbrains.annotations.Nullable;
 
-public class SnakeyamlModelValue implements ModelValue<Map<String, Object>, Collection<Object>, Object> {
+public class SnakeyamlModelValue implements ModelValue<Map<String, Object>, List<Object>, Object> {
 
 	@Nullable
 	private Object value;
@@ -98,22 +100,22 @@ public class SnakeyamlModelValue implements ModelValue<Map<String, Object>, Coll
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Collection<Object> asArray() {
+	public List<Object> asArray() {
 		Object value = getNotNullValue();
 		if (!isArray()) {
-			throw new ValueConversionException(Collection.class);
+			throw new ValueConversionException(List.class);
 		}
-		return (Collection<Object>) value;
+		return (List<Object>) value;
 	}
 
 	@Override
 	public boolean isArray() {
-		return this.value instanceof Collection;
+		return this.value instanceof List;
 	}
 
 	private Object getNotNullValue() {
 		if (this.value == null) {
-			throw new ValueConversionException("value is null");
+			throw new ValueConversionException("Value is null");
 		}
 		return this.value;
 	}

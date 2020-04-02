@@ -24,7 +24,7 @@
 
 package net.mcparkour.unifig.model.reader;
 
-import net.mcparkour.unifig.model.object.ModelObject;
+import net.mcparkour.octenace.model.object.ModelObject;
 
 public interface ModelReader<O, A, V> {
 
