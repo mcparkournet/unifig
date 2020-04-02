@@ -28,30 +28,30 @@ import java.util.List;
 import java.util.Map;
 import net.mcparkour.octenace.model.object.ModelObject;
 import net.mcparkour.unifig.options.Options;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.Yaml;
+import org.snakeyaml.engine.v2.api.Dump;
+import org.snakeyaml.engine.v2.api.DumpSettings;
+import org.snakeyaml.engine.v2.common.FlowStyle;
 
 public class SnakeyamlModelWriter implements ModelWriter<Map<String, Object>, List<Object>, Object> {
 
-	private Yaml yaml;
+	private Dump dump;
 
 	public SnakeyamlModelWriter(Options options) {
-		DumperOptions dumperOptions = createDumperOptions(options);
-		this.yaml = new Yaml(dumperOptions);
+		DumpSettings settings = createDumpSettings(options);
+		this.dump = new Dump(settings);
 	}
 
-	private DumperOptions createDumperOptions(Options options) {
-		DumperOptions dumperOptions = new DumperOptions();
+	private DumpSettings createDumpSettings(Options options) {
 		int indentSize = options.getIndentSize();
-		dumperOptions.setIndent(indentSize);
-		dumperOptions.setDefaultFlowStyle(FlowStyle.BLOCK);
-		return dumperOptions;
+		return DumpSettings.builder()
+			.setDefaultFlowStyle(FlowStyle.BLOCK)
+			.setIndent(indentSize)
+			.build();
 	}
 
 	@Override
 	public String write(ModelObject<Map<String, Object>, List<Object>, Object> object) {
 		Map<String, Object> rawObject = object.getObject();
-		return this.yaml.dump(rawObject);
+		return this.dump.dumpToString(rawObject);
 	}
 }

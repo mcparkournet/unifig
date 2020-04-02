@@ -1,5 +1,5 @@
 dependencies {
 	api(project(":unifig-core"))
-	implementation("org.yaml:snakeyaml:1.26")
+	implementation("org.snakeyaml:snakeyaml-engine:2.1")
 	testImplementation(testFixtures(project(":unifig-core")))
 }

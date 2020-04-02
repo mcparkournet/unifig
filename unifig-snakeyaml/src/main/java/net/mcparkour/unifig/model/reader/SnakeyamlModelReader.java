@@ -28,15 +28,27 @@ import java.util.List;
 import java.util.Map;
 import net.mcparkour.octenace.model.object.ModelObject;
 import net.mcparkour.unifig.model.object.SnakeyamlModelObject;
-import org.yaml.snakeyaml.Yaml;
+import org.snakeyaml.engine.v2.api.Load;
+import org.snakeyaml.engine.v2.api.LoadSettings;
 
 public class SnakeyamlModelReader implements ModelReader<Map<String, Object>, List<Object>, Object> {
 
-	private Yaml yaml = new Yaml();
+	private Load load;
 
+	public SnakeyamlModelReader() {
+		LoadSettings settings = createLoadSettings();
+		this.load = new Load(settings);
+	}
+
+	private LoadSettings createLoadSettings() {
+		return LoadSettings.builder()
+			.build();
+	}
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public ModelObject<Map<String, Object>, List<Object>, Object> read(String string) {
-		Map<String, Object> map = this.yaml.load(string);
+		Map<String, Object> map = (Map<String, Object>) this.load.loadFromString(string);
 		return new SnakeyamlModelObject(map);
 	}
 }
