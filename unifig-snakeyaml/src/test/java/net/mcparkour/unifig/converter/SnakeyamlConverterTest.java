@@ -31,7 +31,7 @@ import net.mcparkour.unifig.Configuration;
 import net.mcparkour.unifig.ConfigurationFactory;
 import net.mcparkour.unifig.SnakeyamlConfigurationFactory;
 import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.util.Resources;
+import net.mcparkour.unifig.Resources;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

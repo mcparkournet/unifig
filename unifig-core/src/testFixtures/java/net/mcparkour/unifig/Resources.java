@@ -24,22 +24,18 @@
 
 package net.mcparkour.unifig;
 
-import net.mcparkour.octenace.annotation.Property;
+import java.net.URL;
+import java.nio.file.Path;
 
-public enum TestEnum {
+public final class Resources {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	private Resources() {
+		throw new UnsupportedOperationException("Cannot create an instance of this class");
 	}
 
-	public String getText() {
-		return this.text;
+	public static Path getResourcePath(String resourceName) {
+		URL resource = ClassLoader.getSystemResource(resourceName);
+		String path = resource.getPath();
+		return Path.of(path);
 	}
 }

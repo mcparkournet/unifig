@@ -22,24 +22,24 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.document.object;
 
-import net.mcparkour.octenace.annotation.Property;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.octenace.document.object.DocumentObjectFactory;
 
-public enum TestEnum {
+public class SnakeyamlObjectFactory implements DocumentObjectFactory<Map<String, Object>, List<Object>, Object> {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	@Override
+	public DocumentObject<Map<String, Object>, List<Object>, Object> createEmptyObject() {
+		Map<String, Object> object = new LinkedHashMap<>(0);
+		return new SnakeyamlObject(object);
 	}
 
-	public String getText() {
-		return this.text;
+	@Override
+	public DocumentObject<Map<String, Object>, List<Object>, Object> createObject(Map<String, Object> object) {
+		return new SnakeyamlObject(object);
 	}
 }

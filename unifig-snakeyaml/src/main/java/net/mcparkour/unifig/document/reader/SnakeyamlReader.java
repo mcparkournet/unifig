@@ -22,24 +22,33 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.document.reader;
 
-import net.mcparkour.octenace.annotation.Property;
+import java.util.List;
+import java.util.Map;
+import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.unifig.document.object.SnakeyamlObject;
+import org.snakeyaml.engine.v2.api.Load;
+import org.snakeyaml.engine.v2.api.LoadSettings;
 
-public enum TestEnum {
+public class SnakeyamlReader implements DocumentReader<Map<String, Object>, List<Object>, Object> {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
+	private Load load;
 
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	public SnakeyamlReader() {
+		LoadSettings settings = createLoadSettings();
+		this.load = new Load(settings);
 	}
 
-	public String getText() {
-		return this.text;
+	private LoadSettings createLoadSettings() {
+		return LoadSettings.builder()
+			.build();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public DocumentObject<Map<String, Object>, List<Object>, Object> read(String string) {
+		Map<String, Object> map = (Map<String, Object>) this.load.loadFromString(string);
+		return new SnakeyamlObject(map);
 	}
 }

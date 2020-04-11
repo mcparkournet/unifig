@@ -22,24 +22,17 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.document.reader;
 
-import net.mcparkour.octenace.annotation.Property;
+public class ReaderException extends RuntimeException {
 
-public enum TestEnum {
+	private static final long serialVersionUID = 4230300719362693617L;
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	public ReaderException(String message) {
+		super(message);
 	}
 
-	public String getText() {
-		return this.text;
+	public ReaderException(Throwable cause) {
+		super(cause);
 	}
 }

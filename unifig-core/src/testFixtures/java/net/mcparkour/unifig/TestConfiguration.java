@@ -24,15 +24,18 @@
 
 package net.mcparkour.unifig;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import net.mcparkour.unifig.annotation.Ignored;
-import net.mcparkour.unifig.annotation.Property;
-import net.mcparkour.unifig.util.Collections;
+import net.mcparkour.octenace.annotation.Codec;
+import net.mcparkour.octenace.annotation.Ignored;
+import net.mcparkour.octenace.annotation.Property;
 import org.jetbrains.annotations.Nullable;
 
 public class TestConfiguration {
@@ -80,15 +83,20 @@ public class TestConfiguration {
 	private String[] stringArray;
 	private TestSubConfiguration[] objectArray;
 
+	@Codec(LinkedHashSet.class)
 	private Set<TestEnum> enumSet;
 
+	@Codec(LinkedHashSet.class)
 	private Set<String> stringSet;
+	@Codec(LinkedHashSet.class)
 	private Set<TestSubConfiguration> objectSet;
 
 	private List<String> stringList;
 	private List<TestSubConfiguration> objectList;
 
+	@Codec(LinkedHashMap.class)
 	private Map<String, String> stringMap;
+	@Codec(LinkedHashMap.class)
 	private Map<String, TestSubConfiguration> objectMap;
 
 	private UUID uuid;
@@ -135,14 +143,14 @@ public class TestConfiguration {
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
+	public boolean equals(Object o) {
+		if (this == o) {
 			return true;
 		}
-		if (object == null || getClass() != object.getClass()) {
+		if (!(o instanceof TestConfiguration)) {
 			return false;
 		}
-		TestConfiguration that = (TestConfiguration) object;
+		TestConfiguration that = (TestConfiguration) o;
 		return this.primitiveBoolean == that.primitiveBoolean &&
 			this.primitiveCharacter == that.primitiveCharacter &&
 			this.primitiveByte == that.primitiveByte &&
@@ -166,18 +174,25 @@ public class TestConfiguration {
 			Objects.equals(this.subConfiguration, that.subConfiguration) &&
 			this.testEnum == that.testEnum &&
 			this.testEnum2 == that.testEnum2 &&
+			Arrays.equals(this.stringArray, that.stringArray) &&
+			Arrays.equals(this.objectArray, that.objectArray) &&
 			Objects.equals(this.enumSet, that.enumSet) &&
 			Objects.equals(this.stringSet, that.stringSet) &&
 			Objects.equals(this.objectSet, that.objectSet) &&
 			Objects.equals(this.stringList, that.stringList) &&
 			Objects.equals(this.objectList, that.objectList) &&
 			Objects.equals(this.stringMap, that.stringMap) &&
-			Objects.equals(this.objectMap, that.objectMap);
+			Objects.equals(this.objectMap, that.objectMap) &&
+			Objects.equals(this.uuid, that.uuid) &&
+			Objects.equals(this.locale, that.locale);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.ignored, this.subConfiguration, this.testEnum, this.testEnum2, this.enumSet, this.stringSet, this.objectSet, this.stringList, this.objectList, this.stringMap, this.objectMap);
+		int result = Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.ignored, this.subConfiguration, this.testEnum, this.testEnum2, this.enumSet, this.stringSet, this.objectSet, this.stringList, this.objectList, this.stringMap, this.objectMap, this.uuid, this.locale);
+		result = 31 * result + Arrays.hashCode(this.stringArray);
+		result = 31 * result + Arrays.hashCode(this.objectArray);
+		return result;
 	}
 
 	@Override
@@ -199,13 +214,15 @@ public class TestConfiguration {
 			", wrapperFloat=" + this.wrapperFloat +
 			", primitiveDouble=" + this.primitiveDouble +
 			", wrapperDouble=" + this.wrapperDouble +
-			", string='" + this.string + "'" +
-			", nullString='" + this.nullString + "'" +
-			", foo='" + this.foo + "'" +
-			", ignored='" + this.ignored + "'" +
+			", string='" + this.string + '\'' +
+			", nullString='" + this.nullString + '\'' +
+			", foo='" + this.foo + '\'' +
+			", ignored='" + this.ignored + '\'' +
 			", subConfiguration=" + this.subConfiguration +
 			", testEnum=" + this.testEnum +
 			", testEnum2=" + this.testEnum2 +
+			", stringArray=" + Arrays.toString(this.stringArray) +
+			", objectArray=" + Arrays.toString(this.objectArray) +
 			", enumSet=" + this.enumSet +
 			", stringSet=" + this.stringSet +
 			", objectSet=" + this.objectSet +
@@ -213,7 +230,9 @@ public class TestConfiguration {
 			", objectList=" + this.objectList +
 			", stringMap=" + this.stringMap +
 			", objectMap=" + this.objectMap +
-			"}";
+			", uuid=" + this.uuid +
+			", locale=" + this.locale +
+			'}';
 	}
 
 	public boolean isPrimitiveBoolean() {
@@ -309,6 +328,18 @@ public class TestConfiguration {
 		return this.testEnum2;
 	}
 
+	public String[] getStringArray() {
+		return this.stringArray;
+	}
+
+	public TestSubConfiguration[] getObjectArray() {
+		return this.objectArray;
+	}
+
+	public Set<TestEnum> getEnumSet() {
+		return this.enumSet;
+	}
+
 	public Set<String> getStringSet() {
 		return this.stringSet;
 	}
@@ -331,5 +362,13 @@ public class TestConfiguration {
 
 	public Map<String, TestSubConfiguration> getObjectMap() {
 		return this.objectMap;
+	}
+
+	public UUID getUuid() {
+		return this.uuid;
+	}
+
+	public Locale getLocale() {
+		return this.locale;
 	}
 }

@@ -22,24 +22,36 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.document.writer;
 
-import net.mcparkour.octenace.annotation.Property;
+import java.util.List;
+import java.util.Map;
+import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.unifig.options.Options;
+import org.snakeyaml.engine.v2.api.Dump;
+import org.snakeyaml.engine.v2.api.DumpSettings;
+import org.snakeyaml.engine.v2.common.FlowStyle;
 
-public enum TestEnum {
+public class SnakeyamlWriter implements DocumentWriter<Map<String, Object>, List<Object>, Object> {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
+	private Dump dump;
 
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	public SnakeyamlWriter(Options options) {
+		DumpSettings settings = createDumpSettings(options);
+		this.dump = new Dump(settings);
 	}
 
-	public String getText() {
-		return this.text;
+	private DumpSettings createDumpSettings(Options options) {
+		int indentSize = options.getIndentSize();
+		return DumpSettings.builder()
+			.setDefaultFlowStyle(FlowStyle.BLOCK)
+			.setIndent(indentSize)
+			.build();
+	}
+
+	@Override
+	public String write(DocumentObject<Map<String, Object>, List<Object>, Object> document) {
+		Map<String, Object> rawObject = document.getObject();
+		return this.dump.dumpToString(rawObject);
 	}
 }

@@ -22,24 +22,21 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.document.reader;
 
-import net.mcparkour.octenace.annotation.Property;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.unifig.document.object.GsonObject;
 
-public enum TestEnum {
+public class GsonReader implements DocumentReader<JsonObject, JsonArray, JsonElement> {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
-	}
-
-	public String getText() {
-		return this.text;
+	@Override
+	public DocumentObject<JsonObject, JsonArray, JsonElement> read(String string) {
+		JsonElement element = JsonParser.parseString(string);
+		JsonObject object = (JsonObject) element;
+		return new GsonObject(object);
 	}
 }

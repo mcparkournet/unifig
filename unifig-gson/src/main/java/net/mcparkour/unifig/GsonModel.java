@@ -24,22 +24,17 @@
 
 package net.mcparkour.unifig;
 
-import net.mcparkour.octenace.annotation.Property;
+import net.mcparkour.unifig.document.DocumentModel;
 
-public enum TestEnum {
+public class GsonModel implements DocumentModel {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	@Override
+	public String getFileExtension() {
+		return "json";
 	}
 
-	public String getText() {
-		return this.text;
+	@Override
+	public String getLineComment() {
+		throw new UnsupportedOperationException("Comments are unsupported in JSON format");
 	}
 }

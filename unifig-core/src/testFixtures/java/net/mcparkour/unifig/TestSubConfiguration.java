@@ -24,13 +24,16 @@
 
 package net.mcparkour.unifig;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import net.mcparkour.unifig.annotation.Ignored;
-import net.mcparkour.unifig.annotation.Property;
-import net.mcparkour.unifig.util.Collections;
+import net.mcparkour.octenace.annotation.Codec;
+import net.mcparkour.octenace.annotation.Ignored;
+import net.mcparkour.octenace.annotation.Property;
 import org.jetbrains.annotations.Nullable;
 
 public class TestSubConfiguration {
@@ -75,12 +78,15 @@ public class TestSubConfiguration {
 
 	private String[] stringArray;
 
+	@Codec(LinkedHashSet.class)
 	private Set<TestEnum> enumSet;
 
+	@Codec(LinkedHashSet.class)
 	private Set<String> stringSet;
 
 	private List<String> stringList;
 
+	@Codec(LinkedHashMap.class)
 	private Map<String, String> stringMap;
 
 	public TestSubConfiguration() {
@@ -117,14 +123,14 @@ public class TestSubConfiguration {
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
+	public boolean equals(Object o) {
+		if (this == o) {
 			return true;
 		}
-		if (object == null || getClass() != object.getClass()) {
+		if (!(o instanceof TestSubConfiguration)) {
 			return false;
 		}
-		TestSubConfiguration that = (TestSubConfiguration) object;
+		TestSubConfiguration that = (TestSubConfiguration) o;
 		return this.primitiveBoolean == that.primitiveBoolean &&
 			this.primitiveCharacter == that.primitiveCharacter &&
 			this.primitiveByte == that.primitiveByte &&
@@ -147,6 +153,7 @@ public class TestSubConfiguration {
 			Objects.equals(this.ignored, that.ignored) &&
 			this.testEnum == that.testEnum &&
 			this.testEnum2 == that.testEnum2 &&
+			Arrays.equals(this.stringArray, that.stringArray) &&
 			Objects.equals(this.enumSet, that.enumSet) &&
 			Objects.equals(this.stringSet, that.stringSet) &&
 			Objects.equals(this.stringList, that.stringList) &&
@@ -155,7 +162,9 @@ public class TestSubConfiguration {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.ignored, this.testEnum, this.testEnum2, this.enumSet, this.stringSet, this.stringList, this.stringMap);
+		int result = Objects.hash(this.primitiveBoolean, this.wrapperBoolean, this.primitiveCharacter, this.wrapperCharacter, this.primitiveByte, this.wrapperByte, this.primitiveShort, this.wrapperShort, this.primitiveInteger, this.wrapperInteger, this.primitiveLong, this.wrapperLong, this.primitiveFloat, this.wrapperFloat, this.primitiveDouble, this.wrapperDouble, this.string, this.nullString, this.foo, this.ignored, this.testEnum, this.testEnum2, this.enumSet, this.stringSet, this.stringList, this.stringMap);
+		result = 31 * result + Arrays.hashCode(this.stringArray);
+		return result;
 	}
 
 	@Override
@@ -177,17 +186,18 @@ public class TestSubConfiguration {
 			", wrapperFloat=" + this.wrapperFloat +
 			", primitiveDouble=" + this.primitiveDouble +
 			", wrapperDouble=" + this.wrapperDouble +
-			", string='" + this.string + "'" +
-			", nullString='" + this.nullString + "'" +
-			", foo='" + this.foo + "'" +
-			", ignored='" + this.ignored + "'" +
+			", string='" + this.string + '\'' +
+			", nullString='" + this.nullString + '\'' +
+			", foo='" + this.foo + '\'' +
+			", ignored='" + this.ignored + '\'' +
 			", testEnum=" + this.testEnum +
 			", testEnum2=" + this.testEnum2 +
+			", stringArray=" + Arrays.toString(this.stringArray) +
 			", enumSet=" + this.enumSet +
 			", stringSet=" + this.stringSet +
 			", stringList=" + this.stringList +
 			", stringMap=" + this.stringMap +
-			"}";
+			'}';
 	}
 
 	public boolean isPrimitiveBoolean() {
@@ -277,6 +287,14 @@ public class TestSubConfiguration {
 
 	public TestEnum getTestEnum2() {
 		return this.testEnum2;
+	}
+
+	public String[] getStringArray() {
+		return this.stringArray;
+	}
+
+	public Set<TestEnum> getEnumSet() {
+		return this.enumSet;
 	}
 
 	public Set<String> getStringSet() {

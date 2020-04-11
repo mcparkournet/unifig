@@ -27,25 +27,25 @@ package net.mcparkour.unifig.options;
 import java.nio.file.Path;
 import java.util.List;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
-import net.mcparkour.octenace.condition.FieldCondition;
-import net.mcparkour.octenace.converter.LetterCase;
+import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
+import net.mcparkour.octenace.mapper.property.name.NameConverter;
 
 public class Options {
 
 	private int indentSize;
 	private IndentCharacter indentCharacter;
-	private LetterCase defaultKeysLetterCase;
 	private Path directoryPath;
+	private NameConverter nameConverter;
+	private List<PropertyInvalidator> propertyInvalidators;
 	private CodecRegistry codecRegistry;
-	private List<FieldCondition> fieldConditions;
 
-	public Options(int indentSize, IndentCharacter indentCharacter, LetterCase defaultKeysLetterCase, Path directoryPath, CodecRegistry codecRegistry, List<FieldCondition> fieldConditions) {
+	public Options(int indentSize, IndentCharacter indentCharacter, Path directoryPath, NameConverter nameConverter, List<PropertyInvalidator> propertyInvalidators, CodecRegistry codecRegistry) {
 		this.indentSize = indentSize;
 		this.indentCharacter = indentCharacter;
-		this.defaultKeysLetterCase = defaultKeysLetterCase;
 		this.directoryPath = directoryPath;
+		this.nameConverter = nameConverter;
+		this.propertyInvalidators = propertyInvalidators;
 		this.codecRegistry = codecRegistry;
-		this.fieldConditions = fieldConditions;
 	}
 
 	public int getIndentSize() {
@@ -56,19 +56,19 @@ public class Options {
 		return this.indentCharacter;
 	}
 
-	public LetterCase getDefaultKeysLetterCase() {
-		return this.defaultKeysLetterCase;
-	}
-
 	public Path getDirectoryPath() {
 		return this.directoryPath;
 	}
 
-	public CodecRegistry getCodecRegistry() {
-		return this.codecRegistry;
+	public NameConverter getNameConverter() {
+		return this.nameConverter;
 	}
 
-	public List<FieldCondition> getFieldConditions() {
-		return List.copyOf(this.fieldConditions);
+	public List<PropertyInvalidator> getPropertyInvalidators() {
+		return List.copyOf(this.propertyInvalidators);
+	}
+
+	public CodecRegistry getCodecRegistry() {
+		return this.codecRegistry;
 	}
 }

@@ -27,13 +27,16 @@ package net.mcparkour.unifig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.mcparkour.octenace.converter.BasicConverter;
-import net.mcparkour.unifig.model.GsonModel;
-import net.mcparkour.unifig.model.array.GsonModelArrayFactory;
-import net.mcparkour.unifig.model.object.GsonModelObjectFactory;
-import net.mcparkour.unifig.model.reader.GsonModelReader;
-import net.mcparkour.unifig.model.value.GsonModelValueFactory;
-import net.mcparkour.unifig.model.writer.GsonModelWriter;
+import net.mcparkour.octenace.codec.common.Codecs;
+import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
+import net.mcparkour.octenace.codec.registry.CodecRegistryBuilder;
+import net.mcparkour.octenace.mapper.CommonMapper;
+import net.mcparkour.octenace.mapper.Mapper;
+import net.mcparkour.unifig.document.array.GsonArrayFactory;
+import net.mcparkour.unifig.document.object.GsonObjectFactory;
+import net.mcparkour.unifig.document.reader.GsonReader;
+import net.mcparkour.unifig.document.value.GsonValueFactory;
+import net.mcparkour.unifig.document.writer.GsonWriter;
 import net.mcparkour.unifig.options.Options;
 import net.mcparkour.unifig.options.OptionsBuilder;
 import org.jetbrains.annotations.Nullable;
@@ -43,18 +46,22 @@ public class GsonConfigurationFactory implements ConfigurationFactory {
 	@Override
 	public <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options) {
 		GsonModel model = new GsonModel();
-		GsonModelObjectFactory objectFactory = new GsonModelObjectFactory();
-		GsonModelArrayFactory arrayFactory = new GsonModelArrayFactory();
-		GsonModelValueFactory valueFactory = new GsonModelValueFactory();
-		BasicConverter<JsonObject, JsonArray, JsonElement> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options.getDefaultKeysLetterCase(), options.getFieldConditions(), options.getCodecRegistry(), new PropertyAnnotationSupplier());
-		GsonModelReader reader = new GsonModelReader();
-		GsonModelWriter writer = new GsonModelWriter(options);
-		return new BasicConfiguration<>(configurationType, defaultConfiguration, options, model, converter, reader, writer);
+		GsonObjectFactory objectFactory = new GsonObjectFactory();
+		GsonArrayFactory arrayFactory = new GsonArrayFactory();
+		GsonValueFactory valueFactory = new GsonValueFactory();
+		Mapper<JsonObject, JsonArray, JsonElement> mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, options.getNameConverter(), options.getPropertyInvalidators(), options.getCodecRegistry());
+		GsonReader reader = new GsonReader();
+		GsonWriter writer = new GsonWriter(options);
+		return new CommonConfiguration<>(configurationType, defaultConfiguration, options, model, mapper, reader, writer);
 	}
 
 	@Override
 	public Options createOptions() {
 		return new OptionsBuilder()
+			.codecRegistry(new CodecRegistryBuilder()
+				.registry(Codecs.COMMON_CODEC_REGISTRY)
+				.registry(ExtraCodecs.EXTRA_CODEC_REGISTRY)
+				.build())
 			.build();
 	}
 }

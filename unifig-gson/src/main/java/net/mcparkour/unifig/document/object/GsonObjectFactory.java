@@ -22,24 +22,24 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.document.object;
 
-import net.mcparkour.octenace.annotation.Property;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.octenace.document.object.DocumentObjectFactory;
 
-public enum TestEnum {
+public class GsonObjectFactory implements DocumentObjectFactory<JsonObject, JsonArray, JsonElement> {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	@Override
+	public DocumentObject<JsonObject, JsonArray, JsonElement> createEmptyObject() {
+		JsonObject object = new JsonObject();
+		return new GsonObject(object);
 	}
 
-	public String getText() {
-		return this.text;
+	@Override
+	public DocumentObject<JsonObject, JsonArray, JsonElement> createObject(JsonObject object) {
+		return new GsonObject(object);
 	}
 }

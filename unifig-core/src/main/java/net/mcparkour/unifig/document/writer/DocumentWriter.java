@@ -22,24 +22,11 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.document.writer;
 
-import net.mcparkour.octenace.annotation.Property;
+import net.mcparkour.octenace.document.object.DocumentObject;
 
-public enum TestEnum {
+public interface DocumentWriter<O, A, V> {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
-	}
-
-	public String getText() {
-		return this.text;
-	}
+	String write(DocumentObject<O, A, V> document);
 }

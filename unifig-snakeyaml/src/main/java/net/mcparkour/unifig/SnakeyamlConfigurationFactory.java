@@ -26,14 +26,17 @@ package net.mcparkour.unifig;
 
 import java.util.List;
 import java.util.Map;
-import net.mcparkour.octenace.converter.BasicConverter;
-import net.mcparkour.octenace.converter.LetterCase;
-import net.mcparkour.unifig.model.SnakeyamlModel;
-import net.mcparkour.unifig.model.array.SnakeyamlModelArrayFactory;
-import net.mcparkour.unifig.model.object.SnakeyamlModelObjectFactory;
-import net.mcparkour.unifig.model.reader.SnakeyamlModelReader;
-import net.mcparkour.unifig.model.value.SnakeyamlModelValueFactory;
-import net.mcparkour.unifig.model.writer.SnakeyamlModelWriter;
+import net.mcparkour.octenace.codec.common.Codecs;
+import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
+import net.mcparkour.octenace.codec.registry.CodecRegistryBuilder;
+import net.mcparkour.octenace.mapper.CommonMapper;
+import net.mcparkour.octenace.mapper.Mapper;
+import net.mcparkour.octenace.mapper.property.name.NameConverters;
+import net.mcparkour.unifig.document.array.SnakeyamlArrayFactory;
+import net.mcparkour.unifig.document.object.SnakeyamlObjectFactory;
+import net.mcparkour.unifig.document.reader.SnakeyamlReader;
+import net.mcparkour.unifig.document.value.SnakeyamlValueFactory;
+import net.mcparkour.unifig.document.writer.SnakeyamlWriter;
 import net.mcparkour.unifig.options.Options;
 import net.mcparkour.unifig.options.OptionsBuilder;
 import org.jetbrains.annotations.Nullable;
@@ -43,20 +46,24 @@ public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
 	@Override
 	public <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options) {
 		SnakeyamlModel model = new SnakeyamlModel();
-		SnakeyamlModelObjectFactory objectFactory = new SnakeyamlModelObjectFactory();
-		SnakeyamlModelArrayFactory arrayFactory = new SnakeyamlModelArrayFactory();
-		SnakeyamlModelValueFactory valueFactory = new SnakeyamlModelValueFactory();
-		BasicConverter<Map<String, Object>, List<Object>, Object> converter = new BasicConverter<>(objectFactory, arrayFactory, valueFactory, options.getDefaultKeysLetterCase(), options.getFieldConditions(), options.getCodecRegistry(), new PropertyAnnotationSupplier());
-		SnakeyamlModelReader reader = new SnakeyamlModelReader();
-		SnakeyamlModelWriter writer = new SnakeyamlModelWriter(options);
-		return new BasicConfiguration<>(configurationType, defaultConfiguration, options, model, converter, reader, writer);
+		SnakeyamlObjectFactory objectFactory = new SnakeyamlObjectFactory();
+		SnakeyamlArrayFactory arrayFactory = new SnakeyamlArrayFactory();
+		SnakeyamlValueFactory valueFactory = new SnakeyamlValueFactory();
+		Mapper<Map<String, Object>, List<Object>, Object> converter = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, options.getNameConverter(), options.getPropertyInvalidators(), options.getCodecRegistry());
+		SnakeyamlReader reader = new SnakeyamlReader();
+		SnakeyamlWriter writer = new SnakeyamlWriter(options);
+		return new CommonConfiguration<>(configurationType, defaultConfiguration, options, model, converter, reader, writer);
 	}
 
 	@Override
 	public Options createOptions() {
 		return new OptionsBuilder()
 			.indentSize(2)
-			.defaultKeysLetterCase(LetterCase.KEBAB)
+			.nameConverter(NameConverters.KEBAB_CASE_NAME_CONVERTER)
+			.codecRegistry(new CodecRegistryBuilder()
+				.registry(Codecs.COMMON_CODEC_REGISTRY)
+				.registry(ExtraCodecs.EXTRA_CODEC_REGISTRY)
+				.build())
 			.build();
 	}
 }

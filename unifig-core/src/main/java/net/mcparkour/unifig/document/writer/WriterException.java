@@ -22,24 +22,17 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig;
+package net.mcparkour.unifig.document.writer;
 
-import net.mcparkour.octenace.annotation.Property;
+public class WriterException extends RuntimeException {
 
-public enum TestEnum {
+	private static final long serialVersionUID = 1462022822311942870L;
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	public WriterException(String message) {
+		super(message);
 	}
 
-	public String getText() {
-		return this.text;
+	public WriterException(Throwable cause) {
+		super(cause);
 	}
 }

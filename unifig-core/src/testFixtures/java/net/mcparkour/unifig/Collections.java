@@ -24,22 +24,30 @@
 
 package net.mcparkour.unifig;
 
-import net.mcparkour.octenace.annotation.Property;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
-public enum TestEnum {
+public final class Collections {
 
-	ONE("1"),
-	TWO("2"),
-	@Property("not-four")
-	THREE("3");
-
-	private String text;
-
-	TestEnum(String text) {
-		this.text = text;
+	private Collections() {
+		throw new UnsupportedOperationException("Cannot create an instance of this class");
 	}
 
-	public String getText() {
-		return this.text;
+	public static <K, V> Map<K, V> createLinkedMap(K key1, V value1, K key2, V value2, K key3, V value3) {
+		Map<K, V> map = new LinkedHashMap<>(3);
+		map.put(key1, value1);
+		map.put(key2, value2);
+		map.put(key3, value3);
+		return java.util.Collections.unmodifiableMap(map);
+	}
+
+	public static <E> Set<E> createLinkedSet(E element1, E element2, E element3) {
+		Set<E> set = new LinkedHashSet<>(3);
+		set.add(element1);
+		set.add(element2);
+		set.add(element3);
+		return set;
 	}
 }
