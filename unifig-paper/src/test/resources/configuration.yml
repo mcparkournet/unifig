@@ -1,0 +1,502 @@
+primitive-boolean: true
+wrapper-boolean: true
+primitive-character: c
+wrapper-character: c
+primitive-byte: 1
+wrapper-byte: 1
+primitive-short: 1
+wrapper-short: 1
+primitive-integer: 1
+wrapper-integer: 1
+primitive-long: 1
+wrapper-long: 1
+primitive-float: 0.1
+wrapper-float: 0.1
+primitive-double: 0.1
+wrapper-double: 0.1
+string: string
+null-string: null
+bar: foobar
+sub-configuration:
+  primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
+  string: string
+  null-string: null
+  bar: foobar
+  test-enum: two
+  test-enum2: not-four
+  string-array:
+  - '1'
+  - '2'
+  - '3'
+  enum-set:
+  - one
+  - two
+  - not-four
+  string-set:
+  - '1'
+  - '2'
+  - '3'
+  string-list:
+  - '1'
+  - '2'
+  - '3'
+  string-map:
+    foo: '1'
+    bar: '2'
+    foobar: '3'
+test-enum: two
+test-enum2: not-four
+string-array:
+- '1'
+- '2'
+- '3'
+object-array:
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
+  string: string
+  null-string: null
+  bar: foobar
+  test-enum: two
+  test-enum2: not-four
+  string-array:
+  - '1'
+  - '2'
+  - '3'
+  enum-set:
+  - one
+  - two
+  - not-four
+  string-set:
+  - '1'
+  - '2'
+  - '3'
+  string-list:
+  - '1'
+  - '2'
+  - '3'
+  string-map:
+    foo: '1'
+    bar: '2'
+    foobar: '3'
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
+  string: string
+  null-string: null
+  bar: foobar
+  test-enum: two
+  test-enum2: not-four
+  string-array:
+  - '1'
+  - '2'
+  - '3'
+  enum-set:
+  - one
+  - two
+  - not-four
+  string-set:
+  - '1'
+  - '2'
+  - '3'
+  string-list:
+  - '1'
+  - '2'
+  - '3'
+  string-map:
+    foo: '1'
+    bar: '2'
+    foobar: '3'
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
+  string: string
+  null-string: null
+  bar: foobar
+  test-enum: two
+  test-enum2: not-four
+  string-array:
+  - '1'
+  - '2'
+  - '3'
+  enum-set:
+  - one
+  - two
+  - not-four
+  string-set:
+  - '1'
+  - '2'
+  - '3'
+  string-list:
+  - '1'
+  - '2'
+  - '3'
+  string-map:
+    foo: '1'
+    bar: '2'
+    foobar: '3'
+enum-set:
+- one
+- two
+- not-four
+string-set:
+- '1'
+- '2'
+- '3'
+object-set:
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
+  string: string
+  null-string: null
+  bar: foobar
+  test-enum: two
+  test-enum2: not-four
+  string-array:
+  - '1'
+  - '2'
+  - '3'
+  enum-set:
+  - one
+  - two
+  - not-four
+  string-set:
+  - '1'
+  - '2'
+  - '3'
+  string-list:
+  - '1'
+  - '2'
+  - '3'
+  string-map:
+    foo: '1'
+    bar: '2'
+    foobar: '3'
+string-list:
+- '1'
+- '2'
+- '3'
+object-list:
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
+  string: string
+  null-string: null
+  bar: foobar
+  test-enum: two
+  test-enum2: not-four
+  string-array:
+  - '1'
+  - '2'
+  - '3'
+  enum-set:
+  - one
+  - two
+  - not-four
+  string-set:
+  - '1'
+  - '2'
+  - '3'
+  string-list:
+  - '1'
+  - '2'
+  - '3'
+  string-map:
+    foo: '1'
+    bar: '2'
+    foobar: '3'
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
+  string: string
+  null-string: null
+  bar: foobar
+  test-enum: two
+  test-enum2: not-four
+  string-array:
+  - '1'
+  - '2'
+  - '3'
+  enum-set:
+  - one
+  - two
+  - not-four
+  string-set:
+  - '1'
+  - '2'
+  - '3'
+  string-list:
+  - '1'
+  - '2'
+  - '3'
+  string-map:
+    foo: '1'
+    bar: '2'
+    foobar: '3'
+- primitive-boolean: true
+  wrapper-boolean: true
+  primitive-character: c
+  wrapper-character: c
+  primitive-byte: 1
+  wrapper-byte: 1
+  primitive-short: 1
+  wrapper-short: 1
+  primitive-integer: 1
+  wrapper-integer: 1
+  primitive-long: 1
+  wrapper-long: 1
+  primitive-float: 0.1
+  wrapper-float: 0.1
+  primitive-double: 0.1
+  wrapper-double: 0.1
+  string: string
+  null-string: null
+  bar: foobar
+  test-enum: two
+  test-enum2: not-four
+  string-array:
+  - '1'
+  - '2'
+  - '3'
+  enum-set:
+  - one
+  - two
+  - not-four
+  string-set:
+  - '1'
+  - '2'
+  - '3'
+  string-list:
+  - '1'
+  - '2'
+  - '3'
+  string-map:
+    foo: '1'
+    bar: '2'
+    foobar: '3'
+string-map:
+  foo: '1'
+  bar: '2'
+  foobar: '3'
+object-map:
+  foo:
+    primitive-boolean: true
+    wrapper-boolean: true
+    primitive-character: c
+    wrapper-character: c
+    primitive-byte: 1
+    wrapper-byte: 1
+    primitive-short: 1
+    wrapper-short: 1
+    primitive-integer: 1
+    wrapper-integer: 1
+    primitive-long: 1
+    wrapper-long: 1
+    primitive-float: 0.1
+    wrapper-float: 0.1
+    primitive-double: 0.1
+    wrapper-double: 0.1
+    string: string
+    null-string: null
+    bar: foobar
+    test-enum: two
+    test-enum2: not-four
+    string-array:
+    - '1'
+    - '2'
+    - '3'
+    enum-set:
+    - one
+    - two
+    - not-four
+    string-set:
+    - '1'
+    - '2'
+    - '3'
+    string-list:
+    - '1'
+    - '2'
+    - '3'
+    string-map:
+      foo: '1'
+      bar: '2'
+      foobar: '3'
+  bar:
+    primitive-boolean: true
+    wrapper-boolean: true
+    primitive-character: c
+    wrapper-character: c
+    primitive-byte: 1
+    wrapper-byte: 1
+    primitive-short: 1
+    wrapper-short: 1
+    primitive-integer: 1
+    wrapper-integer: 1
+    primitive-long: 1
+    wrapper-long: 1
+    primitive-float: 0.1
+    wrapper-float: 0.1
+    primitive-double: 0.1
+    wrapper-double: 0.1
+    string: string
+    null-string: null
+    bar: foobar
+    test-enum: two
+    test-enum2: not-four
+    string-array:
+    - '1'
+    - '2'
+    - '3'
+    enum-set:
+    - one
+    - two
+    - not-four
+    string-set:
+    - '1'
+    - '2'
+    - '3'
+    string-list:
+    - '1'
+    - '2'
+    - '3'
+    string-map:
+      foo: '1'
+      bar: '2'
+      foobar: '3'
+  foobar:
+    primitive-boolean: true
+    wrapper-boolean: true
+    primitive-character: c
+    wrapper-character: c
+    primitive-byte: 1
+    wrapper-byte: 1
+    primitive-short: 1
+    wrapper-short: 1
+    primitive-integer: 1
+    wrapper-integer: 1
+    primitive-long: 1
+    wrapper-long: 1
+    primitive-float: 0.1
+    wrapper-float: 0.1
+    primitive-double: 0.1
+    wrapper-double: 0.1
+    string: string
+    null-string: null
+    bar: foobar
+    test-enum: two
+    test-enum2: not-four
+    string-array:
+    - '1'
+    - '2'
+    - '3'
+    enum-set:
+    - one
+    - two
+    - not-four
+    string-set:
+    - '1'
+    - '2'
+    - '3'
+    string-list:
+    - '1'
+    - '2'
+    - '3'
+    string-map:
+      foo: '1'
+      bar: '2'
+      foobar: '3'
+uuid: 00000000-1000-0100-0010-000000000001
+locale: en-US
