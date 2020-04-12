@@ -22,41 +22,36 @@
  * SOFTWARE.
  */
 
-package net.mcparkour.unifig.converter;
+package net.mcparkour.unifig;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import net.mcparkour.unifig.Configuration;
-import net.mcparkour.unifig.ConfigurationFactory;
-import net.mcparkour.unifig.GsonConfigurationFactory;
-import net.mcparkour.unifig.TestConfiguration;
-import net.mcparkour.unifig.Resources;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GsonConverterTest {
+public class SnakeyamlConfigurationTest {
 
 	private Configuration<TestConfiguration> configuration;
 	private String configurationString;
 
 	@BeforeEach
 	public void setUp() throws IOException {
-		ConfigurationFactory configurationFactory = new GsonConfigurationFactory();
+		ConfigurationFactory configurationFactory = new SnakeyamlConfigurationFactory();
 		this.configuration = configurationFactory.createConfiguration(TestConfiguration.class);
-		Path configurationPath = Resources.getResourcePath("configuration.json");
+		Path configurationPath = Resources.getResourcePath("configuration.yml");
 		this.configurationString = Files.readString(configurationPath);
 	}
 
 	@Test
-	public void testFromConfigurationObject() {
+	public void testFromConfiguration() {
 		String written = this.configuration.writeToString(new TestConfiguration());
 		Assertions.assertEquals(this.configurationString, written);
 	}
 
 	@Test
-	public void testToConfigurationObject() {
+	public void testToConfiguration() {
 		TestConfiguration testConfiguration = this.configuration.readFromString(this.configurationString);
 		Assertions.assertEquals(new TestConfiguration(), testConfiguration);
 	}
