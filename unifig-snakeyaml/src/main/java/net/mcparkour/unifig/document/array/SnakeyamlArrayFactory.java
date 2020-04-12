@@ -33,8 +33,8 @@ import net.mcparkour.octenace.document.array.DocumentArrayFactory;
 public class SnakeyamlArrayFactory implements DocumentArrayFactory<Map<String, Object>, List<Object>, Object> {
 
 	@Override
-	public DocumentArray<Map<String, Object>, List<Object>, Object> createEmptyArray() {
-		List<Object> array = new ArrayList<>(0);
+	public DocumentArray<Map<String, Object>, List<Object>, Object> createEmptyArray(int capacity) {
+		List<Object> array = new ArrayList<>(capacity);
 		return new SnakeyamlArray(array);
 	}
 

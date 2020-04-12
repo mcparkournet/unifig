@@ -33,7 +33,7 @@ import net.mcparkour.octenace.document.object.DocumentObjectFactory;
 public class GsonObjectFactory implements DocumentObjectFactory<JsonObject, JsonArray, JsonElement> {
 
 	@Override
-	public DocumentObject<JsonObject, JsonArray, JsonElement> createEmptyObject() {
+	public DocumentObject<JsonObject, JsonArray, JsonElement> createEmptyObject(int capacity) {
 		JsonObject object = new JsonObject();
 		return new GsonObject(object);
 	}

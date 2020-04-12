@@ -46,16 +46,27 @@ public class SnakeyamlValue implements DocumentValue<Map<String, Object>, List<O
 
 	@Override
 	public boolean asBoolean() {
-		Object value = getNotNullValue();
 		if (!isBoolean()) {
 			throw new ValueConversionException(Boolean.class);
 		}
-		return (Boolean) value;
+		return (Boolean) getNotNullValue();
 	}
 
 	@Override
 	public boolean isBoolean() {
 		return this.value instanceof Boolean;
+	}
+
+	@Override
+	public byte asByte() {
+		Number number = asNumber();
+		return number.byteValue();
+	}
+
+	@Override
+	public short asShort() {
+		Number number = asNumber();
+		return number.shortValue();
 	}
 
 	@Override
@@ -83,16 +94,29 @@ public class SnakeyamlValue implements DocumentValue<Map<String, Object>, List<O
 	}
 
 	private Number asNumber() {
-		Object value = getNotNullValue();
 		if (!isNumber()) {
 			throw new ValueConversionException(Number.class);
 		}
-		return (Number) value;
+		return (Number) getNotNullValue();
 	}
 
 	@Override
 	public boolean isNumber() {
 		return this.value instanceof Number;
+	}
+
+	@Override
+	public char asChar() {
+		if (!isChar()) {
+			throw new ValueConversionException(Character.class);
+		}
+		String string = asString();
+		return string.charAt(0);
+	}
+
+	@Override
+	public boolean isChar() {
+		return isString() && asString().length() == 1;
 	}
 
 	@Override
@@ -109,11 +133,10 @@ public class SnakeyamlValue implements DocumentValue<Map<String, Object>, List<O
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> asObject() {
-		Object value = getNotNullValue();
 		if (!isObject()) {
 			throw new ValueConversionException(Map.class);
 		}
-		return (Map<String, Object>) value;
+		return (Map<String, Object>) getNotNullValue();
 	}
 
 	@Override
@@ -124,11 +147,10 @@ public class SnakeyamlValue implements DocumentValue<Map<String, Object>, List<O
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Object> asArray() {
-		Object value = getNotNullValue();
 		if (!isArray()) {
 			throw new ValueConversionException(List.class);
 		}
-		return (List<Object>) value;
+		return (List<Object>) getNotNullValue();
 	}
 
 	@Override

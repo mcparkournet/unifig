@@ -25,38 +25,23 @@
 package net.mcparkour.unifig.options;
 
 import java.nio.file.Path;
-import java.util.List;
-import net.mcparkour.octenace.codec.common.Codecs;
-import net.mcparkour.octenace.codec.registry.CodecRegistry;
-import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
-import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
-import net.mcparkour.octenace.mapper.property.name.NameConverter;
 
 public class OptionsBuilder {
 
 	private int indentSize;
 	private IndentCharacter indentCharacter;
 	private Path directoryPath;
-	private NameConverter nameConverter;
-	private List<PropertyInvalidator> propertyInvalidators;
-	private CodecRegistry codecRegistry;
 
 	public OptionsBuilder() {
 		this.indentSize = 4;
 		this.indentCharacter = IndentCharacter.SPACE;
 		this.directoryPath = Path.of("");
-		this.nameConverter = NameConverter.identity();
-		this.propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
-		this.codecRegistry = Codecs.COMMON_CODEC_REGISTRY;
 	}
 
 	public OptionsBuilder options(Options options) {
 		return indentSize(options.getIndentSize())
 			.indentCharacter(options.getIndentCharacter())
-			.directoryPath(options.getDirectoryPath())
-			.nameConverter(options.getNameConverter())
-			.propertyInvalidators(options.getPropertyInvalidators())
-			.codecRegistry(options.getCodecRegistry());
+			.directoryPath(options.getDirectoryPath());
 	}
 
 	public OptionsBuilder indentSize(int indentSize) {
@@ -74,22 +59,7 @@ public class OptionsBuilder {
 		return this;
 	}
 
-	public OptionsBuilder nameConverter(NameConverter nameConverter) {
-		this.nameConverter = nameConverter;
-		return this;
-	}
-
-	public OptionsBuilder propertyInvalidators(List<PropertyInvalidator> propertyInvalidators) {
-		this.propertyInvalidators = propertyInvalidators;
-		return this;
-	}
-
-	public OptionsBuilder codecRegistry(CodecRegistry codecRegistry) {
-		this.codecRegistry = codecRegistry;
-		return this;
-	}
-
 	public Options build() {
-		return new Options(this.indentSize, this.indentCharacter, this.directoryPath, this.nameConverter, this.propertyInvalidators, this.codecRegistry);
+		return new Options(this.indentSize, this.indentCharacter, this.directoryPath);
 	}
 }

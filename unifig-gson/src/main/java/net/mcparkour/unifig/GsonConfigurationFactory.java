@@ -24,14 +24,19 @@
 
 package net.mcparkour.unifig;
 
+import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.mcparkour.octenace.codec.common.Codecs;
 import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
-import net.mcparkour.octenace.codec.registry.CodecRegistryBuilder;
-import net.mcparkour.octenace.mapper.CommonMapper;
-import net.mcparkour.octenace.mapper.Mapper;
+import net.mcparkour.octenace.codec.registry.CodecRegistry;
+import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
+import net.mcparkour.octenace.mapper.CommonMapperFactory;
+import net.mcparkour.octenace.mapper.MapperFactory;
+import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
+import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
+import net.mcparkour.octenace.mapper.property.name.NameConverter;
 import net.mcparkour.unifig.document.array.GsonArrayFactory;
 import net.mcparkour.unifig.document.object.GsonObjectFactory;
 import net.mcparkour.unifig.document.reader.GsonReader;
@@ -43,13 +48,29 @@ import org.jetbrains.annotations.Nullable;
 
 public class GsonConfigurationFactory implements ConfigurationFactory {
 
+	private MapperFactory<JsonObject, JsonArray, JsonElement> mapperFactory;
+
+	public GsonConfigurationFactory() {
+		var objectFactory = new GsonObjectFactory();
+		var arrayFactory = new GsonArrayFactory();
+		var valueFactory = new GsonValueFactory();
+		NameConverter nameConverter = NameConverter.identity();
+		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
+		var codecRegistry = createCodecRegistry();
+		this.mapperFactory = new CommonMapperFactory<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
+	}
+
+	private static CodecRegistry<JsonObject, JsonArray, JsonElement> createCodecRegistry() {
+		return new CachedCodecRegistryBuilder<JsonObject, JsonArray, JsonElement>()
+			.registry(Codecs.createCommonCodecRegistry())
+			.registry(ExtraCodecs.createExtraCodecRegistry())
+			.build();
+	}
+
 	@Override
 	public <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options) {
 		GsonModel model = new GsonModel();
-		GsonObjectFactory objectFactory = new GsonObjectFactory();
-		GsonArrayFactory arrayFactory = new GsonArrayFactory();
-		GsonValueFactory valueFactory = new GsonValueFactory();
-		Mapper<JsonObject, JsonArray, JsonElement> mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, options.getNameConverter(), options.getPropertyInvalidators(), options.getCodecRegistry());
+		var mapper = this.mapperFactory.createMapper(configurationType);
 		GsonReader reader = new GsonReader();
 		GsonWriter writer = new GsonWriter(options);
 		return new CommonConfiguration<>(configurationType, defaultConfiguration, options, model, mapper, reader, writer);
@@ -58,10 +79,6 @@ public class GsonConfigurationFactory implements ConfigurationFactory {
 	@Override
 	public Options createOptions() {
 		return new OptionsBuilder()
-			.codecRegistry(new CodecRegistryBuilder()
-				.registry(Codecs.COMMON_CODEC_REGISTRY)
-				.registry(ExtraCodecs.EXTRA_CODEC_REGISTRY)
-				.build())
 			.build();
 	}
 }

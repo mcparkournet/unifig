@@ -54,6 +54,16 @@ public class GsonValue implements DocumentValue<JsonObject, JsonArray, JsonEleme
 	}
 
 	@Override
+	public byte asByte() {
+		return this.value.getAsByte();
+	}
+
+	@Override
+	public short asShort() {
+		return this.value.getAsShort();
+	}
+
+	@Override
 	public int asInt() {
 		return this.value.getAsInt();
 	}
@@ -76,6 +86,17 @@ public class GsonValue implements DocumentValue<JsonObject, JsonArray, JsonEleme
 	@Override
 	public boolean isNumber() {
 		return isPrimitive() && asPrimitive().isNumber();
+	}
+
+	@Override
+	public char asChar() {
+		String string = asString();
+		return string.charAt(0);
+	}
+
+	@Override
+	public boolean isChar() {
+		return isString() && asString().length() == 1;
 	}
 
 	@Override

@@ -28,9 +28,13 @@ import java.util.List;
 import java.util.Map;
 import net.mcparkour.octenace.codec.common.Codecs;
 import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
-import net.mcparkour.octenace.codec.registry.CodecRegistryBuilder;
-import net.mcparkour.octenace.mapper.CommonMapper;
-import net.mcparkour.octenace.mapper.Mapper;
+import net.mcparkour.octenace.codec.registry.CodecRegistry;
+import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
+import net.mcparkour.octenace.mapper.CommonMapperFactory;
+import net.mcparkour.octenace.mapper.MapperFactory;
+import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
+import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
+import net.mcparkour.octenace.mapper.property.name.NameConverter;
 import net.mcparkour.octenace.mapper.property.name.NameConverters;
 import net.mcparkour.unifig.document.array.SnakeyamlArrayFactory;
 import net.mcparkour.unifig.document.object.SnakeyamlObjectFactory;
@@ -43,27 +47,38 @@ import org.jetbrains.annotations.Nullable;
 
 public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
 
+	private MapperFactory<Map<String, Object>, List<Object>, Object> mapperFactory;
+
+	public SnakeyamlConfigurationFactory() {
+		var objectFactory = new SnakeyamlObjectFactory();
+		var arrayFactory = new SnakeyamlArrayFactory();
+		var valueFactory = new SnakeyamlValueFactory();
+		NameConverter nameConverter = NameConverters.KEBAB_CASE_NAME_CONVERTER;
+		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
+		var codecRegistry = createCodecRegistry();
+		this.mapperFactory = new CommonMapperFactory<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
+	}
+
+	private static CodecRegistry<Map<String, Object>, List<Object>, Object> createCodecRegistry() {
+		return new CachedCodecRegistryBuilder<Map<String, Object>, List<Object>, Object>()
+			.registry(Codecs.createCommonCodecRegistry())
+			.registry(ExtraCodecs.createExtraCodecRegistry())
+			.build();
+	}
+
 	@Override
 	public <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options) {
 		SnakeyamlModel model = new SnakeyamlModel();
-		SnakeyamlObjectFactory objectFactory = new SnakeyamlObjectFactory();
-		SnakeyamlArrayFactory arrayFactory = new SnakeyamlArrayFactory();
-		SnakeyamlValueFactory valueFactory = new SnakeyamlValueFactory();
-		Mapper<Map<String, Object>, List<Object>, Object> converter = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, options.getNameConverter(), options.getPropertyInvalidators(), options.getCodecRegistry());
+		var mapper = this.mapperFactory.createMapper(configurationType);
 		SnakeyamlReader reader = new SnakeyamlReader();
 		SnakeyamlWriter writer = new SnakeyamlWriter(options);
-		return new CommonConfiguration<>(configurationType, defaultConfiguration, options, model, converter, reader, writer);
+		return new CommonConfiguration<>(configurationType, defaultConfiguration, options, model, mapper, reader, writer);
 	}
 
 	@Override
 	public Options createOptions() {
 		return new OptionsBuilder()
 			.indentSize(2)
-			.nameConverter(NameConverters.KEBAB_CASE_NAME_CONVERTER)
-			.codecRegistry(new CodecRegistryBuilder()
-				.registry(Codecs.COMMON_CODEC_REGISTRY)
-				.registry(ExtraCodecs.EXTRA_CODEC_REGISTRY)
-				.build())
 			.build();
 	}
 }

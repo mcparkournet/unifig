@@ -44,12 +44,12 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 	private T defaultConfiguration;
 	private Options options;
 	private DocumentModel model;
-	private Mapper<O, A, V> mapper;
+	private Mapper<O, A, V, T> mapper;
 	private DocumentReader<O, A, V> reader;
 	private DocumentWriter<O, A, V> writer;
 	private String configurationFileName;
 
-	public CommonConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options, DocumentModel model, Mapper<O, A, V> mapper, DocumentReader<O, A, V> reader, DocumentWriter<O, A, V> writer) {
+	public CommonConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options, DocumentModel model, Mapper<O, A, V, T> mapper, DocumentReader<O, A, V> reader, DocumentWriter<O, A, V> writer) {
 		this.configurationType = configurationType;
 		this.defaultConfiguration = defaultConfiguration;
 		this.options = options;
@@ -97,7 +97,7 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 	@Override
 	public T readFromString(String string) {
 		DocumentObject<O, A, V> document = this.reader.read(string);
-		return this.mapper.toObject(document, this.configurationType);
+		return this.mapper.toObject(document);
 	}
 
 	@Override

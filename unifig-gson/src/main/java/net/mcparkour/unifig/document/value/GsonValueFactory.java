@@ -46,6 +46,18 @@ public class GsonValueFactory implements DocumentValueFactory<JsonObject, JsonAr
 	}
 
 	@Override
+	public DocumentValue<JsonObject, JsonArray, JsonElement> createValue(byte value) {
+		JsonPrimitive primitive = new JsonPrimitive(value);
+		return createValue(primitive);
+	}
+
+	@Override
+	public DocumentValue<JsonObject, JsonArray, JsonElement> createValue(short value) {
+		JsonPrimitive primitive = new JsonPrimitive(value);
+		return createValue(primitive);
+	}
+
+	@Override
 	public DocumentValue<JsonObject, JsonArray, JsonElement> createValue(int value) {
 		JsonPrimitive primitive = new JsonPrimitive(value);
 		return createValue(primitive);
@@ -65,6 +77,12 @@ public class GsonValueFactory implements DocumentValueFactory<JsonObject, JsonAr
 
 	@Override
 	public DocumentValue<JsonObject, JsonArray, JsonElement> createValue(double value) {
+		JsonPrimitive primitive = new JsonPrimitive(value);
+		return createValue(primitive);
+	}
+
+	@Override
+	public DocumentValue<JsonObject, JsonArray, JsonElement> createValue(char value) {
 		JsonPrimitive primitive = new JsonPrimitive(value);
 		return createValue(primitive);
 	}

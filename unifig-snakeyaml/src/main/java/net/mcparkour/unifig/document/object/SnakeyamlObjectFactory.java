@@ -33,8 +33,8 @@ import net.mcparkour.octenace.document.object.DocumentObjectFactory;
 public class SnakeyamlObjectFactory implements DocumentObjectFactory<Map<String, Object>, List<Object>, Object> {
 
 	@Override
-	public DocumentObject<Map<String, Object>, List<Object>, Object> createEmptyObject() {
-		Map<String, Object> object = new LinkedHashMap<>(0);
+	public DocumentObject<Map<String, Object>, List<Object>, Object> createEmptyObject(int capacity) {
+		Map<String, Object> object = new LinkedHashMap<>(capacity);
 		return new SnakeyamlObject(object);
 	}
 
