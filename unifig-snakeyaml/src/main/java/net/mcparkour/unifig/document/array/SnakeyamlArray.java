@@ -64,14 +64,14 @@ public class SnakeyamlArray implements DocumentArray<Map<String, Object>, List<O
 	@Override
 	public Iterator<DocumentValue<Map<String, Object>, List<Object>, Object>> iterator() {
 		Iterator<Object> iterator = this.array.iterator();
-		return new SnakeyamlModelArrayIterator(iterator);
+		return new SnakeyamlArrayIterator(iterator);
 	}
 
-	private static final class SnakeyamlModelArrayIterator implements Iterator<DocumentValue<Map<String, Object>, List<Object>, Object>> {
+	private static final class SnakeyamlArrayIterator implements Iterator<DocumentValue<Map<String, Object>, List<Object>, Object>> {
 
 		private Iterator<Object> iterator;
 
-		private SnakeyamlModelArrayIterator(Iterator<Object> iterator) {
+		private SnakeyamlArrayIterator(Iterator<Object> iterator) {
 			this.iterator = iterator;
 		}
 

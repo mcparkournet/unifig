@@ -64,14 +64,14 @@ public class PaperArray implements DocumentArray<Map<String, Object>, List<Objec
 	@Override
 	public Iterator<DocumentValue<Map<String, Object>, List<Object>, Object>> iterator() {
 		Iterator<Object> iterator = this.array.iterator();
-		return new PaperModelArrayIterator(iterator);
+		return new PaperArrayIterator(iterator);
 	}
 
-	private static final class PaperModelArrayIterator implements Iterator<DocumentValue<Map<String, Object>, List<Object>, Object>> {
+	private static final class PaperArrayIterator implements Iterator<DocumentValue<Map<String, Object>, List<Object>, Object>> {
 
 		private Iterator<Object> iterator;
 
-		private PaperModelArrayIterator(Iterator<Object> iterator) {
+		private PaperArrayIterator(Iterator<Object> iterator) {
 			this.iterator = iterator;
 		}
 

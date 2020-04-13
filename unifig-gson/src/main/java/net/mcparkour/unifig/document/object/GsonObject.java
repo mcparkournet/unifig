@@ -72,14 +72,14 @@ public class GsonObject implements DocumentObject<JsonObject, JsonArray, JsonEle
 	public Iterator<Entry<DocumentValue<JsonObject, JsonArray, JsonElement>, DocumentValue<JsonObject, JsonArray, JsonElement>>> iterator() {
 		Set<Entry<String, JsonElement>> entries = this.object.entrySet();
 		Iterator<Entry<String, JsonElement>> iterator = entries.iterator();
-		return new GsonModelObjectIterator(iterator);
+		return new GsonObjectIterator(iterator);
 	}
 
-	public static final class GsonModelObjectIterator implements Iterator<Entry<DocumentValue<JsonObject, JsonArray, JsonElement>, DocumentValue<JsonObject, JsonArray, JsonElement>>> {
+	private static final class GsonObjectIterator implements Iterator<Entry<DocumentValue<JsonObject, JsonArray, JsonElement>, DocumentValue<JsonObject, JsonArray, JsonElement>>> {
 
 		private Iterator<Entry<String, JsonElement>> iterator;
 
-		public GsonModelObjectIterator(Iterator<Entry<String, JsonElement>> iterator) {
+		private GsonObjectIterator(Iterator<Entry<String, JsonElement>> iterator) {
 			this.iterator = iterator;
 		}
 

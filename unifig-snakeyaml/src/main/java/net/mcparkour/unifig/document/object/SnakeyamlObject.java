@@ -69,14 +69,14 @@ public class SnakeyamlObject implements DocumentObject<Map<String, Object>, List
 	public Iterator<Entry<DocumentValue<Map<String, Object>, List<Object>, Object>, DocumentValue<Map<String, Object>, List<Object>, Object>>> iterator() {
 		Set<Entry<String, Object>> entries = this.object.entrySet();
 		Iterator<Entry<String, Object>> iterator = entries.iterator();
-		return new SnakeyamlModelObjectIterator(iterator);
+		return new SnakeyamlObjectIterator(iterator);
 	}
 
-	public static final class SnakeyamlModelObjectIterator implements Iterator<Entry<DocumentValue<Map<String, Object>, List<Object>, Object>, DocumentValue<Map<String, Object>, List<Object>, Object>>> {
+	private static final class SnakeyamlObjectIterator implements Iterator<Entry<DocumentValue<Map<String, Object>, List<Object>, Object>, DocumentValue<Map<String, Object>, List<Object>, Object>>> {
 
 		private Iterator<Entry<String, Object>> iterator;
 
-		public SnakeyamlModelObjectIterator(Iterator<Entry<String, Object>> iterator) {
+		private SnakeyamlObjectIterator(Iterator<Entry<String, Object>> iterator) {
 			this.iterator = iterator;
 		}
 

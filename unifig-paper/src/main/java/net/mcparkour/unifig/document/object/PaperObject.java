@@ -69,14 +69,14 @@ public class PaperObject implements DocumentObject<Map<String, Object>, List<Obj
 	public Iterator<Entry<DocumentValue<Map<String, Object>, List<Object>, Object>, DocumentValue<Map<String, Object>, List<Object>, Object>>> iterator() {
 		Set<Entry<String, Object>> entries = this.object.entrySet();
 		Iterator<Entry<String, Object>> iterator = entries.iterator();
-		return new PaperModelObjectIterator(iterator);
+		return new PaperObjectIterator(iterator);
 	}
 
-	public static final class PaperModelObjectIterator implements Iterator<Entry<DocumentValue<Map<String, Object>, List<Object>, Object>, DocumentValue<Map<String, Object>, List<Object>, Object>>> {
+	private static final class PaperObjectIterator implements Iterator<Entry<DocumentValue<Map<String, Object>, List<Object>, Object>, DocumentValue<Map<String, Object>, List<Object>, Object>>> {
 
 		private Iterator<Entry<String, Object>> iterator;
 
-		public PaperModelObjectIterator(Iterator<Entry<String, Object>> iterator) {
+		private PaperObjectIterator(Iterator<Entry<String, Object>> iterator) {
 			this.iterator = iterator;
 		}
 

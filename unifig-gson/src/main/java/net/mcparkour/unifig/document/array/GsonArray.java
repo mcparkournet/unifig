@@ -65,14 +65,14 @@ public class GsonArray implements DocumentArray<JsonObject, JsonArray, JsonEleme
 	@Override
 	public Iterator<DocumentValue<JsonObject, JsonArray, JsonElement>> iterator() {
 		Iterator<JsonElement> iterator = this.array.iterator();
-		return new GsonModelArrayIterator(iterator);
+		return new GsonArrayIterator(iterator);
 	}
 
-	private static final class GsonModelArrayIterator implements Iterator<DocumentValue<JsonObject, JsonArray, JsonElement>> {
+	private static final class GsonArrayIterator implements Iterator<DocumentValue<JsonObject, JsonArray, JsonElement>> {
 
 		private Iterator<JsonElement> iterator;
 
-		private GsonModelArrayIterator(Iterator<JsonElement> iterator) {
+		private GsonArrayIterator(Iterator<JsonElement> iterator) {
 			this.iterator = iterator;
 		}
 
