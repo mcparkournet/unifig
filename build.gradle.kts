@@ -4,7 +4,7 @@ plugins {
 	`java-library`
 	`java-test-fixtures`
 	`maven-publish`
-	id("com.jfrog.bintray") version "1.8.4" apply false
+	id("com.jfrog.bintray") version "1.8.5" apply false
 }
 
 subprojects {
@@ -21,8 +21,8 @@ subprojects {
 
 	dependencies {
 		compileOnly("org.jetbrains:annotations:19.0.0")
-		testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.1")
-		testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.1")
+		testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
+		testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
 		testCompileOnly("org.jetbrains:annotations:19.0.0")
 		testFixturesCompileOnly("org.jetbrains:annotations:19.0.0")
 	}
