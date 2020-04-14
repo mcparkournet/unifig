@@ -25,15 +25,12 @@
 package net.mcparkour.unifig;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import net.mcparkour.octenace.annotation.Codec;
 import net.mcparkour.octenace.annotation.Ignored;
 import net.mcparkour.octenace.annotation.Property;
 import org.jetbrains.annotations.Nullable;
@@ -83,20 +80,15 @@ public class TestConfiguration {
 	private String[] stringArray;
 	private TestSubConfiguration[] objectArray;
 
-	@Codec(LinkedHashSet.class)
 	private Set<TestEnum> enumSet;
 
-	@Codec(LinkedHashSet.class)
 	private Set<String> stringSet;
-	@Codec(LinkedHashSet.class)
 	private Set<TestSubConfiguration> objectSet;
 
 	private List<String> stringList;
 	private List<TestSubConfiguration> objectList;
 
-	@Codec(LinkedHashMap.class)
 	private Map<String, String> stringMap;
-	@Codec(LinkedHashMap.class)
 	private Map<String, TestSubConfiguration> objectMap;
 
 	private UUID uuid;

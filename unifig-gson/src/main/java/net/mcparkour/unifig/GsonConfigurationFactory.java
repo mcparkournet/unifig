@@ -25,10 +25,14 @@
 package net.mcparkour.unifig;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.mcparkour.octenace.codec.common.Codecs;
+import net.mcparkour.octenace.codec.common.collection.LinkedHashMapCodec;
+import net.mcparkour.octenace.codec.common.collection.LinkedHashSetCodec;
 import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
 import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
@@ -66,6 +70,8 @@ public class GsonConfigurationFactory implements ConfigurationFactory {
 		return new CachedCodecRegistryBuilder<JsonObject, JsonArray, JsonElement>()
 			.registry(Codecs.createCommonCodecRegistry())
 			.registry(ExtraCodecs.createExtraCodecRegistry())
+			.codec(Set.class, new LinkedHashSetCodec<>())
+			.codec(Map.class, new LinkedHashMapCodec<>())
 			.build();
 	}
 

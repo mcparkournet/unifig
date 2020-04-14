@@ -26,7 +26,10 @@ package net.mcparkour.unifig;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import net.mcparkour.octenace.codec.common.Codecs;
+import net.mcparkour.octenace.codec.common.collection.LinkedHashMapCodec;
+import net.mcparkour.octenace.codec.common.collection.LinkedHashSetCodec;
 import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
 import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
@@ -68,6 +71,8 @@ public class PaperConfigurationFactory implements ConfigurationFactory {
 		return new CachedCodecRegistryBuilder<Map<String, Object>, List<Object>, Object>()
 			.registry(Codecs.createCommonCodecRegistry())
 			.registry(ExtraCodecs.createExtraCodecRegistry())
+			.codec(Set.class, new LinkedHashSetCodec<>())
+			.codec(Map.class, new LinkedHashMapCodec<>())
 			.codec(Vector.class, vectorCodec)
 			.build();
 	}

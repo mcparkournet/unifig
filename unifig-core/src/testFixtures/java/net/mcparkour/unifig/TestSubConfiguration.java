@@ -25,13 +25,10 @@
 package net.mcparkour.unifig;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import net.mcparkour.octenace.annotation.Codec;
 import net.mcparkour.octenace.annotation.Ignored;
 import net.mcparkour.octenace.annotation.Property;
 import org.jetbrains.annotations.Nullable;
@@ -78,19 +75,16 @@ public class TestSubConfiguration {
 
 	private String[] stringArray;
 
-	@Codec(LinkedHashSet.class)
 	private Set<TestEnum> enumSet;
 
-	@Codec(LinkedHashSet.class)
 	private Set<String> stringSet;
 
 	private List<String> stringList;
 
-	@Codec(LinkedHashMap.class)
 	private Map<String, String> stringMap;
 
 	public TestSubConfiguration() {
-		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", null, "foobar", TestEnum.TWO, TestEnum.THREE, new String[]{"1", "2", "3"}, Collections.createLinkedSet(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE), Collections.createLinkedSet("1", "2", "3"), List.of("1", "2", "3"), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"));
+		this(true, true, 'c', 'c', (byte) 1, (byte) 1, (short) 1, (short) 1, 1, 1, 1L, 1L, 0.1F, 0.1F, 0.1, 0.1, "string", null, "foobar", TestEnum.TWO, TestEnum.THREE, new String[] {"1", "2", "3"}, Collections.createLinkedSet(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE), Collections.createLinkedSet("1", "2", "3"), List.of("1", "2", "3"), Collections.createLinkedMap("foo", "1", "bar", "2", "foobar", "3"));
 	}
 
 	public TestSubConfiguration(boolean primitiveBoolean, Boolean wrapperBoolean, char primitiveCharacter, Character wrapperCharacter, byte primitiveByte, Byte wrapperByte, short primitiveShort, Short wrapperShort, int primitiveInteger, Integer wrapperInteger, long primitiveLong, Long wrapperLong, float primitiveFloat, Float wrapperFloat, double primitiveDouble, Double wrapperDouble, String string, @Nullable String nullString, String foo, TestEnum testEnum, TestEnum testEnum2, String[] stringArray, Set<TestEnum> enumSet, Set<String> stringSet, List<String> stringList, Map<String, String> stringMap) {
