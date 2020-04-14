@@ -28,15 +28,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.mcparkour.octenace.document.object.DocumentObject;
-import net.mcparkour.unifig.document.object.GsonObject;
+import net.mcparkour.octenace.document.value.DocumentValue;
+import net.mcparkour.unifig.document.value.GsonValue;
 
 public class GsonReader implements DocumentReader<JsonObject, JsonArray, JsonElement> {
 
 	@Override
-	public DocumentObject<JsonObject, JsonArray, JsonElement> read(String string) {
+	public DocumentValue<JsonObject, JsonArray, JsonElement> read(String string) {
 		JsonElement element = JsonParser.parseString(string);
-		JsonObject object = (JsonObject) element;
-		return new GsonObject(object);
+		return new GsonValue(element);
 	}
 }

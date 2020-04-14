@@ -24,9 +24,9 @@
 
 package net.mcparkour.unifig.document.writer;
 
-import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.octenace.document.value.DocumentValue;
 
 public interface DocumentWriter<O, A, V> {
 
-	String write(DocumentObject<O, A, V> document);
+	String write(DocumentValue<O, A, V> document);
 }

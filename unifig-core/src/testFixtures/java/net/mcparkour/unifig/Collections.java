@@ -48,6 +48,6 @@ public final class Collections {
 		set.add(element1);
 		set.add(element2);
 		set.add(element3);
-		return set;
+		return java.util.Collections.unmodifiableSet(set);
 	}
 }

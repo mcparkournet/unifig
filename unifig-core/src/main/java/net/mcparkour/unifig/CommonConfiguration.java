@@ -29,8 +29,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import net.mcparkour.octenace.document.object.DocumentObject;
-import net.mcparkour.octenace.mapper.Mapper;
+import net.mcparkour.octenace.document.value.DocumentValue;
+import net.mcparkour.octenace.mapper.DocumentMapper;
 import net.mcparkour.unifig.document.DocumentModel;
 import net.mcparkour.unifig.document.reader.DocumentReader;
 import net.mcparkour.unifig.document.writer.DocumentWriter;
@@ -44,12 +44,12 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 	private T defaultConfiguration;
 	private Options options;
 	private DocumentModel model;
-	private Mapper<O, A, V, T> mapper;
+	private DocumentMapper<O, A, V, T> mapper;
 	private DocumentReader<O, A, V> reader;
 	private DocumentWriter<O, A, V> writer;
 	private String configurationFileName;
 
-	public CommonConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options, DocumentModel model, Mapper<O, A, V, T> mapper, DocumentReader<O, A, V> reader, DocumentWriter<O, A, V> writer) {
+	public CommonConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options, DocumentModel model, DocumentMapper<O, A, V, T> mapper, DocumentReader<O, A, V> reader, DocumentWriter<O, A, V> writer) {
 		this.configurationType = configurationType;
 		this.defaultConfiguration = defaultConfiguration;
 		this.options = options;
@@ -96,8 +96,12 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 
 	@Override
 	public T readFromString(String string) {
-		DocumentObject<O, A, V> document = this.reader.read(string);
-		return this.mapper.toObject(document);
+		DocumentValue<O, A, V> document = this.reader.read(string);
+		T object = this.mapper.toObject(document);
+		if (object == null) {
+			throw new RuntimeException("Configuration document is null");
+		}
+		return object;
 	}
 
 	@Override
@@ -119,7 +123,10 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 
 	@Override
 	public String writeToString(T configuration) {
-		DocumentObject<O, A, V> document = this.mapper.toDocument(configuration);
+		DocumentValue<O, A, V> document = this.mapper.toDocument(configuration);
+		if (!document.isObject()) {
+			throw new RuntimeException("Configuration is not an object");
+		}
 		return this.writer.write(document);
 	}
 }

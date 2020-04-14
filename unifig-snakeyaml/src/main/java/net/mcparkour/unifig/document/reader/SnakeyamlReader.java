@@ -26,8 +26,8 @@ package net.mcparkour.unifig.document.reader;
 
 import java.util.List;
 import java.util.Map;
-import net.mcparkour.octenace.document.object.DocumentObject;
-import net.mcparkour.unifig.document.object.SnakeyamlObject;
+import net.mcparkour.octenace.document.value.DocumentValue;
+import net.mcparkour.unifig.document.value.SnakeyamlValue;
 import org.snakeyaml.engine.v2.api.Load;
 import org.snakeyaml.engine.v2.api.LoadSettings;
 
@@ -47,8 +47,8 @@ public class SnakeyamlReader implements DocumentReader<Map<String, Object>, List
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public DocumentObject<Map<String, Object>, List<Object>, Object> read(String string) {
+	public DocumentValue<Map<String, Object>, List<Object>, Object> read(String string) {
 		Map<String, Object> map = (Map<String, Object>) this.load.loadFromString(string);
-		return new SnakeyamlObject(map);
+		return new SnakeyamlValue(map);
 	}
 }

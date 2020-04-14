@@ -30,8 +30,9 @@ import net.mcparkour.octenace.codec.common.Codecs;
 import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
 import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
-import net.mcparkour.octenace.mapper.CommonMapperFactory;
-import net.mcparkour.octenace.mapper.MapperFactory;
+import net.mcparkour.octenace.mapper.CommonDocumentMapperFactory;
+import net.mcparkour.octenace.mapper.CommonMapper;
+import net.mcparkour.octenace.mapper.DocumentMapperFactory;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
 import net.mcparkour.octenace.mapper.property.name.NameConverter;
@@ -49,7 +50,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PaperConfigurationFactory implements ConfigurationFactory {
 
-	private MapperFactory<Map<String, Object>, List<Object>, Object> mapperFactory;
+	private DocumentMapperFactory<Map<String, Object>, List<Object>, Object> mapperFactory;
 
 	public PaperConfigurationFactory() {
 		var objectFactory = new PaperObjectFactory();
@@ -58,7 +59,8 @@ public class PaperConfigurationFactory implements ConfigurationFactory {
 		NameConverter nameConverter = NameConverters.KEBAB_CASE_NAME_CONVERTER;
 		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
 		var codecRegistry = createCodecRegistry();
-		this.mapperFactory = new CommonMapperFactory<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
+		var mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
+		this.mapperFactory = new CommonDocumentMapperFactory<>(mapper);
 	}
 
 	private static CodecRegistry<Map<String, Object>, List<Object>, Object> createCodecRegistry() {

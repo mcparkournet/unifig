@@ -32,8 +32,9 @@ import net.mcparkour.octenace.codec.common.Codecs;
 import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
 import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
-import net.mcparkour.octenace.mapper.CommonMapperFactory;
-import net.mcparkour.octenace.mapper.MapperFactory;
+import net.mcparkour.octenace.mapper.CommonDocumentMapperFactory;
+import net.mcparkour.octenace.mapper.CommonMapper;
+import net.mcparkour.octenace.mapper.DocumentMapperFactory;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
 import net.mcparkour.octenace.mapper.property.name.NameConverter;
@@ -48,7 +49,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class GsonConfigurationFactory implements ConfigurationFactory {
 
-	private MapperFactory<JsonObject, JsonArray, JsonElement> mapperFactory;
+	private DocumentMapperFactory<JsonObject, JsonArray, JsonElement> mapperFactory;
 
 	public GsonConfigurationFactory() {
 		var objectFactory = new GsonObjectFactory();
@@ -57,7 +58,8 @@ public class GsonConfigurationFactory implements ConfigurationFactory {
 		NameConverter nameConverter = NameConverter.identity();
 		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
 		var codecRegistry = createCodecRegistry();
-		this.mapperFactory = new CommonMapperFactory<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
+		var mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
+		this.mapperFactory = new CommonDocumentMapperFactory<>(mapper);
 	}
 
 	private static CodecRegistry<JsonObject, JsonArray, JsonElement> createCodecRegistry() {

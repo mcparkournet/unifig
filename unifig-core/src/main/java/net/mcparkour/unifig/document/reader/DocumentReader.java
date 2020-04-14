@@ -24,9 +24,9 @@
 
 package net.mcparkour.unifig.document.reader;
 
-import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.octenace.document.value.DocumentValue;
 
 public interface DocumentReader<O, A, V> {
 
-	DocumentObject<O, A, V> read(String string);
+	DocumentValue<O, A, V> read(String string);
 }

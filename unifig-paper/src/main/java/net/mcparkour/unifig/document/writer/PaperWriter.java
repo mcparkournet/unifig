@@ -26,7 +26,7 @@ package net.mcparkour.unifig.document.writer;
 
 import java.util.List;
 import java.util.Map;
-import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.octenace.document.value.DocumentValue;
 import net.mcparkour.unifig.options.Options;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
@@ -50,8 +50,8 @@ public class PaperWriter implements DocumentWriter<Map<String, Object>, List<Obj
 	}
 
 	@Override
-	public String write(DocumentObject<Map<String, Object>, List<Object>, Object> document) {
-		Map<String, Object> rawObject = document.getObject();
+	public String write(DocumentValue<Map<String, Object>, List<Object>, Object> document) {
+		Map<String, Object> rawObject = document.asObject();
 		return this.yaml.dump(rawObject);
 	}
 }

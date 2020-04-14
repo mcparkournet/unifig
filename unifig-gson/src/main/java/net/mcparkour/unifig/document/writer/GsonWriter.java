@@ -31,7 +31,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import net.mcparkour.octenace.document.object.DocumentObject;
+import net.mcparkour.octenace.document.value.DocumentValue;
 import net.mcparkour.unifig.options.IndentCharacter;
 import net.mcparkour.unifig.options.Options;
 
@@ -56,12 +56,12 @@ public class GsonWriter implements DocumentWriter<JsonObject, JsonArray, JsonEle
 	}
 
 	@Override
-	public String write(DocumentObject<JsonObject, JsonArray, JsonElement> document) {
-		JsonObject rawObject = document.getObject();
+	public String write(DocumentValue<JsonObject, JsonArray, JsonElement> document) {
+		JsonElement rawElement = document.getValue();
 		StringWriter writer = new StringWriter();
 		JsonWriter jsonWriter = new JsonWriter(writer);
 		jsonWriter.setIndent(this.indent);
-		this.gson.toJson(rawObject, jsonWriter);
+		this.gson.toJson(rawElement, jsonWriter);
 		return writer.append('\n').toString();
 	}
 }

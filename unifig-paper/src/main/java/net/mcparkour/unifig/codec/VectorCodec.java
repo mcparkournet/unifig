@@ -24,29 +24,29 @@
 
 package net.mcparkour.unifig.codec;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import net.mcparkour.octenace.codec.Codec;
 import net.mcparkour.octenace.document.value.DocumentValue;
 import net.mcparkour.octenace.mapper.Mapper;
-import net.mcparkour.octenace.mapper.metadata.TypeMetadata;
 import net.mcparkour.octenace.mapper.metadata.ValueMetadata;
 import org.bukkit.util.Vector;
 
 public class VectorCodec implements Codec<Map<String, Object>, List<Object>, Object, ValueMetadata, Vector> {
 
 	@Override
-	public DocumentValue<Map<String, Object>, List<Object>, Object> toDocument(Vector object, ValueMetadata metadata, Mapper<Map<String, Object>, List<Object>, Object, ?> mapper) {
+	public DocumentValue<Map<String, Object>, List<Object>, Object> toDocument(Vector object, ValueMetadata metadata, Mapper<Map<String, Object>, List<Object>, Object> mapper) {
 		double x = object.getX();
 		double y = object.getY();
 		double z = object.getZ();
 		var valueFactory = mapper.getValueFactory();
-		String string = String.format("%s;%s;%s", x, y, z);
+		String string = x + ";" + y + ";" + z;
 		return valueFactory.createValue(string);
 	}
 
 	@Override
-	public Vector toObject(DocumentValue<Map<String, Object>, List<Object>, Object> document, ValueMetadata metadata, Mapper<Map<String, Object>, List<Object>, Object, ?> mapper) {
+	public Vector toObject(DocumentValue<Map<String, Object>, List<Object>, Object> document, ValueMetadata metadata, Mapper<Map<String, Object>, List<Object>, Object> mapper) {
 		String string = document.asString();
 		String[] split = string.split(";");
 		double x = Double.parseDouble(split[0]);
@@ -56,7 +56,7 @@ public class VectorCodec implements Codec<Map<String, Object>, List<Object>, Obj
 	}
 
 	@Override
-	public ValueMetadata getMetadata(TypeMetadata type, Mapper<Map<String, Object>, List<Object>, Object, ?> mapper) {
+	public ValueMetadata createMetadata(Type type, Mapper<Map<String, Object>, List<Object>, Object> mapper) {
 		return new ValueMetadata();
 	}
 }

@@ -26,8 +26,8 @@ package net.mcparkour.unifig.document.reader;
 
 import java.util.List;
 import java.util.Map;
-import net.mcparkour.octenace.document.object.DocumentObject;
-import net.mcparkour.unifig.document.object.PaperObject;
+import net.mcparkour.octenace.document.value.DocumentValue;
+import net.mcparkour.unifig.document.value.PaperValue;
 import org.yaml.snakeyaml.Yaml;
 
 public class PaperReader implements DocumentReader<Map<String, Object>, List<Object>, Object> {
@@ -39,8 +39,8 @@ public class PaperReader implements DocumentReader<Map<String, Object>, List<Obj
 	}
 
 	@Override
-	public DocumentObject<Map<String, Object>, List<Object>, Object> read(String string) {
+	public DocumentValue<Map<String, Object>, List<Object>, Object> read(String string) {
 		Map<String, Object> map = this.yaml.load(string);
-		return new PaperObject(map);
+		return new PaperValue(map);
 	}
 }
