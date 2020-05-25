@@ -42,6 +42,8 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 	private Class<T> configurationType;
 	@Nullable
 	private T defaultConfiguration;
+	@Nullable
+	private T cachedConfiguration;
 	private Options options;
 	private DocumentModel model;
 	private DocumentMapper<O, A, V, T> mapper;
@@ -52,6 +54,7 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 	public CommonConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options, DocumentModel model, DocumentMapper<O, A, V, T> mapper, DocumentReader<O, A, V> reader, DocumentWriter<O, A, V> writer) {
 		this.configurationType = configurationType;
 		this.defaultConfiguration = defaultConfiguration;
+		this.cachedConfiguration = null;
 		this.options = options;
 		this.model = model;
 		this.mapper = mapper;
@@ -85,7 +88,7 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 				directory.mkdirs();
 				file.createNewFile();
 				write(this.defaultConfiguration, directoryPath);
-				return this.defaultConfiguration;
+				return this.cachedConfiguration = this.defaultConfiguration;
 			}
 			String string = Files.readString(path);
 			return readFromString(string);
@@ -96,12 +99,15 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 
 	@Override
 	public T readFromString(String string) {
+		if (this.cachedConfiguration != null) {
+			return this.cachedConfiguration;
+		}
 		DocumentValue<O, A, V> document = this.reader.read(string);
 		T object = this.mapper.toObject(document);
 		if (object == null) {
 			throw new RuntimeException("Configuration document is null");
 		}
-		return object;
+		return this.cachedConfiguration = object;
 	}
 
 	@Override
@@ -127,6 +133,7 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 		if (!document.isObject()) {
 			throw new RuntimeException("Configuration is not an object");
 		}
+		this.cachedConfiguration = configuration;
 		return this.writer.write(document);
 	}
 }
