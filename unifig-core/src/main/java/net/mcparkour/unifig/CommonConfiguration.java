@@ -80,6 +80,9 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 
 	@Override
 	public T read(Path directoryPath) {
+		if (this.cachedConfiguration != null) {
+			return this.cachedConfiguration;
+		}
 		try {
 			Path path = directoryPath.resolve(this.configurationFileName);
 			File file = path.toFile();
@@ -88,7 +91,7 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 				directory.mkdirs();
 				file.createNewFile();
 				write(this.defaultConfiguration, directoryPath);
-				return this.cachedConfiguration = this.defaultConfiguration;
+				return this.defaultConfiguration;
 			}
 			String string = Files.readString(path);
 			return readFromString(string);
@@ -99,9 +102,6 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 
 	@Override
 	public T readFromString(String string) {
-		if (this.cachedConfiguration != null) {
-			return this.cachedConfiguration;
-		}
 		DocumentValue<O, A, V> document = this.reader.read(string);
 		T object = this.mapper.toObject(document);
 		if (object == null) {
