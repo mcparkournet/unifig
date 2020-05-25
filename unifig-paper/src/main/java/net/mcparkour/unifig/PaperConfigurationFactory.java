@@ -56,12 +56,15 @@ public class PaperConfigurationFactory implements ConfigurationFactory {
 	private DocumentMapperFactory<Map<String, Object>, List<Object>, Object> mapperFactory;
 
 	public PaperConfigurationFactory() {
+		this(createCodecRegistry());
+	}
+
+	public PaperConfigurationFactory(CodecRegistry<Map<String, Object>, List<Object>, Object> codecRegistry) {
 		var objectFactory = new PaperObjectFactory();
 		var arrayFactory = new PaperArrayFactory();
 		var valueFactory = new PaperValueFactory();
 		NameConverter nameConverter = NameConverters.KEBAB_CASE_NAME_CONVERTER;
 		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
-		var codecRegistry = createCodecRegistry();
 		var mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
 		this.mapperFactory = new CommonDocumentMapperFactory<>(mapper);
 	}

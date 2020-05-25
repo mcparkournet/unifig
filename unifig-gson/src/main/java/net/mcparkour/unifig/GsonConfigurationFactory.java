@@ -24,12 +24,12 @@
 
 package net.mcparkour.unifig;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import net.mcparkour.octenace.codec.common.Codecs;
 import net.mcparkour.octenace.codec.common.collection.LinkedHashMapCodec;
 import net.mcparkour.octenace.codec.common.collection.LinkedHashSetCodec;
@@ -56,12 +56,15 @@ public class GsonConfigurationFactory implements ConfigurationFactory {
 	private DocumentMapperFactory<JsonObject, JsonArray, JsonElement> mapperFactory;
 
 	public GsonConfigurationFactory() {
+		this(createCodecRegistry());
+	}
+
+	public GsonConfigurationFactory(CodecRegistry<JsonObject, JsonArray, JsonElement> codecRegistry) {
 		var objectFactory = new GsonObjectFactory();
 		var arrayFactory = new GsonArrayFactory();
 		var valueFactory = new GsonValueFactory();
 		NameConverter nameConverter = NameConverter.identity();
 		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
-		var codecRegistry = createCodecRegistry();
 		var mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
 		this.mapperFactory = new CommonDocumentMapperFactory<>(mapper);
 	}

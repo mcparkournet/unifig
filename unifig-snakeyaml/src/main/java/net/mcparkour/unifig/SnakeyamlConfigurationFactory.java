@@ -54,12 +54,15 @@ public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
 	private DocumentMapperFactory<Map<String, Object>, List<Object>, Object> mapperFactory;
 
 	public SnakeyamlConfigurationFactory() {
+		this(createCodecRegistry());
+	}
+
+	public SnakeyamlConfigurationFactory(CodecRegistry<Map<String, Object>, List<Object>, Object> codecRegistry) {
 		var objectFactory = new SnakeyamlObjectFactory();
 		var arrayFactory = new SnakeyamlArrayFactory();
 		var valueFactory = new SnakeyamlValueFactory();
 		NameConverter nameConverter = NameConverters.KEBAB_CASE_NAME_CONVERTER;
 		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
-		var codecRegistry = createCodecRegistry();
 		var mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
 		this.mapperFactory = new CommonDocumentMapperFactory<>(mapper);
 	}
