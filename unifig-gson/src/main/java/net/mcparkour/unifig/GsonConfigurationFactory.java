@@ -24,12 +24,12 @@
 
 package net.mcparkour.unifig;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.mcparkour.octenace.codec.common.Codecs;
 import net.mcparkour.octenace.codec.common.collection.LinkedHashMapCodec;
 import net.mcparkour.octenace.codec.common.collection.LinkedHashSetCodec;
