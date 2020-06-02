@@ -27,19 +27,16 @@ package net.mcparkour.unifig;
 import java.util.List;
 import java.util.Map;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
-import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
 import net.mcparkour.octenace.mapper.DocumentMapper;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
 import net.mcparkour.octenace.mapper.property.name.NameConverter;
 import net.mcparkour.octenace.mapper.property.name.NameConverters;
-import net.mcparkour.unifig.codec.VectorCodec;
 import net.mcparkour.unifig.document.array.PaperArrayFactory;
 import net.mcparkour.unifig.document.object.PaperObjectFactory;
 import net.mcparkour.unifig.document.value.PaperValueFactory;
 import net.mcparkour.unifig.options.Options;
 import net.mcparkour.unifig.options.OptionsBuilder;
-import org.bukkit.util.Vector;
 
 public class PaperConfigurationFactory extends AbstractConfigurationFactory<Map<String, Object>, List<Object>, Object> {
 
@@ -51,18 +48,11 @@ public class PaperConfigurationFactory extends AbstractConfigurationFactory<Map<
 		.build();
 
 	public PaperConfigurationFactory() {
-		this(NameConverters.KEBAB_CASE_NAME_CONVERTER, PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS, createDefaultPaperCodecRegistry());
+		this(NameConverters.KEBAB_CASE_NAME_CONVERTER, PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS, createDefaultCodecRegistry());
 	}
 
 	public PaperConfigurationFactory(NameConverter nameConverter, List<PropertyInvalidator> propertyInvalidators, CodecRegistry<Map<String, Object>, List<Object>, Object> codecRegistry) {
 		super(PAPER_OBJECT_FACTORY, PAPER_ARRAY_FACTORY, PAPER_VALUE_FACTORY, PAPER_DEFAULT_OPTIONS, nameConverter, propertyInvalidators, codecRegistry);
-	}
-
-	private static CodecRegistry<Map<String, Object>, List<Object>, Object> createDefaultPaperCodecRegistry() {
-		return new CachedCodecRegistryBuilder<Map<String, Object>, List<Object>, Object>()
-			.registry(createDefaultCodecRegistry())
-			.codec(Vector.class, new VectorCodec())
-			.build();
 	}
 
 	@Override
