@@ -24,15 +24,19 @@
 
 package net.mcparkour.unifig;
 
+import java.util.List;
+import java.util.Map;
+import net.mcparkour.octenace.mapper.DocumentMapper;
+import net.mcparkour.unifig.document.reader.SnakeyamlReader;
+import net.mcparkour.unifig.document.writer.SnakeyamlWriter;
 import net.mcparkour.unifig.options.Options;
 
-public interface ConfigurationFactory {
+public class SnakeyamlConfiguration<T> extends CommonConfiguration<Map<String, Object>, List<Object>, Object, T> {
 
-	<T> Configuration<T> createConfiguration(Class<T> configurationType);
+	private static final SnakeyamlModel SNAKEYAML_MODEL = new SnakeyamlModel();
+	private static final SnakeyamlReader SNAKEYAML_READER = new SnakeyamlReader();
 
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, Options options);
-
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration);
-
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration, Options options);
+	public SnakeyamlConfiguration(Class<T> configurationType, T defaultConfiguration, Options options, DocumentMapper<Map<String, Object>, List<Object>, Object, T> mapper) {
+		super(SNAKEYAML_MODEL, SNAKEYAML_READER, new SnakeyamlWriter(options), configurationType, defaultConfiguration, options, mapper);
+	}
 }

@@ -25,68 +25,37 @@
 package net.mcparkour.unifig;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.mcparkour.octenace.codec.common.Codecs;
-import net.mcparkour.octenace.codec.common.collection.LinkedHashMapCodec;
-import net.mcparkour.octenace.codec.common.collection.LinkedHashSetCodec;
-import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
-import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
-import net.mcparkour.octenace.mapper.CommonDocumentMapperFactory;
-import net.mcparkour.octenace.mapper.CommonMapper;
-import net.mcparkour.octenace.mapper.DocumentMapperFactory;
+import net.mcparkour.octenace.mapper.DocumentMapper;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
 import net.mcparkour.octenace.mapper.property.name.NameConverter;
 import net.mcparkour.unifig.document.array.GsonArrayFactory;
 import net.mcparkour.unifig.document.object.GsonObjectFactory;
-import net.mcparkour.unifig.document.reader.GsonReader;
 import net.mcparkour.unifig.document.value.GsonValueFactory;
-import net.mcparkour.unifig.document.writer.GsonWriter;
 import net.mcparkour.unifig.options.Options;
 import net.mcparkour.unifig.options.OptionsBuilder;
-import org.jetbrains.annotations.Nullable;
 
-public class GsonConfigurationFactory implements ConfigurationFactory {
+public class GsonConfigurationFactory extends AbstractConfigurationFactory<JsonObject, JsonArray, JsonElement> {
 
-	private DocumentMapperFactory<JsonObject, JsonArray, JsonElement> mapperFactory;
+	private static final GsonObjectFactory GSON_OBJECT_FACTORY = new GsonObjectFactory();
+	private static final GsonArrayFactory GSON_ARRAY_FACTORY = new GsonArrayFactory();
+	private static final GsonValueFactory GSON_VALUE_FACTORY = new GsonValueFactory();
+	private static final Options GSON_DEFAULT_OPTIONS = new OptionsBuilder().build();
 
 	public GsonConfigurationFactory() {
-		var objectFactory = new GsonObjectFactory();
-		var arrayFactory = new GsonArrayFactory();
-		var valueFactory = new GsonValueFactory();
-		NameConverter nameConverter = NameConverter.identity();
-		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
-		var codecRegistry = createCodecRegistry();
-		var mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
-		this.mapperFactory = new CommonDocumentMapperFactory<>(mapper);
+		this(NameConverter.identity(), PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS, createDefaultCodecRegistry());
 	}
 
-	private static CodecRegistry<JsonObject, JsonArray, JsonElement> createCodecRegistry() {
-		return new CachedCodecRegistryBuilder<JsonObject, JsonArray, JsonElement>()
-			.registry(Codecs.createCommonCodecRegistry())
-			.registry(ExtraCodecs.createExtraCodecRegistry())
-			.codec(Set.class, new LinkedHashSetCodec<>())
-			.codec(Map.class, new LinkedHashMapCodec<>())
-			.build();
+	public GsonConfigurationFactory(NameConverter nameConverter, List<PropertyInvalidator> propertyInvalidators, CodecRegistry<JsonObject, JsonArray, JsonElement> codecRegistry) {
+		super(GSON_OBJECT_FACTORY, GSON_ARRAY_FACTORY, GSON_VALUE_FACTORY, GSON_DEFAULT_OPTIONS, nameConverter, propertyInvalidators, codecRegistry);
 	}
 
 	@Override
-	public <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options) {
-		GsonModel model = new GsonModel();
-		var mapper = this.mapperFactory.createMapper(configurationType);
-		GsonReader reader = new GsonReader();
-		GsonWriter writer = new GsonWriter(options);
-		return new CommonConfiguration<>(configurationType, defaultConfiguration, options, model, mapper, reader, writer);
-	}
-
-	@Override
-	public Options createOptions() {
-		return new OptionsBuilder()
-			.build();
+	public <T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration, Options options, DocumentMapper<JsonObject, JsonArray, JsonElement, T> mapper) {
+		return new GsonConfiguration<>(configurationType, defaultConfiguration, options, mapper);
 	}
 }

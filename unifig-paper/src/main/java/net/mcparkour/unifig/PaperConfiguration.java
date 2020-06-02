@@ -24,15 +24,19 @@
 
 package net.mcparkour.unifig;
 
+import java.util.List;
+import java.util.Map;
+import net.mcparkour.octenace.mapper.DocumentMapper;
+import net.mcparkour.unifig.document.reader.PaperReader;
+import net.mcparkour.unifig.document.writer.PaperWriter;
 import net.mcparkour.unifig.options.Options;
 
-public interface ConfigurationFactory {
+public class PaperConfiguration<T> extends CommonConfiguration<Map<String, Object>, List<Object>, Object, T> {
 
-	<T> Configuration<T> createConfiguration(Class<T> configurationType);
+	private static final PaperModel PAPER_MODEL = new PaperModel();
+	private static final PaperReader PAPER_READER = new PaperReader();
 
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, Options options);
-
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration);
-
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration, Options options);
+	public PaperConfiguration(Class<T> configurationType, T defaultConfiguration, Options options, DocumentMapper<Map<String, Object>, List<Object>, Object, T> mapper) {
+		super(PAPER_MODEL, PAPER_READER, new PaperWriter(options), configurationType, defaultConfiguration, options, mapper);
+	}
 }

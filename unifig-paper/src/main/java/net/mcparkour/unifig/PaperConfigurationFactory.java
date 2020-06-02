@@ -26,16 +26,9 @@ package net.mcparkour.unifig;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import net.mcparkour.octenace.codec.common.Codecs;
-import net.mcparkour.octenace.codec.common.collection.LinkedHashMapCodec;
-import net.mcparkour.octenace.codec.common.collection.LinkedHashSetCodec;
-import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
 import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
-import net.mcparkour.octenace.mapper.CommonDocumentMapperFactory;
-import net.mcparkour.octenace.mapper.CommonMapper;
-import net.mcparkour.octenace.mapper.DocumentMapperFactory;
+import net.mcparkour.octenace.mapper.DocumentMapper;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
 import net.mcparkour.octenace.mapper.property.name.NameConverter;
@@ -43,53 +36,37 @@ import net.mcparkour.octenace.mapper.property.name.NameConverters;
 import net.mcparkour.unifig.codec.VectorCodec;
 import net.mcparkour.unifig.document.array.PaperArrayFactory;
 import net.mcparkour.unifig.document.object.PaperObjectFactory;
-import net.mcparkour.unifig.document.reader.PaperReader;
 import net.mcparkour.unifig.document.value.PaperValueFactory;
-import net.mcparkour.unifig.document.writer.PaperWriter;
 import net.mcparkour.unifig.options.Options;
 import net.mcparkour.unifig.options.OptionsBuilder;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.Nullable;
 
-public class PaperConfigurationFactory implements ConfigurationFactory {
+public class PaperConfigurationFactory extends AbstractConfigurationFactory<Map<String, Object>, List<Object>, Object> {
 
-	private DocumentMapperFactory<Map<String, Object>, List<Object>, Object> mapperFactory;
+	private static final PaperObjectFactory PAPER_OBJECT_FACTORY = new PaperObjectFactory();
+	private static final PaperArrayFactory PAPER_ARRAY_FACTORY = new PaperArrayFactory();
+	private static final PaperValueFactory PAPER_VALUE_FACTORY = new PaperValueFactory();
+	private static final Options PAPER_DEFAULT_OPTIONS = new OptionsBuilder()
+		.indentSize(2)
+		.build();
 
 	public PaperConfigurationFactory() {
-		var objectFactory = new PaperObjectFactory();
-		var arrayFactory = new PaperArrayFactory();
-		var valueFactory = new PaperValueFactory();
-		NameConverter nameConverter = NameConverters.KEBAB_CASE_NAME_CONVERTER;
-		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
-		var codecRegistry = createCodecRegistry();
-		var mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
-		this.mapperFactory = new CommonDocumentMapperFactory<>(mapper);
+		this(NameConverters.KEBAB_CASE_NAME_CONVERTER, PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS, createDefaultPaperCodecRegistry());
 	}
 
-	private static CodecRegistry<Map<String, Object>, List<Object>, Object> createCodecRegistry() {
-		VectorCodec vectorCodec = new VectorCodec();
+	public PaperConfigurationFactory(NameConverter nameConverter, List<PropertyInvalidator> propertyInvalidators, CodecRegistry<Map<String, Object>, List<Object>, Object> codecRegistry) {
+		super(PAPER_OBJECT_FACTORY, PAPER_ARRAY_FACTORY, PAPER_VALUE_FACTORY, PAPER_DEFAULT_OPTIONS, nameConverter, propertyInvalidators, codecRegistry);
+	}
+
+	private static CodecRegistry<Map<String, Object>, List<Object>, Object> createDefaultPaperCodecRegistry() {
 		return new CachedCodecRegistryBuilder<Map<String, Object>, List<Object>, Object>()
-			.registry(Codecs.createCommonCodecRegistry())
-			.registry(ExtraCodecs.createExtraCodecRegistry())
-			.codec(Set.class, new LinkedHashSetCodec<>())
-			.codec(Map.class, new LinkedHashMapCodec<>())
-			.codec(Vector.class, vectorCodec)
+			.registry(createDefaultCodecRegistry())
+			.codec(Vector.class, new VectorCodec())
 			.build();
 	}
 
 	@Override
-	public <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options) {
-		PaperModel model = new PaperModel();
-		var mapper = this.mapperFactory.createMapper(configurationType);
-		PaperReader reader = new PaperReader();
-		PaperWriter writer = new PaperWriter(options);
-		return new CommonConfiguration<>(configurationType, defaultConfiguration, options, model, mapper, reader, writer);
-	}
-
-	@Override
-	public Options createOptions() {
-		return new OptionsBuilder()
-			.indentSize(2)
-			.build();
+	protected <T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration, Options options, DocumentMapper<Map<String, Object>, List<Object>, Object, T> mapper) {
+		return new PaperConfiguration<>(configurationType, defaultConfiguration, options, mapper);
 	}
 }

@@ -24,15 +24,20 @@
 
 package net.mcparkour.unifig;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.mcparkour.octenace.mapper.DocumentMapper;
+import net.mcparkour.unifig.document.reader.GsonReader;
+import net.mcparkour.unifig.document.writer.GsonWriter;
 import net.mcparkour.unifig.options.Options;
 
-public interface ConfigurationFactory {
+public class GsonConfiguration<T> extends CommonConfiguration<JsonObject, JsonArray, JsonElement, T> {
 
-	<T> Configuration<T> createConfiguration(Class<T> configurationType);
+	private static final GsonModel GSON_MODEL = new GsonModel();
+	private static final GsonReader GSON_READER = new GsonReader();
 
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, Options options);
-
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration);
-
-	<T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration, Options options);
+	public GsonConfiguration(Class<T> configurationType, T defaultConfiguration, Options options, DocumentMapper<JsonObject, JsonArray, JsonElement, T> mapper) {
+		super(GSON_MODEL, GSON_READER, new GsonWriter(options), configurationType, defaultConfiguration, options, mapper);
+	}
 }

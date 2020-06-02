@@ -26,66 +26,37 @@ package net.mcparkour.unifig;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import net.mcparkour.octenace.codec.common.Codecs;
-import net.mcparkour.octenace.codec.common.collection.LinkedHashMapCodec;
-import net.mcparkour.octenace.codec.common.collection.LinkedHashSetCodec;
-import net.mcparkour.octenace.codec.common.extra.ExtraCodecs;
 import net.mcparkour.octenace.codec.registry.CodecRegistry;
-import net.mcparkour.octenace.codec.registry.cached.CachedCodecRegistryBuilder;
-import net.mcparkour.octenace.mapper.CommonDocumentMapperFactory;
-import net.mcparkour.octenace.mapper.CommonMapper;
-import net.mcparkour.octenace.mapper.DocumentMapperFactory;
+import net.mcparkour.octenace.mapper.DocumentMapper;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidator;
 import net.mcparkour.octenace.mapper.property.invalidator.PropertyInvalidators;
 import net.mcparkour.octenace.mapper.property.name.NameConverter;
 import net.mcparkour.octenace.mapper.property.name.NameConverters;
 import net.mcparkour.unifig.document.array.SnakeyamlArrayFactory;
 import net.mcparkour.unifig.document.object.SnakeyamlObjectFactory;
-import net.mcparkour.unifig.document.reader.SnakeyamlReader;
 import net.mcparkour.unifig.document.value.SnakeyamlValueFactory;
-import net.mcparkour.unifig.document.writer.SnakeyamlWriter;
 import net.mcparkour.unifig.options.Options;
 import net.mcparkour.unifig.options.OptionsBuilder;
-import org.jetbrains.annotations.Nullable;
 
-public class SnakeyamlConfigurationFactory implements ConfigurationFactory {
+public class SnakeyamlConfigurationFactory extends AbstractConfigurationFactory<Map<String, Object>, List<Object>, Object> {
 
-	private DocumentMapperFactory<Map<String, Object>, List<Object>, Object> mapperFactory;
+	private static final SnakeyamlObjectFactory SNAKEYAML_OBJECT_FACTORY = new SnakeyamlObjectFactory();
+	private static final SnakeyamlArrayFactory SNAKEYAML_ARRAY_FACTORY = new SnakeyamlArrayFactory();
+	private static final SnakeyamlValueFactory SNAKEYAML_VALUE_FACTORY = new SnakeyamlValueFactory();
+	private static final Options SNAKEYAML_DEFAULT_OPTIONS = new OptionsBuilder()
+		.indentSize(2)
+		.build();
 
 	public SnakeyamlConfigurationFactory() {
-		var objectFactory = new SnakeyamlObjectFactory();
-		var arrayFactory = new SnakeyamlArrayFactory();
-		var valueFactory = new SnakeyamlValueFactory();
-		NameConverter nameConverter = NameConverters.KEBAB_CASE_NAME_CONVERTER;
-		List<PropertyInvalidator> propertyInvalidators = PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS;
-		var codecRegistry = createCodecRegistry();
-		var mapper = new CommonMapper<>(objectFactory, arrayFactory, valueFactory, nameConverter, propertyInvalidators, codecRegistry);
-		this.mapperFactory = new CommonDocumentMapperFactory<>(mapper);
+		this(NameConverters.KEBAB_CASE_NAME_CONVERTER, PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS, createDefaultCodecRegistry());
 	}
 
-	private static CodecRegistry<Map<String, Object>, List<Object>, Object> createCodecRegistry() {
-		return new CachedCodecRegistryBuilder<Map<String, Object>, List<Object>, Object>()
-			.registry(Codecs.createCommonCodecRegistry())
-			.registry(ExtraCodecs.createExtraCodecRegistry())
-			.codec(Set.class, new LinkedHashSetCodec<>())
-			.codec(Map.class, new LinkedHashMapCodec<>())
-			.build();
+	public SnakeyamlConfigurationFactory(NameConverter nameConverter, List<PropertyInvalidator> propertyInvalidators, CodecRegistry<Map<String, Object>, List<Object>, Object> codecRegistry) {
+		super(SNAKEYAML_OBJECT_FACTORY, SNAKEYAML_ARRAY_FACTORY, SNAKEYAML_VALUE_FACTORY, SNAKEYAML_DEFAULT_OPTIONS, nameConverter, propertyInvalidators, codecRegistry);
 	}
 
 	@Override
-	public <T> Configuration<T> createConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options) {
-		SnakeyamlModel model = new SnakeyamlModel();
-		var mapper = this.mapperFactory.createMapper(configurationType);
-		SnakeyamlReader reader = new SnakeyamlReader();
-		SnakeyamlWriter writer = new SnakeyamlWriter(options);
-		return new CommonConfiguration<>(configurationType, defaultConfiguration, options, model, mapper, reader, writer);
-	}
-
-	@Override
-	public Options createOptions() {
-		return new OptionsBuilder()
-			.indentSize(2)
-			.build();
+	protected <T> Configuration<T> createConfiguration(Class<T> configurationType, T defaultConfiguration, Options options, DocumentMapper<Map<String, Object>, List<Object>, Object, T> mapper) {
+		return new SnakeyamlConfiguration<>(configurationType, defaultConfiguration, options, mapper);
 	}
 }

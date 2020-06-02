@@ -35,28 +35,22 @@ import net.mcparkour.unifig.document.DocumentModel;
 import net.mcparkour.unifig.document.reader.DocumentReader;
 import net.mcparkour.unifig.document.writer.DocumentWriter;
 import net.mcparkour.unifig.options.Options;
-import org.jetbrains.annotations.Nullable;
 
 public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 
-	private Class<T> configurationType;
-	@Nullable
-	private T defaultConfiguration;
-	private Options options;
-	private DocumentModel model;
-	private DocumentMapper<O, A, V, T> mapper;
 	private DocumentReader<O, A, V> reader;
 	private DocumentWriter<O, A, V> writer;
+	private T defaultConfiguration;
+	private Options options;
+	private DocumentMapper<O, A, V, T> mapper;
 	private String configurationFileName;
 
-	public CommonConfiguration(Class<T> configurationType, @Nullable T defaultConfiguration, Options options, DocumentModel model, DocumentMapper<O, A, V, T> mapper, DocumentReader<O, A, V> reader, DocumentWriter<O, A, V> writer) {
-		this.configurationType = configurationType;
-		this.defaultConfiguration = defaultConfiguration;
-		this.options = options;
-		this.model = model;
-		this.mapper = mapper;
+	public CommonConfiguration(DocumentModel model, DocumentReader<O, A, V> reader, DocumentWriter<O, A, V> writer, Class<T> configurationType, T defaultConfiguration, Options options, DocumentMapper<O, A, V, T> mapper) {
 		this.reader = reader;
 		this.writer = writer;
+		this.defaultConfiguration = defaultConfiguration;
+		this.options = options;
+		this.mapper = mapper;
 		this.configurationFileName = getConfigurationFileName(configurationType, model);
 	}
 
@@ -80,11 +74,8 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 		try {
 			Path path = directoryPath.resolve(this.configurationFileName);
 			File file = path.toFile();
-			if (this.defaultConfiguration != null && !file.exists()) {
-				File directory = directoryPath.toFile();
-				directory.mkdirs();
-				file.createNewFile();
-				write(this.defaultConfiguration, directoryPath);
+			if (!file.exists()) {
+				writeDefaultConfiguration(directoryPath);
 				return this.defaultConfiguration;
 			}
 			String string = Files.readString(path);
@@ -92,6 +83,12 @@ public class CommonConfiguration<O, A, V, T> implements Configuration<T> {
 		} catch (IOException exception) {
 			throw new UncheckedIOException(exception);
 		}
+	}
+
+	private void writeDefaultConfiguration(Path directoryPath) {
+		File directory = directoryPath.toFile();
+		directory.mkdirs();
+		write(this.defaultConfiguration, directoryPath);
 	}
 
 	@Override
