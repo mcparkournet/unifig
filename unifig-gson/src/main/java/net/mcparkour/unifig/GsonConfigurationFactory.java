@@ -41,10 +41,10 @@ import net.mcparkour.unifig.options.OptionsBuilder;
 
 public class GsonConfigurationFactory extends AbstractConfigurationFactory<JsonObject, JsonArray, JsonElement> {
 
+	public static final Options GSON_DEFAULT_OPTIONS = new OptionsBuilder().build();
 	private static final GsonObjectFactory GSON_OBJECT_FACTORY = new GsonObjectFactory();
 	private static final GsonArrayFactory GSON_ARRAY_FACTORY = new GsonArrayFactory();
 	private static final GsonValueFactory GSON_VALUE_FACTORY = new GsonValueFactory();
-	private static final Options GSON_DEFAULT_OPTIONS = new OptionsBuilder().build();
 
 	public GsonConfigurationFactory() {
 		this(NameConverter.identity(), PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS, createDefaultCodecRegistry());

@@ -40,12 +40,12 @@ import net.mcparkour.unifig.options.OptionsBuilder;
 
 public class SnakeyamlConfigurationFactory extends AbstractConfigurationFactory<Map<String, Object>, List<Object>, Object> {
 
+	public static final Options SNAKEYAML_DEFAULT_OPTIONS = new OptionsBuilder()
+		.indentSize(2)
+		.build();
 	private static final SnakeyamlObjectFactory SNAKEYAML_OBJECT_FACTORY = new SnakeyamlObjectFactory();
 	private static final SnakeyamlArrayFactory SNAKEYAML_ARRAY_FACTORY = new SnakeyamlArrayFactory();
 	private static final SnakeyamlValueFactory SNAKEYAML_VALUE_FACTORY = new SnakeyamlValueFactory();
-	private static final Options SNAKEYAML_DEFAULT_OPTIONS = new OptionsBuilder()
-		.indentSize(2)
-		.build();
 
 	public SnakeyamlConfigurationFactory() {
 		this(NameConverters.KEBAB_CASE_NAME_CONVERTER, PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS, createDefaultCodecRegistry());

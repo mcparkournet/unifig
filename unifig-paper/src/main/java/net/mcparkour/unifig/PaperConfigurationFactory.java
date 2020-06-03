@@ -40,12 +40,12 @@ import net.mcparkour.unifig.options.OptionsBuilder;
 
 public class PaperConfigurationFactory extends AbstractConfigurationFactory<Map<String, Object>, List<Object>, Object> {
 
+	public static final Options PAPER_DEFAULT_OPTIONS = new OptionsBuilder()
+		.indentSize(2)
+		.build();
 	private static final PaperObjectFactory PAPER_OBJECT_FACTORY = new PaperObjectFactory();
 	private static final PaperArrayFactory PAPER_ARRAY_FACTORY = new PaperArrayFactory();
 	private static final PaperValueFactory PAPER_VALUE_FACTORY = new PaperValueFactory();
-	private static final Options PAPER_DEFAULT_OPTIONS = new OptionsBuilder()
-		.indentSize(2)
-		.build();
 
 	public PaperConfigurationFactory() {
 		this(NameConverters.KEBAB_CASE_NAME_CONVERTER, PropertyInvalidators.COMMON_PROPERTY_INVALIDATORS, createDefaultCodecRegistry());
